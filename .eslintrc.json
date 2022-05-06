@@ -2,19 +2,12 @@
   "root": true,
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
+        "project": ["tsconfig.json"],
         "createDefaultProgram": true
       },
-      "extends": [
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
-      ],
+      "extends": ["plugin:@angular-eslint/recommended", "plugin:@angular-eslint/template/process-inline-templates"],
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
@@ -31,16 +24,18 @@
             "prefix": "app",
             "style": "kebab-case"
           }
+        ],
+        "padding-line-between-statements": [
+          "error",
+          { "blankLine": "always", "prev": "*", "next": "return" },
+          { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
+          { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] }
         ]
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ],
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
     }
   ]
