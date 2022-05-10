@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BackgroundImageComponent } from './modules/background-image/background-image.component';
+import { UserLayoutComponent } from './modules/user-layout/user-layout.component';
 import { QuotePageComponent } from './modules/quote-page/quote-page.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: BackgroundImageComponent,
+    component: UserLayoutComponent,
     children: [
       {
         path: '',

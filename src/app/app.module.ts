@@ -1,14 +1,30 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BackgroundImageModule } from './modules/background-image/background-image.module';
+import { UserLayoutModule } from './modules/user-layout/user-layout.module';
 import { QuotePageModule } from './modules/quote-page/quote-page.module';
+import { effects } from '@core/redux/index.effects';
+import { reducers } from '@core/redux/index.reducers';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, BackgroundImageModule, QuotePageModule],
+  imports: [
+    BrowserModule,
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
+    StoreDevtoolsModule.instrument({
+      logOnly: environment.production
+    }),
+    AppRoutingModule,
+    UserLayoutModule,
+    QuotePageModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
