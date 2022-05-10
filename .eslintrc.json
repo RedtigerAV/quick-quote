@@ -25,6 +25,7 @@
             "style": "kebab-case"
           }
         ],
+        "@angular-eslint/no-empty-lifecycle-method": "off",
         "padding-line-between-statements": [
           "error",
           { "blankLine": "always", "prev": "*", "next": "return" },
