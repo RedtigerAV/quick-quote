@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BackgroundImageComponent } from './background-image.component';
+import { UserLayoutComponent } from './user-layout.component';
 
 describe('BackgroundImageComponent', () => {
-  let component: BackgroundImageComponent;
-  let fixture: ComponentFixture<BackgroundImageComponent>;
+  let component: UserLayoutComponent;
+  let fixture: ComponentFixture<UserLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BackgroundImageComponent]
+      declarations: [UserLayoutComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BackgroundImageComponent);
+    fixture = TestBed.createComponent(UserLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
