@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
@@ -16,6 +17,7 @@ import { reducers } from '@core/redux/index.reducers';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({
