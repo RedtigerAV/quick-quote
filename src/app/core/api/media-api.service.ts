@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { IMedia } from '@core/models/media.model';
 
 @Injectable({ providedIn: 'root' })
-export class MediaService {
+export class MediaApiService {
   private basePath = `${environment.serverUrl}/api`;
 
   constructor(private httpClient: HttpClient) {}
