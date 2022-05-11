@@ -2,7 +2,7 @@ import { IMedia } from '@core/models/media.model';
 import { Nullable } from '@core/types/nullable.type';
 import { RequestStatusEnum, RequestStatusType } from '@core/types/request-status.type';
 
-interface IBackgroundImageState {
+export interface IBackgroundImageState {
   image: Nullable<IMedia>;
   status: RequestStatusType;
 }

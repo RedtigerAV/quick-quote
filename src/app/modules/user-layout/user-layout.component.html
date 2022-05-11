@@ -1,3 +1,6 @@
-<p>user-layout works!</p>
-
-<router-outlet></router-outlet>
+<div class="layout">
+  <div *ngIf="imageUrl$ | async as url" class="layout-background">
+    <img [src]="url" />
+  </div>
+  <router-outlet></router-outlet>
+</div>

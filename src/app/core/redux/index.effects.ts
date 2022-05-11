@@ -1,2 +1,3 @@
-// TODO: fill with effects
-export const effects = [];
+import { BackgroundImagesEffects } from './background-images/background-images.effects';
+
+export const effects = [BackgroundImagesEffects];

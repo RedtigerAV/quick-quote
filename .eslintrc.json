@@ -53,7 +53,12 @@
     },
     {
       "files": ["*.ts"],
-      "extends": ["plugin:ngrx/recommended"]
+      "extends": ["plugin:ngrx/recommended"],
+      "rules": {
+        "ngrx/no-typed-global-store": "off",
+        "ngrx/select-style": ["warn", "operator"],
+        "ngrx/prefer-effect-callback-in-block-statement": "off"
+      }
     }
   ]
 }
