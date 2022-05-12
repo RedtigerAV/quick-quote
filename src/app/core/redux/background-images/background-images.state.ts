@@ -12,6 +12,8 @@ const initialBackgroundImageState: IBackgroundImageState = {
   status: RequestStatusEnum.PENDING
 };
 
+// Loading nextImage as a background proccess allow to improve
+// the user experience on devices with slow connection
 export interface IBackgroundImagesState {
   currentImage: IBackgroundImageState;
   nextImage: IBackgroundImageState;
