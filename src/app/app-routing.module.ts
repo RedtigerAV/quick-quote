@@ -1,3 +1,5 @@
+import { QuotePageGuard } from './modules/quote-page/guards/quote-page.guard';
+import { AppRoutePath } from './app.route-path';
 import { BackgroundImageGuard } from './modules/user-layout/guards/background-image.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -14,24 +16,35 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: QuotePageComponent,
-        // TODO: Guard to retrieve quote from query-params
-        canActivate: []
+        canActivate: [QuotePageGuard]
       },
       {
-        path: 'about',
+        path: AppRoutePath.ABOUT,
         pathMatch: 'full',
         loadChildren: () => import('./modules/about-page/about-page.module').then(m => m.AboutPageModule)
       },
       {
-        path: 'contact',
+        path: AppRoutePath.CONTACT,
         pathMatch: 'full',
         loadChildren: () => import('./modules/contact-page/contact-page.module').then(m => m.ContactPageModule)
+      },
+      {
+        path: AppRoutePath.OOPS,
+        pathMatch: 'full',
+        // TODO: integrate guard to check internal navigation
+        canActivate: [],
+        canLoad: [],
+        loadChildren: () => import('./modules/error-page/error-page.module').then(m => m.ErrorPageModule)
       },
       {
         path: '**',
         redirectTo: ''
       }
     ]
+  },
+  {
+    path: 'error-page',
+    loadChildren: () => import('./modules/error-page/error-page.module').then(m => m.ErrorPageModule)
   }
 ];
 

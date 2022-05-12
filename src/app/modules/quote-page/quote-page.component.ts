@@ -1,3 +1,6 @@
+import { IQuote } from '@core/models/quote.model';
+import { Observable, filter } from 'rxjs';
+import { QuoteService } from '@core/services/quote.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./quote-page.component.scss']
 })
 export class QuotePageComponent implements OnInit {
-  constructor() {}
+  public readonly quote$: Observable<IQuote>;
 
-  ngOnInit(): void {}
+  constructor(quoteService: QuoteService) {
+    this.quote$ = quoteService.quote$.pipe(filter(Boolean));
+  }
+
+  public ngOnInit(): void {}
 }
