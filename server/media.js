@@ -4,9 +4,16 @@ const router = express.Router();
 const MEDIA_COLLECTION = 'media';
 
 router.get('/', async (req, res) => {
-  const media = await db.get(MEDIA_COLLECTION, undefined);
+  const count = req.query.count;
+  const result = [];
 
-  res.json(media);
+  for (let i = 0; i < count; i++) {
+    const media = await db.get(MEDIA_COLLECTION, undefined);
+
+    result.push(media);
+  }
+
+  res.json(result);
 });
 
 module.exports = router;

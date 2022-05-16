@@ -1,41 +1,70 @@
-import { selectCurrentQuoteState, selectNextQuoteState } from './quotes.selectors';
+import { Actions, ofType } from '@ngrx/effects';
+import { getObservableSnapshot } from '@core/rxjs-operators/helpers/get-observable-snapshot.helper';
+import { Nullable } from '@core/types/nullable.type';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import * as actions from './quotes.actions';
-import { IQuoteState } from './quotes.state';
-import { Store, select } from '@ngrx/store';
+import { Store, select, Action, ActionType } from '@ngrx/store';
 import { IState } from '../index.state';
+import { IQuote } from '@core/models/quote.model';
+import * as quotesActions from './quotes.actions';
+import * as quotesSelectors from './quotes.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class QuotesFacade {
-  public readonly currentQuoteState$: Observable<IQuoteState>;
-  public readonly nextQuoteState$: Observable<IQuoteState>;
+  /**
+   * Ordered array of quotes
+   */
+  public readonly quotes$: Observable<Array<IQuote>>;
+  public readonly selectedQuote$: Observable<Nullable<IQuote>>;
+  public readonly selectedQuoteID$: Observable<Nullable<string>>;
+  public readonly quotesTotal$: Observable<number>;
+  public readonly quotesIDs$: Observable<Array<string>>;
 
-  constructor(private readonly store: Store<IState>) {
-    this.currentQuoteState$ = store.pipe(select(selectCurrentQuoteState));
-    this.nextQuoteState$ = store.pipe(select(selectNextQuoteState));
+  public readonly loadQuoteSuccessAction$: Observable<{ quote: IQuote }>;
+  public readonly loadQuoteFailureAction$: Observable<Action>;
+
+  constructor(private readonly store: Store<IState>, actions$: Actions) {
+    this.quotes$ = store.pipe(select(quotesSelectors.selectAllQuotes));
+    this.selectedQuote$ = store.pipe(select(quotesSelectors.selectCurrentQuote));
+    this.selectedQuoteID$ = store.pipe(select(quotesSelectors.selectCurrentQuoteID));
+    this.quotesTotal$ = store.pipe(select(quotesSelectors.selectQuotesTotal));
+    this.quotesIDs$ = store.pipe(select(quotesSelectors.selectQuotesIDs)) as Observable<Array<string>>;
+
+    this.loadQuoteSuccessAction$ = actions$.pipe(ofType(quotesActions.loadQuoteSuccess));
+    this.loadQuoteFailureAction$ = actions$.pipe(ofType(quotesActions.loadQuoteFailure));
   }
 
-  public loadQuotes(): void {
-    this.loadCurrentQuote();
-    this.loadNextQuote();
+  public get quotes(): Array<IQuote> {
+    return getObservableSnapshot(this.quotes$) || [];
   }
 
-  public loadCurrentQuote(id?: string): void {
+  public get quotesTotal(): number {
+    return getObservableSnapshot(this.quotesTotal$) || 0;
+  }
+
+  public get quotesIDs(): Array<string> {
+    return getObservableSnapshot(this.quotesIDs$) || [];
+  }
+
+  public get selectedQuoteID(): Nullable<string> {
+    return getObservableSnapshot(this.selectedQuoteID$) || null;
+  }
+
+  public loadQuote(id?: string): void {
     if (!!id) {
-      this.store.dispatch(actions.loadCurrentQuoteByID({ id }));
+      this.store.dispatch(quotesActions.loadQuoteByID({ id }));
 
       return;
     }
 
-    this.store.dispatch(actions.loadCurrentQuote());
+    this.store.dispatch(quotesActions.loadRandomQuote());
   }
 
-  public loadNextQuote(): void {
-    this.store.dispatch(actions.loadNextQuote());
-  }
+  public selectQuote(id: string): void {
+    if (!this.quotesIDs.includes(id)) {
+      throw new Error(`Uknown quote id: ${id}`);
+    }
 
-  public goToNextQuote(): void {
-    this.store.dispatch(actions.goToNextQuote());
+    this.store.dispatch(quotesActions.selectQuote({ id }));
   }
 }

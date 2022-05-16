@@ -1,16 +1,14 @@
-import { QuotePageGuard } from './modules/quote-page/guards/quote-page.guard';
 import { AppRoutePath } from './app.route-path';
-import { BackgroundImageGuard } from './modules/user-layout/guards/background-image.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserLayoutComponent } from './modules/user-layout/user-layout.component';
 import { QuotePageComponent } from './modules/quote-page/quote-page.component';
+import { QuotePageGuard } from './modules/quote-page/guards/quote-page.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: UserLayoutComponent,
-    canActivate: [BackgroundImageGuard],
     children: [
       {
         path: '',

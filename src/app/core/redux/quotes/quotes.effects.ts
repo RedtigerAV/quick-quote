@@ -1,53 +1,37 @@
-import { switchMap, map, catchError, of } from 'rxjs';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { QuotesApiService } from '@core/api/quotes-api.service';
-import * as actions from './quotes.actions';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, MonoTypeOperatorFunction, of, switchMap } from 'rxjs';
+import { QuotesFacade } from './quotes.facade';
+import * as quotesActions from './quotes.actions';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class QuotesEffects {
-  public readonly loadCurrentQuote$ = createEffect(() =>
+  public readonly loadQuote$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(actions.loadCurrentQuote),
-      switchMap(() =>
-        this.quotesAPI.v1QuoteRandomRead().pipe(
-          map(quote => actions.loadCurrentQuoteSuccess({ quote })),
-          catchError(() => of(actions.loadCurrentQuoteFailure()))
-        )
-      )
+      ofType(quotesActions.loadRandomQuote),
+      switchMap(() => this.quotesAPI.v1QuoteRandomRead().pipe(this.handleQuoteRetrieve()))
     )
   );
 
-  public readonly loadCurrentQuoteByID$ = createEffect(() =>
+  public loadQuoteByID$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(actions.loadCurrentQuoteByID),
-      switchMap(({ id }) =>
-        this.quotesAPI.v1QuoteByIdRead(id).pipe(
-          map(quote => actions.loadCurrentQuoteSuccess({ quote })),
-          catchError(() => of(actions.loadCurrentQuoteFailure()))
-        )
-      )
+      ofType(quotesActions.loadQuoteByID),
+      switchMap(({ id }) => this.quotesAPI.v1QuoteByIdRead(id).pipe(this.handleQuoteRetrieve()))
     )
   );
 
-  public readonly loadNextQuote$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(actions.loadNextQuote),
-      switchMap(() =>
-        this.quotesAPI.v1QuoteRandomRead().pipe(
-          map(quote => actions.loadNextQuoteSuccess({ quote })),
-          catchError(() => of(actions.loadNextQuoteFailure()))
-        )
-      )
-    )
-  );
+  constructor(
+    private readonly actions$: Actions,
+    private readonly quotesAPI: QuotesApiService,
+    private readonly quotesFacade: QuotesFacade
+  ) {}
 
-  public readonly goToNextQuote$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(actions.goToNextQuote),
-      switchMap(() => of(actions.loadNextQuote()))
-    )
-  );
-
-  constructor(private readonly actions$: Actions, private readonly quotesAPI: QuotesApiService) {}
+  private handleQuoteRetrieve(): MonoTypeOperatorFunction<any> {
+    return quote$ =>
+      quote$.pipe(
+        map(quote => quotesActions.loadQuoteSuccess({ quote: { ...quote, order: this.quotesFacade.quotesTotal + 1 } })),
+        catchError(() => of(quotesActions.loadQuoteFailure()))
+      );
+  }
 }

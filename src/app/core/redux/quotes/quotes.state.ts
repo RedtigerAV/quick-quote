@@ -1,25 +1,11 @@
-import { IQuote } from '@core/models/quote.model';
 import { Nullable } from '@core/types/nullable.type';
-import { RequestStatusEnum, RequestStatusType } from '@core/types/request-status.type';
+import { EntityState } from '@ngrx/entity';
+import { IQuote } from '@core/models/quote.model';
 
-export interface IQuoteState {
-  quote: Nullable<IQuote>;
-  status: RequestStatusType;
+export interface IQuoteOrdered extends IQuote {
+  order: number;
 }
 
-const initialQuoteState: IQuoteState = {
-  quote: null,
-  status: RequestStatusEnum.PENDING
-};
-
-// Loading nextQuote as a background proccess allow to improve
-// the user experience on devices with slow connection
-export interface IQuotesState {
-  currentQuote: IQuoteState;
-  nextQuote: IQuoteState;
+export interface IQuotesState extends EntityState<IQuoteOrdered> {
+  selectedQuoteID: Nullable<string>;
 }
-
-export const initialState: IQuotesState = {
-  currentQuote: initialQuoteState,
-  nextQuote: initialQuoteState
-};
