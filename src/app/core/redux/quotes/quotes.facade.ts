@@ -11,6 +11,9 @@ import * as quotesSelectors from './quotes.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class QuotesFacade {
+  /**
+   * Ordered array of quotes
+   */
   public readonly quotes$: Observable<Array<IQuote>>;
   public readonly selectedQuote$: Observable<Nullable<IQuote>>;
   public readonly selectedQuoteID$: Observable<Nullable<string>>;
@@ -31,16 +34,20 @@ export class QuotesFacade {
     this.loadQuoteFailureAction$ = actions$.pipe(ofType(quotesActions.loadQuoteFailure));
   }
 
+  public get quotes(): Array<IQuote> {
+    return getObservableSnapshot(this.quotes$) || [];
+  }
+
   public get quotesTotal(): number {
-    return getObservableSnapshot(this.quotesTotal$);
+    return getObservableSnapshot(this.quotesTotal$) || 0;
   }
 
   public get quotesIDs(): Array<string> {
-    return getObservableSnapshot(this.quotesIDs$);
+    return getObservableSnapshot(this.quotesIDs$) || [];
   }
 
   public get selectedQuoteID(): Nullable<string> {
-    return getObservableSnapshot(this.selectedQuoteID$);
+    return getObservableSnapshot(this.selectedQuoteID$) || null;
   }
 
   public loadQuote(id?: string): void {

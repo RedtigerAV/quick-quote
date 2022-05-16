@@ -21,6 +21,10 @@ export class BackgroundImageService {
     this.selectedImageID$ = this._selectedImageID$.asObservable();
   }
 
+  public get selectedImageID(): Nullable<string> {
+    return this._selectedImageID$.value;
+  }
+
   public init(): void {
     this.mediaAPI.v1MediaRead({ count: 2 }).subscribe(result => {
       this._selectedImageID$.next(result[0].id);
@@ -28,16 +32,19 @@ export class BackgroundImageService {
     });
   }
 
-  public loadImage(): Observable<IMedia> {
-    return this.mediaAPI.v1MediaRead({ count: 1 }).pipe(
-      map(([image]) => image),
-      tap(image => this.imagesQueue.push(image)),
-      tap(() => {
-        if (this.imagesQueue.length > IMAGES_QUEUE_MAX_SIZE) {
-          this.imagesQueue.shift();
-        }
-      })
-    );
+  public loadImage(): void {
+    this.mediaAPI
+      .v1MediaRead({ count: 1 })
+      .pipe(
+        map(([image]) => image),
+        tap(image => this.imagesQueue.push(image)),
+        tap(() => {
+          if (this.imagesQueue.length > IMAGES_QUEUE_MAX_SIZE) {
+            this.imagesQueue.shift();
+          }
+        })
+      )
+      .subscribe();
   }
 
   public selectImage(imageID: string): void {
