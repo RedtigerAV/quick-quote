@@ -1,1 +1,3 @@
-<span>{{ quote$ | async | json }}</span>
+<p>{{ quotesFacade.quotes$ | async | json }}</p>
+<p>{{ quotesFacade.selectedQuote$ | async | json }}</p>
+<p>{{ quotesFacade.selectedQuoteID$ | async | json }}</p>
