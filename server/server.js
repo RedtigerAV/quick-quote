@@ -12,7 +12,7 @@ if (environment === 'development') {
   app.use(morgan('combined'));
 }
 
-app.use('/api/v1/quote', require('./quotes'));
+app.use('/api/v1/quotes', require('./quotes'));
 app.use('/api/v1/media', require('./media'));
 
 app.use((err, req, res, next) => {
