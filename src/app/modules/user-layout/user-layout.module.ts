@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TrackByPipeModule } from '@shared/pipes/track-by/track-by-pipe.module';
 import { UserLayoutComponent } from './user-layout.component';
+import { SetupImagesService } from './services/setup-images.service';
 
 @NgModule({
   imports: [CommonModule, RouterModule, TrackByPipeModule],
   exports: [UserLayoutComponent],
   declarations: [UserLayoutComponent],
-  providers: []
+  providers: [SetupImagesService]
 })
 export class UserLayoutModule {}

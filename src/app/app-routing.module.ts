@@ -4,13 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserLayoutComponent } from './modules/user-layout/user-layout.component';
 import { QuotePageComponent } from './modules/quote-page/quote-page.component';
 import { QuotePageGuard } from './modules/quote-page/guards/quote-page.guard';
-import { UserLayoutGuard } from './modules/user-layout/guards/user-layout.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: UserLayoutComponent,
-    canActivate: [UserLayoutGuard],
     children: [
       {
         path: '',
