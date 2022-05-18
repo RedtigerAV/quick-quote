@@ -1,5 +1,7 @@
-<p>{{ quotesFacade.quotes$ | async | json }}</p>
-<p>{{ quotesFacade.selectedQuote$ | async | json }}</p>
-<p>{{ quotesFacade.selectedQuoteID$ | async | json }}</p>
+<p>all qoutes: {{ quotesFacade.quotes$ | async | json }}</p>
+<p>selectedQuote: {{ quotesFacade.selectedQuote$ | async | json }}</p>
+<p>selectedQuoteID: {{ quotesFacade.selectedQuoteID$ | async | json }}</p>
+<p>nextQuote: {{ quotesFacade.nextQuote$ | async | json }}</p>
+<p>prevQuote: {{ quotesFacade.prevQuote$ | async | json }}</p>
 
 <button (click)="onNextClick()">GO TO NEXT QUOTE</button>

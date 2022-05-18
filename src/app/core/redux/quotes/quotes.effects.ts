@@ -14,7 +14,7 @@ export class QuotesEffects {
     )
   );
 
-  public loadQuoteByID$ = createEffect(() =>
+  public readonly loadQuoteByID$ = createEffect(() =>
     this.actions$.pipe(
       ofType(quotesActions.loadQuoteByID),
       switchMap(({ id }) => this.quotesAPI.v1QuoteByIdRead(id).pipe(this.handleQuoteRetrieve()))
@@ -30,7 +30,13 @@ export class QuotesEffects {
   private handleQuoteRetrieve(): MonoTypeOperatorFunction<any> {
     return quote$ =>
       quote$.pipe(
-        map(quote => quotesActions.loadQuoteSuccess({ quote: { ...quote, order: this.quotesFacade.quotesTotal + 1 } })),
+        map(quote => {
+          if (this.quotesFacade.quotesIDs.includes(quote.id)) {
+            throw new Error(`Quote with id ${quote.id} already exists`);
+          }
+
+          return quotesActions.loadQuoteSuccess({ quote });
+        }),
         catchError(() => of(quotesActions.loadQuoteFailure()))
       );
   }
