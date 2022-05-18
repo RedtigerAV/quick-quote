@@ -20,12 +20,7 @@ export class QuotePageGuard implements CanActivate {
 
     return merge(
       this.quotesFacade.loadQuoteSuccessAction$.pipe(
-        tap(({ quote }) => {
-          this.quotesFacade.selectQuote(quote.id);
-
-          // TODO: убрать
-          this.quotesFacade.loadQuote();
-        }),
+        tap(({ quote }) => this.quotesFacade.selectQuote(quote.id)),
         map(() => true)
       ),
       this.quotesFacade.loadQuoteFailureAction$.pipe(map(() => this.router.createUrlTree(['/', AppRoutePath.OOPS])))

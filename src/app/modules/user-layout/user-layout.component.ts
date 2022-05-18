@@ -4,6 +4,7 @@ import { IMedia } from '@core/models/media.model';
 import { Nullable } from '@core/types/nullable.type';
 import { MediaFacade } from '@core/redux/media/media.facade';
 import { SetupImagesService } from './services/setup-images.service';
+import { MediaLoaderService } from './services/media-loader.service';
 
 @Component({
   selector: 'app-user-layout',
@@ -15,12 +16,17 @@ export class UserLayoutComponent implements OnInit {
   public readonly images$: Observable<Array<IMedia>>;
   public selectedImageID$: Observable<Nullable<string>>;
 
-  constructor(mediaFacade: MediaFacade, private readonly setupImagesService: SetupImagesService) {
+  constructor(
+    mediaFacade: MediaFacade,
+    private readonly setupImagesService: SetupImagesService,
+    private readonly mediaLoaderService: MediaLoaderService
+  ) {
     this.images$ = mediaFacade.images$;
     this.selectedImageID$ = mediaFacade.selectedImageID$;
   }
 
   public ngOnInit(): void {
+    this.mediaLoaderService.init();
     this.setupImagesService.setupImages();
   }
 }
