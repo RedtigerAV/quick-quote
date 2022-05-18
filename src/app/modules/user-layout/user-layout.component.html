@@ -1,7 +1,7 @@
 <div class="layout">
   <ng-container *ngIf="selectedImageID$ | async as selectedImageID">
-    <div *ngFor="let image of images; trackBy: 'id' | trackBy">
-      <img *ngIf="image.id === selectedImageID" [src]="image.url" />
+    <div *ngFor="let image of images$ | async; trackBy: 'id' | trackBy">
+      <img *ngIf="image.id === selectedImageID" [src]="image.urls.regular" />
     </div>
   </ng-container>
   <router-outlet></router-outlet>

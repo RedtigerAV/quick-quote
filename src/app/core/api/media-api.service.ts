@@ -6,10 +6,6 @@ import { IMedia } from '@core/models/media.model';
 
 export interface V1MediaReadRequestParams {
   /**
-   * @default 1
-   */
-  count?: number;
-  /**
    * @default landscape
    */
   orientation?: 'landscape' | 'portrait' | 'squarish';
@@ -23,12 +19,7 @@ export class MediaApiService {
 
   public v1MediaRead(requestParams?: V1MediaReadRequestParams): Observable<Array<IMedia>> {
     let params = new HttpParams();
-    const count = requestParams?.count || 1;
     const orientation = requestParams?.orientation || 'landscape';
-
-    if (count) {
-      params = params.set('count', count);
-    }
 
     if (orientation) {
       params = params.set('orientation', orientation);

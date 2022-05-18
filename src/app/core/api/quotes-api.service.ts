@@ -11,10 +11,10 @@ export class QuotesApiService {
   constructor(private readonly httpClient: HttpClient) {}
 
   public v1QuoteRandomRead(): Observable<IQuote> {
-    return this.httpClient.get<IQuote>(`${this.basePath}/v1/quote/random`);
+    return this.httpClient.get<IQuote>(`${this.basePath}/v1/quotes/random`);
   }
 
   public v1QuoteByIdRead(id: string): Observable<IQuote> {
-    return this.httpClient.get<IQuote>(`${this.basePath}/v1/quote/${id}`);
+    return this.httpClient.get<IQuote>(`${this.basePath}/v1/quotes/${id}`);
   }
 }

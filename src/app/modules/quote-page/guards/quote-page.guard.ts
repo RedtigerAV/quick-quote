@@ -23,7 +23,7 @@ export class QuotePageGuard implements CanActivate {
         tap(({ quote }) => {
           this.quotesFacade.selectQuote(quote.id);
 
-          // Load next random quote
+          // TODO: убрать
           this.quotesFacade.loadQuote();
         }),
         map(() => true)

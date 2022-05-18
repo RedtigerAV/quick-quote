@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
-import { BackgroundImageService } from '@core/services/background-image.service';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IMedia } from '@core/models/media.model';
 import { Nullable } from '@core/types/nullable.type';
+import { MediaFacade } from '@core/redux/media/media.facade';
 
 @Component({
   selector: 'app-user-layout',
@@ -11,15 +11,13 @@ import { Nullable } from '@core/types/nullable.type';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserLayoutComponent implements OnInit {
-  public readonly images: Array<IMedia>;
+  public readonly images$: Observable<Array<IMedia>>;
   public selectedImageID$: Observable<Nullable<string>>;
 
-  constructor(private readonly backgroundImageService: BackgroundImageService) {
-    this.images = backgroundImageService.imagesQueue;
-    this.selectedImageID$ = backgroundImageService.selectedImageID$;
+  constructor(mediaFacade: MediaFacade) {
+    this.images$ = mediaFacade.images$;
+    this.selectedImageID$ = mediaFacade.selectedImageID$;
   }
 
-  ngOnInit(): void {
-    this.backgroundImageService.init();
-  }
+  public ngOnInit(): void {}
 }

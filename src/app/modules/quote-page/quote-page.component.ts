@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { NextQuoteService } from '@core/services/next-quote/next-quote.service';
+import { NextQuoteService } from '@core/services/next-quote.service';
 
 @UntilDestroy()
 @Component({
