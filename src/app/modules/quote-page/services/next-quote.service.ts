@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, merge, Observable, of, take, tap } from 'rxjs';
 import { MediaFacade } from '@core/redux/media/media.facade';
 
-// TODO: Не должен дозагружать следуюшие цитаты и картинки - это не его обязанность
-// TODO: убрать provideIn
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class NextQuoteService {
   constructor(private readonly quotesFacade: QuotesFacade, private readonly mediaFacade: MediaFacade) {}
 
@@ -17,7 +15,7 @@ export class NextQuoteService {
     if (!!this.quotesFacade.nextQuote) {
       const { id } = this.quotesFacade.nextQuote;
 
-      this.handleQuoteSelection(id);
+      this.quotesFacade.selectQuote(id);
       this.checkAndHandleImageSelection();
 
       return of(true);
@@ -27,7 +25,7 @@ export class NextQuoteService {
 
     return merge(
       this.quotesFacade.loadQuoteSuccessAction$.pipe(
-        tap(({ quote: { id } }) => this.handleQuoteSelection(id)),
+        tap(({ quote: { id } }) => this.quotesFacade.selectQuote(id)),
         tap(() => this.checkAndHandleImageSelection()),
         map(() => true)
       ),
@@ -35,17 +33,13 @@ export class NextQuoteService {
     ).pipe(take(1));
   }
 
-  private handleQuoteSelection(quoteID: string): void {
-    this.quotesFacade.selectQuote(quoteID);
-    // TODO: убрать
-    this.quotesFacade.loadQuote();
-  }
-
   private checkAndHandleImageSelection(): void {
     if (!!this.mediaFacade.nextImage) {
       const { id } = this.mediaFacade.nextImage;
 
       this.mediaFacade.selectImage(id);
+    } else {
+      this.mediaFacade.loadImages();
     }
   }
 }

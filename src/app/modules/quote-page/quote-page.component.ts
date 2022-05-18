@@ -3,7 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { NextQuoteService } from '@core/services/next-quote.service';
+import { NextQuoteService } from './services/next-quote.service';
+import { QuotesLoaderService } from './services/quotes-loader.service';
 
 @UntilDestroy()
 @Component({
@@ -15,10 +16,12 @@ export class QuotePageComponent implements OnInit {
     public readonly quotesFacade: QuotesFacade,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly nextQuoteService: NextQuoteService
+    private readonly nextQuoteService: NextQuoteService,
+    private readonly quotesLoaderService: QuotesLoaderService
   ) {}
 
   public ngOnInit(): void {
+    this.quotesLoaderService.init();
     this.listenQuoteChanges();
   }
 
