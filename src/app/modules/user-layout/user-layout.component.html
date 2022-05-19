@@ -1,8 +1,24 @@
 <div class="layout">
-  <ng-container *ngIf="selectedImageID$ | async as selectedImageID">
-    <div *ngFor="let image of images$ | async; trackBy: 'id' | trackBy">
-      <img *ngIf="image.id === selectedImageID" [src]="image.urls.regular" />
+  <ng-container
+    *ngIf="{ selectedImage: selectedImage$ | async, currentImagePosition: currentImagePosition$ | async } as data"
+  >
+    <div class="layout__images" [ngStyle]="{ 'background-color': data.selectedImage?.color }">
+      <ng-container *ngFor="let image of images$ | async; trackBy: 'id' | trackBy; let i = index">
+        <div
+          class="image"
+          [class.image--active]="image.id === data.selectedImage?.id"
+          [class.image--previous]="i < (data.currentImagePosition || 0)"
+          [class.image--next]="i + 1 > (data.currentImagePosition || 0) + 1"
+          [ngStyle]="{
+            'background-image': 'url(' + image.urls.regular + ')',
+            'box-shadow': 'inset 0px 0px 60px 30px' + image.color
+          }"
+        ></div>
+      </ng-container>
     </div>
   </ng-container>
-  <router-outlet></router-outlet>
+
+  <div class="layout__content">
+    <router-outlet></router-outlet>
+  </div>
 </div>
