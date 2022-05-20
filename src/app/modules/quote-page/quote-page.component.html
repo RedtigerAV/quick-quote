@@ -1,7 +1,5 @@
-<p>all qoutes: {{ quotesFacade.quotes$ | async | json }}</p>
-<p>selectedQuote: {{ quotesFacade.selectedQuote$ | async | json }}</p>
-<p>selectedQuoteID: {{ quotesFacade.selectedQuoteID$ | async | json }}</p>
-<p>nextQuote: {{ quotesFacade.nextQuote$ | async | json }}</p>
-<p>prevQuote: {{ quotesFacade.prevQuote$ | async | json }}</p>
+<div class="container">
+  <app-quote-list class="quotes" [selectedQuote]="selectedQuote$ | async" [quotes]="quotes$ | async"></app-quote-list>
 
-<button (click)="onNextClick()">GO TO NEXT QUOTE</button>
+  <button style="position: absolute; bottom: 0px; right: 0px" (click)="onNextClick()">GO TO NEXT QUOTE</button>
+</div>

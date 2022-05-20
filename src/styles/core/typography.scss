@@ -1,0 +1,54 @@
+@mixin qq-font-heading-1 {
+  font-size: 40px;
+  line-height: 45px;
+}
+
+@mixin qq-font-heading-2 {
+  font-size: 36px;
+  line-height: 40px;
+}
+
+@mixin qq-font-heading-3 {
+  font-size: 32px;
+  line-height: 36px;
+}
+
+@mixin qq-font-heading-4 {
+  font-size: 28px;
+  line-height: 32px;
+}
+
+@mixin qq-font-heading-5 {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+@mixin qq-font-heading-6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+@mixin qq-font-text-xl {
+  font-size: 19px;
+  line-height: 28px;
+}
+
+@mixin qq-font-text-l {
+  font-size: 17px;
+  line-height: 24px;
+}
+
+@mixin qq-font-text-m {
+  font-size: 15px;
+  line-height: 24px;
+}
+
+@mixin qq-font-text-s {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+@mixin qq-font-text-ss {
+  font-size: 11px;
+  line-height: 16px;
+}

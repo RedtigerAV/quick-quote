@@ -1,0 +1,12 @@
+:root {
+  --qq-transition: 1.3s ease-in-out;
+  --qq-rhytm: 4px;
+}
+
+$breakpoints: (
+  xs: 0,
+  sm: 400px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);

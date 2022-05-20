@@ -1,1 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+// CORE
+@import 'styles/core/normalize.scss';
+@import 'styles/core/reset.scss';
+@import 'styles/core/variables.scss';
+@import 'styles/core/theme.scss';
+@import 'styles/core/typography.scss';
+
+html,
+body {
+  background-color: var(--qq-color-bg-main);
+  color: var(--qq-color-text-main);
+  font-family: 'Dosis', sans-serif;
+  font-weight: 400;
+}

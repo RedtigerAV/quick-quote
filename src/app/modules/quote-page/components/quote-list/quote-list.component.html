@@ -1,0 +1,16 @@
+<div class="quotes">
+  <ng-container *ngFor="let quote of quotes; trackBy: 'id' | trackBy">
+    <div *ngIf="quote.id === selectedQuote?.id" class="quotes__item">
+      <div class="quote">
+        <span class="quote__decoration"></span>
+        <h1 class="quote__content">
+          {{ quote.quote }}
+        </h1>
+        <span class="quote__author">
+          {{ quote.authorName }}, {{ quote.authorNationality }} {{ quote.authorProfession }}
+        </span>
+        <span class="quote__decoration"></span>
+      </div>
+    </div>
+  </ng-container>
+</div>
