@@ -1,5 +1,11 @@
 <div class="container">
-  <app-quote-list class="quotes" [selectedQuote]="selectedQuote$ | async" [quotes]="quotes$ | async"></app-quote-list>
+  <app-quote-list
+    class="quotes"
+    [selectedQuote]="selectedQuote$ | async"
+    [quotes]="quotes$ | async"
+    [currentPosition]="currentPosition$ | async"
+  ></app-quote-list>
 
+  <button style="position: absolute; bottom: 0px; left: 0px" (click)="onPrevClick()">GO TO PREV QUOTE</button>
   <button style="position: absolute; bottom: 0px; right: 0px" (click)="onNextClick()">GO TO NEXT QUOTE</button>
 </div>

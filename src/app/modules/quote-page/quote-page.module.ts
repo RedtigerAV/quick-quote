@@ -6,11 +6,12 @@ import { QuotePageComponent } from './quote-page.component';
 import { NextQuoteService } from './services/next-quote.service';
 import { QuotesLoaderService } from './services/quotes-loader.service';
 import { QuoteListModule } from './components/quote-list/quote-list.module';
+import { PreviousQuoteService } from './services/previous-quote.service';
 
 @NgModule({
   imports: [CommonModule, TrackByPipeModule, QuoteListModule],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
-  providers: [QuotesLoaderService, NextQuoteService]
+  providers: [QuotesLoaderService, NextQuoteService, PreviousQuoteService]
 })
 export class QuotePageModule {}

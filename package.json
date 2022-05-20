@@ -10,7 +10,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "generate-icons": "svg-generator"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +23,7 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@ngneat/svg-icon": "^4.1.4",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -70,12 +72,24 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.16",
     "prettier": "^2.6.2",
-    "typescript": "~4.5.2"
+    "typescript": "~4.5.2",
+    "@ngneat/svg-generator": "^4.0.0"
   },
   "lint-staged": {
     "*.{js,md,ts,html}": [
       "prettier --write",
       "eslint"
     ]
+  },
+  "svgGenerator": {
+    "outputPath": "./src/app/shared/svg/icons",
+    "prefix": "qq",
+    "srcPath": "./src/assets/svg",
+    "svgoConfig": {
+      "plugins": [
+        "removeDimensions",
+        "cleanupAttrs"
+      ]
+    }
   }
 }

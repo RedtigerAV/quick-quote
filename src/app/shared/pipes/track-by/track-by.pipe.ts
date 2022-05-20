@@ -11,8 +11,8 @@ const INDEX_PROPERTY_NAME = '$index';
 
 // todo tests (common)
 /***
- *    Общая функция получения поля объекта, для переиспользования с пайпом trackBy
- *    @param {string | '$index'} - свойство объекта (или '$index' - индекс элемента массива)
+ *    Common function for retrieving object's field. For usage with trackBy pipe
+ *    @param {string | '$index'} - object's field (or '$index' - element's index in array)
  *
  *    @example  <div *ngFor="let res of data; trackBy: 'id' | trackBy" >
  *

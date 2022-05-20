@@ -1,15 +1,20 @@
-<div class="quotes">
+<div class="quotes" [@flyInOut]="currentPosition">
+  <!-- FIXME: Animation doesn't work properly using ng-container -->
   <ng-container *ngFor="let quote of quotes; trackBy: 'id' | trackBy">
     <div *ngIf="quote.id === selectedQuote?.id" class="quotes__item">
       <div class="quote">
-        <span class="quote__decoration"></span>
+        <span class="quote__decoration">
+          <svg-icon key="quote"></svg-icon>
+        </span>
         <h1 class="quote__content">
           {{ quote.quote }}
         </h1>
-        <span class="quote__author">
-          {{ quote.authorName }}, {{ quote.authorNationality }} {{ quote.authorProfession }}
+        <span class="quote__author" *ngIf="quote | cache: getAuthorInfo:this as authoInfo">
+          {{ authoInfo }}
         </span>
-        <span class="quote__decoration"></span>
+        <span class="quote__decoration">
+          <svg-icon key="quote"></svg-icon>
+        </span>
       </div>
     </div>
   </ng-container>
