@@ -12,6 +12,7 @@ import { UserLayoutModule } from './modules/user-layout/user-layout.module';
 import { QuotePageModule } from './modules/quote-page/quote-page.module';
 import { effects } from '@core/redux/index.effects';
 import { reducers } from '@core/redux/index.reducers';
+import { IconsModule } from '@shared/svg/icons.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,8 @@ import { reducers } from '@core/redux/index.reducers';
     }),
     AppRoutingModule,
     UserLayoutModule,
-    QuotePageModule
+    QuotePageModule,
+    IconsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
