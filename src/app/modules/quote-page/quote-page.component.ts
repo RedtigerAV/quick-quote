@@ -7,6 +7,7 @@ import { NextQuoteService } from './services/next-quote.service';
 import { QuotesLoaderService } from './services/quotes-loader.service';
 import { Nullable } from '@core/types/nullable.type';
 import { IQuote } from '@core/models/quote.model';
+import { PreviousQuoteService } from './services/previous-quote.service';
 
 @UntilDestroy()
 @Component({
@@ -22,6 +23,7 @@ export class QuotePageComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly nextQuoteService: NextQuoteService,
+    private readonly previousQuoteService: PreviousQuoteService,
     private readonly quotesLoaderService: QuotesLoaderService
   ) {
     this.quotes$ = quotesFacade.quotes$;
@@ -31,6 +33,10 @@ export class QuotePageComponent implements OnInit {
   public ngOnInit(): void {
     this.quotesLoaderService.init();
     this.listenQuoteChanges();
+  }
+
+  public onPrevClick(): void {
+    this.previousQuoteService.goToPreviousQuote();
   }
 
   public onNextClick(): void {
