@@ -1,4 +1,5 @@
-<div class="quotes">
+<div class="quotes" [@flyInOut]="currentPosition">
+  <!-- FIXME: Animation doesn't work properly using ng-container -->
   <ng-container *ngFor="let quote of quotes; trackBy: 'id' | trackBy">
     <div *ngIf="quote.id === selectedQuote?.id" class="quotes__item">
       <div class="quote">

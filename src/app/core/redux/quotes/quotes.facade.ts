@@ -20,6 +20,7 @@ export class QuotesFacade {
   public readonly quotesIDs$: Observable<Array<string>>;
   public readonly nextQuote$: Observable<Nullable<IQuote>>;
   public readonly prevQuote$: Observable<Nullable<IQuote>>;
+  public readonly currentQuotePosition$: Observable<Nullable<number>>;
 
   public readonly loadQuoteSuccessAction$: Observable<{ quote: IQuote }>;
   public readonly loadQuoteFailureAction$: Observable<Action>;
@@ -31,6 +32,7 @@ export class QuotesFacade {
     this.quotesIDs$ = store.pipe(select(quotesSelectors.selectQuotesIDs));
     this.nextQuote$ = store.pipe(select(quotesSelectors.selectNextQuote));
     this.prevQuote$ = store.pipe(select(quotesSelectors.selectPrevQuote));
+    this.currentQuotePosition$ = store.pipe(select(quotesSelectors.selectCurrentQuotePosition));
 
     this.loadQuoteSuccessAction$ = actions$.pipe(ofType(quotesActions.loadQuoteSuccess));
     this.loadQuoteFailureAction$ = actions$.pipe(ofType(quotesActions.loadQuoteFailure));

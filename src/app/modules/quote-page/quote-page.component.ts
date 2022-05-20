@@ -1,6 +1,6 @@
 import { filter, Observable, tap } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NextQuoteService } from './services/next-quote.service';
@@ -12,11 +12,13 @@ import { PreviousQuoteService } from './services/previous-quote.service';
 @UntilDestroy()
 @Component({
   templateUrl: './quote-page.component.html',
-  styleUrls: ['./quote-page.component.scss']
+  styleUrls: ['./quote-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuotePageComponent implements OnInit {
   public readonly quotes$: Observable<Array<IQuote>>;
   public readonly selectedQuote$: Observable<Nullable<IQuote>>;
+  public readonly currentPosition$: Observable<number>;
 
   constructor(
     private readonly quotesFacade: QuotesFacade,
@@ -28,6 +30,7 @@ export class QuotePageComponent implements OnInit {
   ) {
     this.quotes$ = quotesFacade.quotes$;
     this.selectedQuote$ = quotesFacade.selectedQuote$;
+    this.currentPosition$ = quotesFacade.currentQuotePosition$.pipe(filter(p => p !== null)) as Observable<number>;
   }
 
   public ngOnInit(): void {
