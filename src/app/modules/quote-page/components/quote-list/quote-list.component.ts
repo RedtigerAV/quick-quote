@@ -15,4 +15,14 @@ export class QuoteListComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  public getAuthorInfo({ authorName, authorNationality, authorProfession }: IQuote): string {
+    if (authorName && authorNationality && authorProfession) {
+      return `${authorName}, ${authorNationality} ${authorProfession}`;
+    } else if (authorName && authorProfession) {
+      return `${authorName}, ${authorProfession}`;
+    }
+
+    return authorName;
+  }
 }

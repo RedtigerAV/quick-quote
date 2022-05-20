@@ -6,8 +6,8 @@
         <h1 class="quote__content">
           {{ quote.quote }}
         </h1>
-        <span class="quote__author">
-          {{ quote.authorName }}, {{ quote.authorNationality }} {{ quote.authorProfession }}
+        <span class="quote__author" *ngIf="quote | cache: getAuthorInfo:this as authoInfo">
+          {{ authoInfo }}
         </span>
         <span class="quote__decoration"></span>
       </div>
