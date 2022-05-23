@@ -1,0 +1,27 @@
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/mixins/rhythm.mixin';
+
+:host {
+  display: block;
+}
+
+.bottom-bar {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: nowrap;
+  height: rhythm(12);
+  width: 100%;
+  border-radius: var(--qq-border-radius);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  background-color: rgba(#{var(--qq-color-element-brand-darken-rgb)}, 0.6);
+  box-shadow: var(--qq-box-shadow) rgba(0, 0, 0, 0.5);
+  transition: height 0.1s ease-in-out;
+
+  &:hover,
+  &--opened {
+    height: rhythm(17);
+  }
+}

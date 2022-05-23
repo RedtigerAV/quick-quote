@@ -8,6 +8,7 @@ import { QuotesLoaderService } from './services/quotes-loader.service';
 import { Nullable } from '@core/types/nullable.type';
 import { IQuote } from '@core/models/quote.model';
 import { PreviousQuoteService } from './services/previous-quote.service';
+import { ViewportService } from '@core/services/viewport/viewport.service';
 
 @UntilDestroy()
 @Component({
@@ -21,6 +22,7 @@ export class QuotePageComponent implements OnInit {
   public readonly currentPosition$: Observable<number>;
 
   constructor(
+    public readonly viewport: ViewportService,
     private readonly quotesFacade: QuotesFacade,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
@@ -38,7 +40,7 @@ export class QuotePageComponent implements OnInit {
     this.listenQuoteChanges();
   }
 
-  public onPrevClick(): void {
+  public onPreviousClick(): void {
     this.previousQuoteService.goToPreviousQuote();
   }
 

@@ -18,5 +18,25 @@
 
 .quotes {
   width: 100%;
-  height: calc(100% - rhythm(20));
+  height: calc(100% - rhythm(35));
+}
+
+.bottom-bar {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  min-width: rhythm(100);
+
+  @include mediaQuery(xs, md) {
+    left: 0;
+    transform: unset;
+    width: 100%;
+    min-width: unset;
+  }
+
+  svg-icon {
+    font-size: 28px !important;
+  }
 }

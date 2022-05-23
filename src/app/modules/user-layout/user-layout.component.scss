@@ -1,4 +1,5 @@
 @import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
 
 :host {
   position: relative;
@@ -28,6 +29,10 @@
     height: 100%;
     width: 100%;
     padding: rhythm(5);
+
+    @include mediaQuery(xs, md) {
+      padding: rhythm(2);
+    }
   }
 }
 

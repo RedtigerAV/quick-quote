@@ -1,0 +1,36 @@
+@import 'styles/core/typography';
+@import 'styles/mixins/rhythm.mixin';
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--qq-color-text-main);
+  cursor: pointer;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &__text {
+    @include qq-font-text-s;
+  }
+
+  &:disabled {
+    cursor: unset;
+    color: var(--qq-color-text-disabled);
+  }
+}
