@@ -33,10 +33,6 @@ export class MediaQueryListModel implements IMediaQueryListModel {
     this.mediaQueryList.addEventListener('change', this.handleMediaQueryChange.bind(this));
   }
 
-  public destroy(): void {
-    this.mediaQueryList?.removeListener(this.handleMediaQueryChange);
-  }
-
   private handleMediaQueryChange(event: MediaQueryListEvent): void {
     this.subject$.next(event.matches);
   }
