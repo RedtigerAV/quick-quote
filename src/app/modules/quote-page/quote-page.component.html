@@ -6,6 +6,27 @@
     [currentPosition]="currentPosition$ | async"
   ></app-quote-list>
 
-  <button style="position: absolute; bottom: 0px; left: 0px" (click)="onPrevClick()">GO TO PREV QUOTE</button>
-  <button style="position: absolute; bottom: 0px; right: 0px" (click)="onNextClick()">GO TO NEXT QUOTE</button>
+  <app-bottom-bar class="bottom-bar" [opened]="viewport.isMobileViewport$ | async">
+    <!-- TODO: disabled - unfinished actions -->
+    <app-bar-item [disabled]="true">
+      <svg-icon appBarItemIcon key="camera"></svg-icon>
+      <span appBarItemText>To image</span>
+    </app-bar-item>
+    <app-bar-item [disabled]="true" (click)="onPreviousClick()">
+      <svg-icon appBarItemIcon key="previous"></svg-icon>
+      <span appBarItemText>Previous</span>
+    </app-bar-item>
+    <app-bar-item [disabled]="true">
+      <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
+      <span appBarItemText>Bookmarks</span>
+    </app-bar-item>
+    <app-bar-item [disabled]="true" (click)="onNextClick()">
+      <svg-icon appBarItemIcon key="next"></svg-icon>
+      <span appBarItemText>Next</span>
+    </app-bar-item>
+    <app-bar-item [disabled]="true">
+      <svg-icon appBarItemIcon key="share"></svg-icon>
+      <span appBarItemText>Share</span>
+    </app-bar-item>
+  </app-bottom-bar>
 </div>

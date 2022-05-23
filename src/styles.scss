@@ -5,6 +5,9 @@
 @import 'styles/core/theme.scss';
 @import 'styles/core/typography.scss';
 
+// COMPONENTS
+@import 'styles/components/svg-icon.scss';
+
 html,
 body {
   background-color: var(--qq-color-bg-main);

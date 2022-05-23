@@ -30,8 +30,8 @@
   background-color: var(--qq-color-bg-accent);
   // -webkit-backdrop-filter: blur(10px);
   // backdrop-filter: blur(10px);
-  border-radius: 20px;
-  box-shadow: 0px 0px 10px 0px var(--qq-color-element-brand);
+  border-radius: var(--qq-border-radius);
+  box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand);
   will-change: opacity, transform;
 
   max-height: 100%;
