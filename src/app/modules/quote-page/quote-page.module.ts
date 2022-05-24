@@ -10,11 +10,12 @@ import { PreviousQuoteService } from './services/previous-quote.service';
 import { BottomBarModule } from './components/bottom-bar/bottom-bar.module';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { LockedPipeModule } from '@shared/pipes/locked/locked-pipe.module';
+import { HtmlToImageService } from '@shared/services/html-to-image.service';
 
 @NgModule({
   imports: [CommonModule, TrackByPipeModule, QuoteListModule, BottomBarModule, SvgIconsModule, LockedPipeModule],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
-  providers: [QuotesLoaderService, NextQuoteService, PreviousQuoteService]
+  providers: [QuotesLoaderService, NextQuoteService, PreviousQuoteService, HtmlToImageService]
 })
 export class QuotePageModule {}
