@@ -6,12 +6,16 @@
     [currentPosition]="currentPosition$ | async"
   ></app-quote-list>
 
-  <app-bottom-bar class="bottom-bar" [opened]="viewport.isMobileViewport$ | async">
-    <app-bar-item>
+  <app-bottom-bar class="bottom-bar" [ngClass]="[skipHtmlToImageClass]" [opened]="viewport.isMobileViewport$ | async">
+    <!--TODO: add tooltip for safari-->
+    <app-bar-item
+      [disabled]="platform.SAFARI || (convertToImage | locked: this | async)"
+      (clickEvent)="convertToImage()"
+    >
       <svg-icon appBarItemIcon key="camera"></svg-icon>
       <span appBarItemText>To image</span>
     </app-bar-item>
-    <app-bar-item [disabled]="isPreviousQuoteDisabled$ | async" (clickEvent)="onPreviousClick()">
+    <app-bar-item [disabled]="isPreviousQuoteDisabled$ | async" (clickEvent)="toPreviousQuote()">
       <svg-icon appBarItemIcon key="previous"></svg-icon>
       <span appBarItemText>Previous</span>
     </app-bar-item>
@@ -19,7 +23,7 @@
       <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
       <span appBarItemText>Bookmarks</span>
     </app-bar-item>
-    <app-bar-item [disabled]="onNextClick | locked: this | async" (clickEvent)="onNextClick()">
+    <app-bar-item [disabled]="toNextQuote | locked: this | async" (clickEvent)="toNextQuote()">
       <svg-icon appBarItemIcon key="next"></svg-icon>
       <span appBarItemText>Next</span>
     </app-bar-item>
