@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Nullable } from '@core/types/nullable.type';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -31,8 +31,9 @@ type AnimationStateType = AnimationStateEnum.OPEN | AnimationStateEnum.CLOSED;
     ])
   ]
 })
-export class BarItemComponent implements OnInit, OnChanges {
-  @Input() public disabled?: boolean;
+export class BarItemComponent implements OnInit {
+  @Input() public disabled?: Nullable<boolean>;
+  @Output() public clickEvent = new EventEmitter<void>();
   public readonly animationState$!: Observable<Nullable<AnimationStateType>>;
   private readonly _animationState$!: BehaviorSubject<Nullable<AnimationStateType>>;
   private _opened = false;
@@ -59,15 +60,6 @@ export class BarItemComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {}
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    const disabled = changes['disabled']?.currentValue;
-    const firstChange = changes['disabled']?.firstChange;
-
-    if (!this.opened && disabled && !firstChange) {
-      this._animationState$.next(AnimationStateEnum.CLOSED);
-    }
-  }
-
   public onMouseEnter(): void {
     if (this.canChangeAnimationState) {
       this._animationState$.next(AnimationStateEnum.OPEN);
@@ -75,7 +67,7 @@ export class BarItemComponent implements OnInit, OnChanges {
   }
 
   public onMouseLeave(): void {
-    if (this.canChangeAnimationState) {
+    if (!this.opened) {
       this._animationState$.next(AnimationStateEnum.CLOSED);
     }
   }

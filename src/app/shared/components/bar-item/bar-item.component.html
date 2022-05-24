@@ -1,10 +1,12 @@
-<button class="bar-item" [disabled]="disabled" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
-  <div class="bar-item__content">
-    <div class="bar-item__icon">
-      <ng-content select="app-bar-item-icon, [app-bar-item-icon], [appBarItemIcon]"></ng-content>
+<div class="wrapper" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <button class="bar-item" [disabled]="disabled" (click)="clickEvent.emit()">
+    <div class="bar-item__content">
+      <div class="bar-item__icon">
+        <ng-content select="app-bar-item-icon, [app-bar-item-icon], [appBarItemIcon]"></ng-content>
+      </div>
+      <div class="bar-item__text" [@openClose]="animationState$ | async">
+        <ng-content select="app-bar-item-text, [app-bar-item-text], [appBarItemText]"></ng-content>
+      </div>
     </div>
-    <div class="bar-item__text" [@openClose]="animationState$ | async">
-      <ng-content select="app-bar-item-text, [app-bar-item-text], [appBarItemText]"></ng-content>
-    </div>
-  </div>
-</button>
+  </button>
+</div>

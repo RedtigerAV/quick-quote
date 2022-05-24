@@ -7,24 +7,23 @@
   ></app-quote-list>
 
   <app-bottom-bar class="bottom-bar" [opened]="viewport.isMobileViewport$ | async">
-    <!-- TODO: disabled - unfinished actions -->
-    <app-bar-item [disabled]="true">
+    <app-bar-item>
       <svg-icon appBarItemIcon key="camera"></svg-icon>
       <span appBarItemText>To image</span>
     </app-bar-item>
-    <app-bar-item [disabled]="true" (click)="onPreviousClick()">
+    <app-bar-item [disabled]="isPreviousQuoteDisabled$ | async" (clickEvent)="onPreviousClick()">
       <svg-icon appBarItemIcon key="previous"></svg-icon>
       <span appBarItemText>Previous</span>
     </app-bar-item>
-    <app-bar-item [disabled]="true">
+    <app-bar-item>
       <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
       <span appBarItemText>Bookmarks</span>
     </app-bar-item>
-    <app-bar-item [disabled]="true" (click)="onNextClick()">
+    <app-bar-item [disabled]="onNextClick | locked: this | async" (clickEvent)="onNextClick()">
       <svg-icon appBarItemIcon key="next"></svg-icon>
       <span appBarItemText>Next</span>
     </app-bar-item>
-    <app-bar-item [disabled]="true">
+    <app-bar-item>
       <svg-icon appBarItemIcon key="share"></svg-icon>
       <span appBarItemText>Share</span>
     </app-bar-item>
