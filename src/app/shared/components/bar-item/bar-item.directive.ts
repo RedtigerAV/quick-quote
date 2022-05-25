@@ -1,4 +1,14 @@
-import { AfterContentInit, ContentChild, Directive, HostBinding, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  AfterContentInit,
+  ContentChild,
+  ContentChildren,
+  Directive,
+  HostBinding,
+  Input,
+  OnChanges,
+  QueryList,
+  SimpleChanges
+} from '@angular/core';
 import { Nullable } from '@core/types/nullable.type';
 import { BarItemContentComponent } from './bar-item-content.component';
 
@@ -52,6 +62,35 @@ export class BarItemDirective implements OnChanges, AfterContentInit {
     if (this.barItemContent) {
       this.barItemContent.opened = !!this.opened;
     }
+  }
+}
+
+@Directive({
+  selector: 'app-bar-item-list, [app-bar-item-list], [appBarItemList]',
+  exportAs: 'appBarItemList'
+})
+export class BarItemListDirective implements OnChanges, AfterContentInit {
+  @Input() opened: Nullable<boolean> = false;
+  @HostBinding('class.bar-item__list') barItemListClass = true;
+  @ContentChildren(BarItemDirective) barItems!: QueryList<BarItemDirective>;
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    const opened = changes['opened']?.currentValue;
+    const firstChange = changes['opened']?.firstChange;
+
+    if (!firstChange && opened !== undefined) {
+      this.castOpenedState(opened);
+    }
+  }
+
+  public ngAfterContentInit(): void {
+    this.castOpenedState(this.opened as boolean);
+  }
+
+  private castOpenedState(opened: boolean): void {
+    const barItems = this.barItems.toArray();
+
+    barItems.forEach(item => (item.opened = opened));
   }
 }
 

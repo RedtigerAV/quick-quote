@@ -11,9 +11,20 @@ import { BottomBarModule } from './components/bottom-bar/bottom-bar.module';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { LockedPipeModule } from '@shared/pipes/locked/locked-pipe.module';
 import { HtmlToImageService } from '@shared/services/html-to-image.service';
+import { SocialNetworksModule } from './components/social-networks/social-networks.module';
+import { BarItemModule } from '@shared/components/bar-item/bar-item.module';
 
 @NgModule({
-  imports: [CommonModule, TrackByPipeModule, QuoteListModule, BottomBarModule, SvgIconsModule, LockedPipeModule],
+  imports: [
+    CommonModule,
+    TrackByPipeModule,
+    QuoteListModule,
+    BottomBarModule,
+    SvgIconsModule,
+    LockedPipeModule,
+    SocialNetworksModule,
+    BarItemModule
+  ],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
   providers: [QuotesLoaderService, NextQuoteService, PreviousQuoteService, HtmlToImageService]

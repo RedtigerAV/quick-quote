@@ -3,6 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { IQuote } from '@core/models/quote.model';
 import { Nullable } from '@core/types/nullable.type';
 import { toNextQuoteAnimation, toPreviousQuoteAnimation } from './quote-list.animation';
+import { QuoteHelper } from '../../helpers/quote.helper';
 
 @Component({
   selector: 'app-quote-list',
@@ -25,13 +26,7 @@ export class QuoteListComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public getAuthorInfo({ authorName, authorNationality, authorProfession }: IQuote): string {
-    if (authorName && authorNationality && authorProfession) {
-      return `${authorName}, ${authorNationality} ${authorProfession}`;
-    } else if (authorName && authorProfession) {
-      return `${authorName}, ${authorProfession}`;
-    }
-
-    return authorName;
+  public getAuthorInfo(quote: IQuote): string {
+    return QuoteHelper.getAuthoInfo(quote);
   }
 }
