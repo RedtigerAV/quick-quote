@@ -10,7 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Nullable } from '@core/types/nullable.type';
-import { BarItemComponent } from '@shared/components/bar-item/bar-item.component';
+import { BarItemDirective } from '@shared/components/bar-item/bar-item.directive';
 
 @Component({
   selector: 'app-bottom-bar',
@@ -20,7 +20,7 @@ import { BarItemComponent } from '@shared/components/bar-item/bar-item.component
 })
 export class BottomBarComponent implements OnInit, OnChanges, AfterContentInit {
   @Input() opened: Nullable<boolean> = false;
-  @ContentChildren(BarItemComponent) barItems!: QueryList<BarItemComponent>;
+  @ContentChildren(BarItemDirective) barItems!: QueryList<BarItemDirective>;
 
   public ngOnInit(): void {}
 

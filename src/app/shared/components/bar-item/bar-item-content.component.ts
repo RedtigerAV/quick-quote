@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, HostListener } from '@angular/core';
 import { Nullable } from '@core/types/nullable.type';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -10,9 +10,9 @@ enum AnimationStateEnum {
 type AnimationStateType = AnimationStateEnum.OPEN | AnimationStateEnum.CLOSED;
 
 @Component({
-  selector: 'app-bar-item',
-  templateUrl: './bar-item.component.html',
-  styleUrls: ['./bar-item.component.scss'],
+  selector: 'app-bar-item-content',
+  templateUrl: './bar-item-content.component.html',
+  styleUrls: ['./bar-item-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     // prettier-ignore
@@ -31,19 +31,18 @@ type AnimationStateType = AnimationStateEnum.OPEN | AnimationStateEnum.CLOSED;
     ])
   ]
 })
-export class BarItemComponent implements OnInit {
-  @Input() public disabled?: Nullable<boolean>;
-  @Output() public clickEvent = new EventEmitter<void>();
+export class BarItemContentComponent implements OnInit {
   public readonly animationState$!: Observable<Nullable<AnimationStateType>>;
   private readonly _animationState$!: BehaviorSubject<Nullable<AnimationStateType>>;
   private _opened = false;
+  private _disabled = false;
+  private _isMouseOver = false;
 
   constructor() {
     this._animationState$ = new BehaviorSubject<Nullable<AnimationStateType>>(null);
     this.animationState$ = this._animationState$.asObservable();
   }
 
-  @Input()
   public get opened(): boolean {
     return this._opened;
   }
@@ -54,19 +53,36 @@ export class BarItemComponent implements OnInit {
     this._animationState$.next(animationState);
   }
 
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+  public set disabled(value: boolean) {
+    this._disabled = value;
+
+    if (!value && this._isMouseOver) {
+      this._animationState$.next(AnimationStateEnum.OPEN);
+    }
+  }
+
   private get canChangeAnimationState(): boolean {
     return !this.disabled && !this.opened;
   }
 
   public ngOnInit(): void {}
 
+  @HostListener('mouseenter')
   public onMouseEnter(): void {
+    this._isMouseOver = true;
+
     if (this.canChangeAnimationState) {
       this._animationState$.next(AnimationStateEnum.OPEN);
     }
   }
 
+  @HostListener('mouseleave')
   public onMouseLeave(): void {
+    this._isMouseOver = false;
+
     if (!this.opened) {
       this._animationState$.next(AnimationStateEnum.CLOSED);
     }
