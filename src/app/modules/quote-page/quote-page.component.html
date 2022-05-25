@@ -6,30 +6,53 @@
     [currentPosition]="currentPosition$ | async"
   ></app-quote-list>
 
-  <app-bottom-bar class="bottom-bar" [ngClass]="[skipHtmlToImageClass]" [opened]="viewport.isMobileViewport$ | async">
-    <!--TODO: add tooltip for safari-->
-    <app-bar-item
-      [disabled]="platform.SAFARI || (convertToImage | locked: this | async)"
-      (clickEvent)="convertToImage()"
-    >
-      <svg-icon appBarItemIcon key="camera"></svg-icon>
-      <span appBarItemText>To image</span>
-    </app-bar-item>
-    <app-bar-item [disabled]="isPreviousQuoteDisabled$ | async" (clickEvent)="toPreviousQuote()">
-      <svg-icon appBarItemIcon key="previous"></svg-icon>
-      <span appBarItemText>Previous</span>
-    </app-bar-item>
-    <app-bar-item>
-      <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
-      <span appBarItemText>Bookmarks</span>
-    </app-bar-item>
-    <app-bar-item [disabled]="toNextQuote | locked: this | async" (clickEvent)="toNextQuote()">
-      <svg-icon appBarItemIcon key="next"></svg-icon>
-      <span appBarItemText>Next</span>
-    </app-bar-item>
-    <app-bar-item>
-      <svg-icon appBarItemIcon key="share"></svg-icon>
-      <span appBarItemText>Share</span>
-    </app-bar-item>
-  </app-bottom-bar>
+  <ng-container *ngIf="{ opened: viewport.isMobileViewport$ | async } as data">
+    <app-bottom-bar class="bottom-bar" [ngClass]="[skipHtmlToImageClass]" [opened]="data.opened">
+      <!--TODO: add tooltip for safari-->
+      <app-bar-item-list *ngIf="isActionsState$ | async; else socialNetworksState" [opened]="data.opened">
+        <button
+          appBarItem
+          [disabled]="platform.SAFARI || (convertToImage | locked: this | async)"
+          (click)="convertToImage()"
+        >
+          <app-bar-item-content>
+            <svg-icon appBarItemIcon key="camera"></svg-icon>
+            <span appBarItemText>To image</span>
+          </app-bar-item-content>
+        </button>
+        <button appBarItem [disabled]="isPreviousQuoteDisabled$ | async" (click)="toPreviousQuote()">
+          <app-bar-item-content>
+            <svg-icon appBarItemIcon key="previous"></svg-icon>
+            <span appBarItemText>Previous</span>
+          </app-bar-item-content>
+        </button>
+        <button appBarItem>
+          <app-bar-item-content>
+            <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
+            <span appBarItemText>Bookmarks</span>
+          </app-bar-item-content>
+        </button>
+        <button appBarItem [disabled]="toNextQuote | locked: this | async" (click)="toNextQuote()">
+          <app-bar-item-content>
+            <svg-icon appBarItemIcon key="next"></svg-icon>
+            <span appBarItemText>Next</span>
+          </app-bar-item-content>
+        </button>
+        <button appBarItem (click)="switchBottomBarState('social')">
+          <app-bar-item-content>
+            <svg-icon appBarItemIcon key="share"></svg-icon>
+            <span appBarItemText>Share</span>
+          </app-bar-item-content>
+        </button>
+      </app-bar-item-list>
+
+      <ng-template #socialNetworksState>
+        <app-social-networks
+          [quote]="selectedQuote$ | async"
+          [opened]="data.opened"
+          (collapse)="switchBottomBarState('actions')"
+        ></app-social-networks>
+      </ng-template>
+    </app-bottom-bar>
+  </ng-container>
 </div>

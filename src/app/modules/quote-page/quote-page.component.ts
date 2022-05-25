@@ -1,4 +1,16 @@
-import { catchError, combineLatest, delay, filter, finalize, map, Observable, of, take, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  delay,
+  filter,
+  finalize,
+  map,
+  Observable,
+  of,
+  take,
+  tap
+} from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
@@ -30,6 +42,8 @@ export class QuotePageComponent implements OnInit {
   public readonly isFirstQuote$: Observable<boolean>;
   public readonly isPreviousQuoteDisabled$: Observable<boolean>;
   public readonly skipHtmlToImageClass = globalConfig.skipHtmlToImageClass;
+  public readonly isActionsState$: Observable<boolean>;
+  private readonly _isActionsState$: BehaviorSubject<boolean>;
 
   constructor(
     public readonly platform: Platform,
@@ -49,6 +63,9 @@ export class QuotePageComponent implements OnInit {
     this.isPreviousQuoteDisabled$ = combineLatest([this.isFirstQuote$, isLocked$(this, this.toPreviousQuote)]).pipe(
       map(([isFirst, isLocked]) => isFirst || isLocked)
     );
+
+    this._isActionsState$ = new BehaviorSubject<boolean>(true);
+    this.isActionsState$ = this._isActionsState$.asObservable();
   }
 
   public ngOnInit(): void {
@@ -98,6 +115,18 @@ export class QuotePageComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe();
+  }
+
+  public switchBottomBarState(state: 'actions' | 'social'): void {
+    switch (state) {
+      case 'social':
+        this._isActionsState$.next(false);
+
+        return;
+      case 'actions':
+      default:
+        this._isActionsState$.next(true);
+    }
   }
 
   private listenQuoteChanges(): void {

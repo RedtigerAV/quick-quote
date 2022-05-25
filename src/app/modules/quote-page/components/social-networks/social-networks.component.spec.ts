@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BarItemComponent } from './bar-item.component';
+import { SocialNetworksComponent } from './social-networks.component';
 
-describe('BarItemComponent', () => {
-  let component: BarItemComponent;
-  let fixture: ComponentFixture<BarItemComponent>;
+describe('SocialNetworksComponent', () => {
+  let component: SocialNetworksComponent;
+  let fixture: ComponentFixture<SocialNetworksComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BarItemComponent]
+      declarations: [SocialNetworksComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BarItemComponent);
+    fixture = TestBed.createComponent(SocialNetworksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

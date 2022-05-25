@@ -2,13 +2,30 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 
-import { BarItemComponent } from './bar-item.component';
-import { BarItemIconDirective, BarItemTextDirective } from './bar-item.directive';
+import { BarItemContentComponent } from './bar-item-content.component';
+import {
+  BarItemDirective,
+  BarItemIconDirective,
+  BarItemListDirective,
+  BarItemTextDirective
+} from './bar-item.directive';
 
 @NgModule({
   imports: [CommonModule, SvgIconsModule],
-  exports: [BarItemComponent, BarItemIconDirective, BarItemTextDirective],
-  declarations: [BarItemComponent, BarItemIconDirective, BarItemTextDirective],
+  exports: [
+    BarItemDirective,
+    BarItemListDirective,
+    BarItemContentComponent,
+    BarItemIconDirective,
+    BarItemTextDirective
+  ],
+  declarations: [
+    BarItemDirective,
+    BarItemListDirective,
+    BarItemContentComponent,
+    BarItemIconDirective,
+    BarItemTextDirective
+  ],
   providers: []
 })
 export class BarItemModule {}

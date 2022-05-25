@@ -1,0 +1,32 @@
+<app-bar-item-list [opened]="opened">
+  <button appBarItem shareButton="facebook" #facebookBtn="shareButton">
+    <app-bar-item-content [style.color]="facebookBtn.color">
+      <svg-icon appBarItemIcon key="facebook" fontSize="26px"></svg-icon>
+      <span appBarItemText>Facebook</span>
+    </app-bar-item-content>
+  </button>
+  <button appBarItem shareButton="twitter" #twitterBtn="shareButton" [description]="description" [tags]="tags">
+    <app-bar-item-content [style.color]="twitterBtn.color">
+      <svg-icon appBarItemIcon key="twitter" fontSize="26px"></svg-icon>
+      <span appBarItemText>Twitter</span>
+    </app-bar-item-content>
+  </button>
+  <button appBarItem shareButton="whatsapp" #whatsappBtn="shareButton" [description]="description">
+    <app-bar-item-content [style.color]="whatsappBtn.color">
+      <svg-icon appBarItemIcon key="whatsapp" fontSize="26px"></svg-icon>
+      <span appBarItemText>Whatsapp</span>
+    </app-bar-item-content>
+  </button>
+  <button appBarItem shareButton="telegram" #telegramBtn="shareButton" [description]="description">
+    <app-bar-item-content [style.color]="telegramBtn.color">
+      <svg-icon appBarItemIcon key="telegram" fontSize="26px"></svg-icon>
+      <span appBarItemText>Telegram</span>
+    </app-bar-item-content>
+  </button>
+  <button appBarItem (click)="collapse.emit()">
+    <app-bar-item-content>
+      <svg-icon appBarItemIcon key="cancel" fontSize="28px"></svg-icon>
+      <span appBarItemText>Cancel</span>
+    </app-bar-item-content>
+  </button>
+</app-bar-item-list>

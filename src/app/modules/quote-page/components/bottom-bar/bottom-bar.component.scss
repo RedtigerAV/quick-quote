@@ -7,10 +7,6 @@
 
 .bottom-bar {
   position: relative;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: nowrap;
   height: rhythm(12);
   width: 100%;
   border-radius: var(--qq-border-radius);
@@ -22,6 +18,6 @@
 
   &:hover,
   &--opened {
-    height: rhythm(17);
+    height: rhythm(20);
   }
 }
