@@ -15,6 +15,18 @@ export class QuotesApiService {
   }
 
   public v1QuoteByIdRead(id: string): Observable<IQuote> {
+    if (!id) {
+      throw new Error('Invalid id');
+    }
+
     return this.httpClient.get<IQuote>(`${this.basePath}/v1/quotes/${id}`);
+  }
+
+  public v1QuotesInBulk(ids: Array<string>): Observable<Array<IQuote>> {
+    if (!ids) {
+      throw new Error('Invalid ids');
+    }
+
+    return this.httpClient.post<Array<IQuote>>(`${this.basePath}/v1/quotes/`, { ids });
   }
 }

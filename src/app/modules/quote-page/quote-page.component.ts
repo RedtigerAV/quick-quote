@@ -26,8 +26,9 @@ import { HtmlToImageService } from '@shared/services/html-to-image.service';
 import { globalConfig } from '@core/global/global.config';
 import * as FileSaver from 'file-saver';
 import { Platform } from '@angular/cdk/platform';
+import { FavouritesFacade } from '@core/redux/favourites/favourites.facade';
 
-const ANIMATION_DELAY = 1500;
+const ANIMATION_DELAY = 1000;
 
 @UntilDestroy()
 @Component({
@@ -40,6 +41,7 @@ export class QuotePageComponent implements OnInit {
   public readonly selectedQuote$: Observable<Nullable<IQuote>>;
   public readonly currentPosition$: Observable<number>;
   public readonly isFirstQuote$: Observable<boolean>;
+  public readonly isSelectedFavourite$: Observable<boolean>;
   public readonly isPreviousQuoteDisabled$: Observable<boolean>;
   public readonly skipHtmlToImageClass = globalConfig.skipHtmlToImageClass;
   public readonly isActionsState$: Observable<boolean>;
@@ -48,6 +50,7 @@ export class QuotePageComponent implements OnInit {
   constructor(
     public readonly platform: Platform,
     public readonly viewport: ViewportService,
+    public readonly favouritesFacade: FavouritesFacade,
     private readonly quotesFacade: QuotesFacade,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
@@ -63,13 +66,17 @@ export class QuotePageComponent implements OnInit {
     this.isPreviousQuoteDisabled$ = combineLatest([this.isFirstQuote$, isLocked$(this, this.toPreviousQuote)]).pipe(
       map(([isFirst, isLocked]) => isFirst || isLocked)
     );
-
+    this.isSelectedFavourite$ = combineLatest([quotesFacade.selectedQuoteID$, favouritesFacade.favouritesIDs$]).pipe(
+      map(([selectedQuoteID, favouritesIDs]) => (selectedQuoteID ? favouritesIDs.includes(selectedQuoteID) : false))
+    );
     this._isActionsState$ = new BehaviorSubject<boolean>(true);
     this.isActionsState$ = this._isActionsState$.asObservable();
   }
 
   public ngOnInit(): void {
+    // TODO: проверить, может не нужно здесь делать init и load
     this.quotesLoaderService.init();
+    this.favouritesFacade.loadFavourites();
     this.listenQuoteChanges();
   }
 

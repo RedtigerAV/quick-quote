@@ -4,6 +4,9 @@
     [selectedQuote]="selectedQuote$ | async"
     [quotes]="quotes$ | async"
     [currentPosition]="currentPosition$ | async"
+    [isSelectedFavourite]="isSelectedFavourite$ | async"
+    (likeQuote)="favouritesFacade.addFavourite($event)"
+    (dislikeQuote)="favouritesFacade.removeFavourite($event)"
   ></app-quote-list>
 
   <ng-container *ngIf="{ opened: viewport.isMobileViewport$ | async } as data">

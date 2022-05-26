@@ -7,11 +7,11 @@ export const toNextQuoteAnimation = [
   group([
     query(':leave', [
       style({ opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }),
-      animate('1s cubic-bezier(.75,0,.75,0)', style({ opacity: 0, transform: 'translate3d(-100%, 0, 0) scale(.4)' }))
+      animate('.65s cubic-bezier(.75,0,.75,0)', style({ opacity: 0, transform: 'translate3d(-100%, 0, 0) scale(.4)' }))
     ], { optional: true }),
     query(':enter', [
       style({ opacity: 0, transform: 'translate3d(100%, 0, 0) scale(.4)' }),
-      animate('1s .5s cubic-bezier(.25,.1,.25,1)', style({ opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' })),
+      animate('.65s .35s cubic-bezier(.25,.1,.25,1)', style({ opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' })),
     ], { optional: true }),
   ])
 ];
@@ -23,11 +23,11 @@ export const toPreviousQuoteAnimation = [
   group([
     query(':leave', [
       style({ opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' }),
-      animate('1s cubic-bezier(.75,0,.75,0)', style({ opacity: 0, transform: 'translate3d(100%, 0, 0) scale(.4)' }))
+      animate('.65s cubic-bezier(.75,0,.75,0)', style({ opacity: 0, transform: 'translate3d(100%, 0, 0) scale(.4)' }))
     ], { optional: true }),
     query(':enter', [
       style({ opacity: 0, transform: 'translate3d(-100%, 0, 0) scale(.4)' }),
-      animate('1s .5s cubic-bezier(.25,.1,.25,1)', style({ opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' })),
+      animate('.65s .35s cubic-bezier(.25,.1,.25,1)', style({ opacity: 1, transform: 'translate3d(0, 0, 0) scale(1)' })),
     ], { optional: true }),
   ])
 ];

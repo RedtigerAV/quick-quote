@@ -14,7 +14,7 @@ const headers = {
 const errorStatus = error => error.response?.status || 500;
 const errorData = error => error.response?.data || { message: 'Quote API internal error' };
 const prepareQuote = quote => ({
-  id: quote.quoteId,
+  id: quote.quoteId.toString(),
   quote: quote.quote,
   authorId: quote.authorId,
   authorName: quote.name,
@@ -53,6 +53,8 @@ router.post('/', async (req, res) => {
 
   if (!ids || !ids.length) {
     res.json([]);
+
+    return;
   }
 
   const body = JSON.stringify({ ids: ids.map(id => Number(id)) });

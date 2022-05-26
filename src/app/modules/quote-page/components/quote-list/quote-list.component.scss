@@ -28,8 +28,6 @@
   justify-content: center;
   text-align: center;
   background-color: var(--qq-color-bg-accent);
-  // -webkit-backdrop-filter: blur(10px);
-  // backdrop-filter: blur(10px);
   border-radius: var(--qq-border-radius);
   box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand);
   will-change: opacity, transform;
@@ -37,55 +35,46 @@
   max-height: 100%;
   max-width: rhythm(250);
   min-width: rhythm(100);
-  padding: rhythm(15);
+  padding: rhythm(12);
 
   @include mediaQuery(lg, xl) {
     max-width: rhythm(200);
-    padding: rhythm(12);
   }
 
   @include mediaQuery(md, lg) {
     max-width: rhythm(150);
-    padding: rhythm(8);
+    padding: rhythm(10) rhythm(8);
   }
 
   @include mediaQuery(xs, md) {
     max-width: 100%;
     min-width: unset;
-    padding: rhythm(5);
+    padding: rhythm(10) rhythm(5);
   }
 
   &__decoration {
     position: absolute;
     color: var(--qq-color-element-brand);
-    filter: drop-shadow(2px 4px 6px black);
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
+
+    svg-icon {
+      font-size: 40px !important;
+
+      @include mediaQuery(xs, md) {
+        font-size: 32px !important;
+      }
+    }
 
     &:first-child {
       top: 0;
       left: 0;
       transform: translate(-25%, -25%);
-
-      svg-icon {
-        font-size: 60px !important;
-
-        @include mediaQuery(xs, md) {
-          font-size: 32px !important;
-        }
-      }
     }
 
     &:last-child {
       bottom: 0;
       right: 0;
       transform: translate(25%, 25%) rotate(180deg);
-
-      svg-icon {
-        font-size: 40px !important;
-
-        @include mediaQuery(xs, md) {
-          font-size: 20px !important;
-        }
-      }
     }
   }
 
@@ -99,7 +88,7 @@
 
     @include mediaQuery(xs, lg) {
       @include qq-font-heading-5;
-      margin-bottom: rhythm(6);
+      margin-bottom: rhythm(2);
     }
   }
 
@@ -116,5 +105,12 @@
     @include mediaQuery(xs, lg) {
       @include qq-font-heading-6;
     }
+  }
+
+  &__bookmark {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: var(--qq-color-element-brand);
   }
 }

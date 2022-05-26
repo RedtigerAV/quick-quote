@@ -3,18 +3,33 @@
   <ng-container *ngFor="let quote of quotes; trackBy: 'id' | trackBy">
     <div *ngIf="quote.id === selectedQuote?.id" class="quotes__item">
       <div class="quote">
-        <span class="quote__decoration">
+        <!--TODO: think about decoration-->
+        <!-- <span class="quote__decoration">
           <svg-icon key="quote"></svg-icon>
-        </span>
+        </span> -->
         <h1 class="quote__content">
           {{ quote.quote }}
         </h1>
         <span class="quote__author" *ngIf="quote | cache: getAuthorInfo:this as authoInfo">
           {{ authoInfo }}
         </span>
-        <span class="quote__decoration">
+
+        <button
+          *ngIf="!isSelectedFavourite; else favouriteBtn"
+          class="qq-button qq-button__icon quote__bookmark"
+          (click)="likeQuote.emit(quote)"
+        >
+          <svg-icon key="bookmark"></svg-icon>
+        </button>
+        <ng-template #favouriteBtn>
+          <button class="qq-button qq-button__icon quote__bookmark" (click)="dislikeQuote.emit(quote.id)">
+            <svg-icon key="bookmark-filled"></svg-icon>
+          </button>
+        </ng-template>
+
+        <!-- <span class="quote__decoration">
           <svg-icon key="quote"></svg-icon>
-        </span>
+        </span> -->
       </div>
     </div>
   </ng-container>

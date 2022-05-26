@@ -1,0 +1,21 @@
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/mixins/rhythm.mixin';
+
+.qq-button {
+  height: rhythm(12);
+  cursor: pointer;
+
+  @include mediaQuery(xs, lg) {
+    height: rhythm(10);
+  }
+
+  &__icon {
+    svg-icon {
+      font-size: rhythm(12) !important;
+
+      @include mediaQuery(xs, lg) {
+        font-size: rhythm(10) !important;
+      }
+    }
+  }
+}
