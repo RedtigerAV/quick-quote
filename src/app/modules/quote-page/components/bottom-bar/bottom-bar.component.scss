@@ -15,6 +15,11 @@
   background-color: rgba(#{var(--qq-color-element-brand-darken-rgb)}, 0.6);
   box-shadow: var(--qq-box-shadow) rgba(0, 0, 0, 0.5);
   transition: height 0.1s ease-in-out;
+  padding: 0 rhythm(2);
+
+  @include mediaQuery(xs, sm) {
+    padding: 0 rhythm(1);
+  }
 
   &:hover,
   &--opened {

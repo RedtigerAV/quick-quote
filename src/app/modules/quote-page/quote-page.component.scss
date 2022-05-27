@@ -37,4 +37,15 @@
   svg-icon {
     font-size: 28px !important;
   }
+
+  &__list--additional {
+    button {
+      flex: 1.33;
+
+      &:first-child,
+      &:last-child {
+        flex: 1;
+      }
+    }
+  }
 }

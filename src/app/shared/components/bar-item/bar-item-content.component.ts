@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ChangeDetectionStrategy, Input, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Nullable } from '@core/types/nullable.type';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -38,7 +38,7 @@ export class BarItemContentComponent implements OnInit {
   private _disabled = false;
   private _isMouseOver = false;
 
-  constructor() {
+  constructor(private readonly cdr: ChangeDetectorRef) {
     this._animationState$ = new BehaviorSubject<Nullable<AnimationStateType>>(null);
     this.animationState$ = this._animationState$.asObservable();
   }
@@ -51,6 +51,7 @@ export class BarItemContentComponent implements OnInit {
 
     this._opened = value;
     this._animationState$.next(animationState);
+    this.cdr.detectChanges();
   }
 
   public get disabled(): boolean {
@@ -62,6 +63,7 @@ export class BarItemContentComponent implements OnInit {
     if (!value && this._isMouseOver) {
       this._animationState$.next(AnimationStateEnum.OPEN);
     }
+    this.cdr.detectChanges();
   }
 
   private get canChangeAnimationState(): boolean {

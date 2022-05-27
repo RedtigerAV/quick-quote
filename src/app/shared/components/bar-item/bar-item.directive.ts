@@ -10,6 +10,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Nullable } from '@core/types/nullable.type';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BarItemContentComponent } from './bar-item-content.component';
 
 @Directive({
@@ -65,6 +66,7 @@ export class BarItemDirective implements OnChanges, AfterContentInit {
   }
 }
 
+@UntilDestroy()
 @Directive({
   selector: 'app-bar-item-list, [app-bar-item-list], [appBarItemList]',
   exportAs: 'appBarItemList'
@@ -85,12 +87,18 @@ export class BarItemListDirective implements OnChanges, AfterContentInit {
 
   public ngAfterContentInit(): void {
     this.castOpenedState(this.opened as boolean);
+
+    this.barItems.changes.pipe(untilDestroyed(this)).subscribe(() => this.castOpenedState(this.opened as boolean));
   }
 
   private castOpenedState(opened: boolean): void {
     const barItems = this.barItems.toArray();
 
-    barItems.forEach(item => (item.opened = opened));
+    barItems.forEach(item => {
+      if (item.opened !== opened) {
+        item.opened = opened as boolean;
+      }
+    });
   }
 }
 

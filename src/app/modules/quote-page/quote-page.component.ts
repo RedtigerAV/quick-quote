@@ -30,6 +30,13 @@ import { FavouritesFacade } from '@core/redux/favourites/favourites.facade';
 
 const ANIMATION_DELAY = 1000;
 
+enum ActionsStateEnum {
+  MAIN = 'main',
+  ADDITIONAL = 'additional',
+  SOCIAL = 'social'
+}
+type ActionsStateType = ActionsStateEnum.MAIN | ActionsStateEnum.ADDITIONAL | ActionsStateEnum.SOCIAL;
+
 @UntilDestroy()
 @Component({
   templateUrl: './quote-page.component.html',
@@ -44,8 +51,9 @@ export class QuotePageComponent implements OnInit {
   public readonly isSelectedFavourite$: Observable<boolean>;
   public readonly isPreviousQuoteDisabled$: Observable<boolean>;
   public readonly skipHtmlToImageClass = globalConfig.skipHtmlToImageClass;
-  public readonly isActionsState$: Observable<boolean>;
-  private readonly _isActionsState$: BehaviorSubject<boolean>;
+  public readonly actionsStateEnum = ActionsStateEnum;
+  public readonly actionsState$: Observable<ActionsStateType>;
+  private readonly _actionsState$: BehaviorSubject<ActionsStateType>;
 
   constructor(
     public readonly platform: Platform,
@@ -69,8 +77,8 @@ export class QuotePageComponent implements OnInit {
     this.isSelectedFavourite$ = combineLatest([quotesFacade.selectedQuoteID$, favouritesFacade.favouritesIDs$]).pipe(
       map(([selectedQuoteID, favouritesIDs]) => (selectedQuoteID ? favouritesIDs.includes(selectedQuoteID) : false))
     );
-    this._isActionsState$ = new BehaviorSubject<boolean>(true);
-    this.isActionsState$ = this._isActionsState$.asObservable();
+    this._actionsState$ = new BehaviorSubject<ActionsStateType>(ActionsStateEnum.MAIN);
+    this.actionsState$ = this._actionsState$.asObservable();
   }
 
   public ngOnInit(): void {
@@ -124,16 +132,8 @@ export class QuotePageComponent implements OnInit {
       .subscribe();
   }
 
-  public switchBottomBarState(state: 'actions' | 'social'): void {
-    switch (state) {
-      case 'social':
-        this._isActionsState$.next(false);
-
-        return;
-      case 'actions':
-      default:
-        this._isActionsState$.next(true);
-    }
+  public switchBottomBarState(state: ActionsStateType): void {
+    this._actionsState$.next(state);
   }
 
   private listenQuoteChanges(): void {
