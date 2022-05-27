@@ -26,17 +26,26 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: fit-content;
-  min-width: rhythm(100);
+  width: rhythm(125);
 
   @include mediaQuery(xs, md) {
     left: 0;
     transform: unset;
     width: 100%;
-    min-width: unset;
   }
 
   svg-icon {
     font-size: 28px !important;
+  }
+
+  &__list--additional {
+    button {
+      flex: 1.33;
+
+      &:first-child,
+      &:last-child {
+        flex: 1;
+      }
+    }
   }
 }
