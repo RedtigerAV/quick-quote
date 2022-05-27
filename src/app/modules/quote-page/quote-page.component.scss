@@ -26,14 +26,12 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: fit-content;
-  min-width: rhythm(100);
+  width: rhythm(125);
 
   @include mediaQuery(xs, md) {
     left: 0;
     transform: unset;
     width: 100%;
-    min-width: unset;
   }
 
   svg-icon {

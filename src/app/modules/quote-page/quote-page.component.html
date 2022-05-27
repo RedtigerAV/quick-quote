@@ -11,8 +11,14 @@
 
   <ng-container *ngIf="{ opened: viewport.isMobileViewport$ | async } as data">
     <app-bottom-bar class="bottom-bar" [ngClass]="[skipHtmlToImageClass]" [opened]="data.opened">
-      <!--TODO: add tooltip for safari-->
       <app-bar-item-list *ngIf="isActionsState$ | async; else socialNetworksState" [opened]="data.opened">
+        <button appBarItem (click)="switchBottomBarState('social')">
+          <app-bar-item-content>
+            <svg-icon appBarItemIcon key="share"></svg-icon>
+            <span appBarItemText>Share</span>
+          </app-bar-item-content>
+        </button>
+        <!--TODO: add tooltip for safari-->
         <button
           appBarItem
           [disabled]="platform.SAFARI || (convertToImage | locked: this | async)"
@@ -20,7 +26,7 @@
         >
           <app-bar-item-content>
             <svg-icon appBarItemIcon key="camera"></svg-icon>
-            <span appBarItemText>To image</span>
+            <span appBarItemText>Capture</span>
           </app-bar-item-content>
         </button>
         <button appBarItem [disabled]="isPreviousQuoteDisabled$ | async" (click)="toPreviousQuote()">
@@ -31,8 +37,8 @@
         </button>
         <button appBarItem>
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
-            <span appBarItemText>Bookmarks</span>
+            <svg-icon appBarItemIcon key="play"></svg-icon>
+            <span appBarItemText>Play</span>
           </app-bar-item-content>
         </button>
         <button appBarItem [disabled]="toNextQuote | locked: this | async" (click)="toNextQuote()">
@@ -41,10 +47,16 @@
             <span appBarItemText>Next</span>
           </app-bar-item-content>
         </button>
-        <button appBarItem (click)="switchBottomBarState('social')">
+        <button appBarItem>
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="share"></svg-icon>
-            <span appBarItemText>Share</span>
+            <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
+            <span appBarItemText>Bookmarks</span>
+          </app-bar-item-content>
+        </button>
+        <button appBarItem>
+          <app-bar-item-content>
+            <svg-icon appBarItemIcon key="settings"></svg-icon>
+            <span appBarItemText>Settings</span>
           </app-bar-item-content>
         </button>
       </app-bar-item-list>
