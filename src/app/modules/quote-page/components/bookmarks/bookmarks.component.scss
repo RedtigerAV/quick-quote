@@ -12,12 +12,60 @@
 .bookmark {
   position: relative;
   display: flex;
-  flex-direction: column;
   flex-wrap: nowrap;
   width: 100%;
   margin-bottom: rhythm(8);
+
+  &__quote {
+    width: 100%;
+  }
+
+  &__remove {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+
+    svg-icon {
+      font-size: 32px !important;
+    }
+
+    &:hover {
+      color: var(--qq-color-element-danger);
+    }
+  }
+
+  &:hover {
+    .bookmark__quote {
+      width: calc(100% - rhythm(8));
+    }
+
+    .bookmark__remove {
+      transition-delay: 0.1s;
+      opacity: 1;
+    }
+  }
+
+  @include mediaQuery(xs, sm) {
+    .bookmark__quote {
+      width: calc(100% - rhythm(8));
+    }
+
+    .bookmark__remove {
+      opacity: 1;
+    }
+  }
+}
+
+.quote {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
   padding: rhythm(1) rhythm(1) rhythm(3) rhythm(1);
-  transition: border-color 0.2s ease-in;
+  transition: border-color 0.2s ease-in-out, width 0.2s ease-in-out;
   border: 1px solid var(--qq-color-bg-additional);
   border-bottom-color: var(--qq-color-element-brand);
   border-radius: rhythm(2);
@@ -31,7 +79,7 @@
     margin-bottom: 0;
   }
 
-  &__quote {
+  &__content {
     font-style: italic;
     @include textCrop(2, 48px);
     @include qq-font-text-l;

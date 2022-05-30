@@ -8,10 +8,16 @@
   <app-sidebar-content-body>
     <!--TODO: make fade before and after quotes-->
     <div class="bookmarks">
-      <ng-container *ngFor="let favourite of favourites$ | async">
-        <div class="bookmark" (click)="selectQuote(favourite)">
-          <span class="bookmark__quote">{{ favourite.quote }}</span>
-          <span class="bookmark__author">{{ favourite | cache: getAuthorInfo }}</span>
+      <ng-container *ngFor="let favourite of favourites$ | async; trackBy: 'id' | trackBy">
+        <div class="bookmark" [@fadeOut]>
+          <div class="quote bookmark__quote" (click)="selectQuote(favourite)">
+            <span class="quote__content">{{ favourite.quote }}</span>
+            <span class="quote__author">{{ favourite | cache: getAuthorInfo }}</span>
+          </div>
+
+          <button class="qq-button qq-button__icon bookmark__remove" (click)="remove(favourite.id)">
+            <svg-icon key="bookmark-remove"></svg-icon>
+          </button>
         </div>
       </ng-container>
     </div>
