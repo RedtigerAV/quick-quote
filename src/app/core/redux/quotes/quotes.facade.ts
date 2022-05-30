@@ -1,7 +1,7 @@
 import { Actions, ofType } from '@ngrx/effects';
 import { getObservableSnapshot } from '@core/rxjs-operators/helpers/get-observable-snapshot.helper';
 import { Nullable } from '@core/types/nullable.type';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Store, select, Action } from '@ngrx/store';
 import { IState } from '../index.state';
@@ -20,7 +20,8 @@ export class QuotesFacade {
   public readonly quotesIDs$: Observable<Array<string>>;
   public readonly nextQuote$: Observable<Nullable<IQuote>>;
   public readonly prevQuote$: Observable<Nullable<IQuote>>;
-  public readonly currentQuotePosition$: Observable<Nullable<number>>;
+  public readonly currentPosition$: Observable<number>;
+  public readonly quotesTotal$: Observable<number>;
 
   public readonly loadQuoteSuccessAction$: Observable<{ quote: IQuote }>;
   public readonly loadQuoteFailureAction$: Observable<Action>;
@@ -32,7 +33,8 @@ export class QuotesFacade {
     this.quotesIDs$ = store.pipe(select(quotesSelectors.selectQuotesIDs));
     this.nextQuote$ = store.pipe(select(quotesSelectors.selectNextQuote));
     this.prevQuote$ = store.pipe(select(quotesSelectors.selectPrevQuote));
-    this.currentQuotePosition$ = store.pipe(select(quotesSelectors.selectCurrentQuotePosition));
+    this.currentPosition$ = store.pipe(select(quotesSelectors.selectCurrentPosition));
+    this.quotesTotal$ = this.quotes$.pipe(map(quotes => quotes.length));
 
     this.loadQuoteSuccessAction$ = actions$.pipe(ofType(quotesActions.loadQuoteSuccess));
     this.loadQuoteFailureAction$ = actions$.pipe(ofType(quotesActions.loadQuoteFailure));
@@ -62,6 +64,14 @@ export class QuotesFacade {
     return getObservableSnapshot(this.prevQuote$);
   }
 
+  public get currentPosition(): number {
+    return getObservableSnapshot(this.currentPosition$);
+  }
+
+  public get quotesTotal(): number {
+    return this.quotes.length;
+  }
+
   public loadQuote(id?: string): void {
     if (!!id) {
       this.store.dispatch(quotesActions.loadQuoteByID({ id }));
@@ -72,11 +82,11 @@ export class QuotesFacade {
     this.store.dispatch(quotesActions.loadRandomQuote());
   }
 
-  public selectQuote(id: string): void {
-    if (!this.quotesIDs.includes(id)) {
-      throw new Error(`Uknown quote id: ${id}`);
-    }
+  public selectQuote(position: number): void {
+    this.store.dispatch(quotesActions.selectQuote({ position }));
+  }
 
-    this.store.dispatch(quotesActions.selectQuote({ id }));
+  public addQuote(quote: IQuote, position: number): void {
+    this.store.dispatch(quotesActions.addQuote({ quote, position }));
   }
 }

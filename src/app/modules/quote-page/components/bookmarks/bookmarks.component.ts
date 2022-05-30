@@ -24,4 +24,8 @@ export class BookmarksComponent implements OnInit {
   public getAuthorInfo(quote: IQuote): string {
     return QuoteHelper.getAuthoInfo(quote);
   }
+
+  public selectQuote(favourite: IQuote): void {
+    this.sidebarRef.close(favourite);
+  }
 }

@@ -7,11 +7,11 @@ export class PreviousQuoteService {
   constructor(private readonly quotesFacade: QuotesFacade, private readonly mediaFacade: MediaFacade) {}
 
   public goToPreviousQuote(): void {
-    const prevQuote = this.quotesFacade.prevQuote;
+    const quotePosition = this.quotesFacade.currentPosition;
     const prevImage = this.mediaFacade.prevImage;
 
-    if (!!prevQuote) {
-      this.quotesFacade.selectQuote(prevQuote.id);
+    if (!!quotePosition) {
+      this.quotesFacade.selectQuote(quotePosition - 1);
     }
 
     if (!!prevImage) {

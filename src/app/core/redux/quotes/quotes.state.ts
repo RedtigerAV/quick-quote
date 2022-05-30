@@ -1,7 +1,7 @@
 import { IQuote } from '@core/models/quote.model';
-import { Nullable } from '@core/types/nullable.type';
 
 export interface IQuotesState {
+  // Quotes in this array may be repeated to hold history, therefore use currentPosition
   quotes: Array<IQuote>;
-  selectedQuoteID: Nullable<string>;
+  currentPosition: number;
 }

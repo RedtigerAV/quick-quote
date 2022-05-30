@@ -9,10 +9,10 @@ export class QuotesLoaderService {
   constructor(private readonly quotesFacade: QuotesFacade) {}
 
   public init(): void {
-    this.quotesFacade.nextQuote$
+    this.quotesFacade.currentPosition$
       .pipe(
         filter(() => !!this.quotesFacade.selectedQuoteID),
-        filter(nextQuote => !nextQuote),
+        filter(position => position === this.quotesFacade.quotesTotal - 1),
         tap(() => this.quotesFacade.loadQuote()),
         untilDestroyed(this)
       )

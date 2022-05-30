@@ -72,7 +72,7 @@ export class QuotePageComponent implements OnInit {
   ) {
     this.quotes$ = quotesFacade.quotes$;
     this.selectedQuote$ = quotesFacade.selectedQuote$;
-    this.currentPosition$ = quotesFacade.currentQuotePosition$.pipe(filter(p => p !== null)) as Observable<number>;
+    this.currentPosition$ = quotesFacade.currentPosition$.pipe(filter(p => p !== null)) as Observable<number>;
     this.isFirstQuote$ = this.currentPosition$.pipe(map(position => !position));
     this.isPreviousQuoteDisabled$ = combineLatest([this.isFirstQuote$, isLocked$(this, this.toPreviousQuote)]).pipe(
       map(([isFirst, isLocked]) => isFirst || isLocked)
@@ -137,15 +137,21 @@ export class QuotePageComponent implements OnInit {
 
   public openBookmarks(): void {
     this.sidebarService
-      .open({
-        content: BookmarksComponent,
-        data: {
-          test: 'test data'
-        }
-      })
+      .open({ content: BookmarksComponent })
       .afterClosed()
-      .pipe(take(1), untilDestroyed(this))
-      .subscribe(result => console.log(result));
+      .pipe(take(1), filter(Boolean), untilDestroyed(this))
+      .subscribe(result => {
+        const isEqual = result.id === this.quotesFacade.selectedQuoteID;
+        const isNextEqual = result.id === this.quotesFacade.nextQuote?.id;
+
+        if (isNextEqual) {
+          this.nextQuoteService.goToNextQuote();
+        } else if (!isEqual) {
+          this.quotesFacade.addQuote(result, this.quotesFacade.currentPosition + 1);
+
+          setTimeout(() => this.nextQuoteService.goToNextQuote(), 0);
+        }
+      });
   }
 
   public switchBottomBarState(state: ActionsStateType): void {

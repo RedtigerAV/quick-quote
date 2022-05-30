@@ -6,9 +6,10 @@
   </button>
 
   <app-sidebar-content-body>
+    <!--TODO: make fade before and after quotes-->
     <div class="bookmarks">
       <ng-container *ngFor="let favourite of favourites$ | async">
-        <div class="bookmark">
+        <div class="bookmark" (click)="selectQuote(favourite)">
           <span class="bookmark__quote">{{ favourite.quote }}</span>
           <span class="bookmark__author">{{ favourite | cache: getAuthorInfo }}</span>
         </div>
