@@ -15,10 +15,10 @@ import { SidebarPositionEnum } from '@shared/services/sidebar/sidebar.interface'
     TrackByPipeModule,
     SidebarModule.forRoot({
       position: SidebarPositionEnum.RIGHT,
-      width: 300,
       closeOnBackdropClick: true,
       hasBackdrop: true,
-      closeOnNavigation: true
+      closeOnNavigation: true,
+      panelClass: 'sidebar-panel'
     })
   ],
   exports: [UserLayoutComponent],

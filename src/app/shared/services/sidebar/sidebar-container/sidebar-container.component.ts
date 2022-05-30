@@ -13,10 +13,10 @@ import { Observable, Subject } from 'rxjs';
 import { SidebarPositionEnum } from '../sidebar.interface';
 import { SidebarRef } from '../sidebar.reference';
 import { AnimationStateEnum, backdropFade, panelFade } from './sidebar-container.animation';
+import { SidebarContainerRef } from './sidebar-container.reference';
 
 export interface ISidebarContainer {
   backdropClick$: Observable<MouseEvent>;
-  leaveAnimationDone$: Observable<void>;
   startLeaveAnimation(): void;
 }
 
@@ -37,8 +37,6 @@ type ContentType = ContentTypeEnum.COMPONENT | ContentTypeEnum.TEMPLATE;
 export class SidebarContainerComponent implements ISidebarContainer, AfterViewInit {
   public readonly sidebarPositionEnum = SidebarPositionEnum;
   public readonly contentTypeEnum = ContentTypeEnum;
-  public readonly leaveAnimationDone$: Observable<void>;
-  public readonly _leaveAnimationDone$: Subject<void>;
   public readonly backdropClick$: Observable<MouseEvent>;
   public animationState = AnimationStateEnum.LEAVE;
   private readonly _backdropClick$: Subject<MouseEvent>;
@@ -46,13 +44,11 @@ export class SidebarContainerComponent implements ISidebarContainer, AfterViewIn
   constructor(
     public readonly injector: Injector,
     public readonly sidebarRef: SidebarRef,
+    private readonly sidebarContainerRef: SidebarContainerRef,
     private readonly cdr: ChangeDetectorRef
   ) {
     this._backdropClick$ = new Subject<MouseEvent>();
     this.backdropClick$ = this._backdropClick$.asObservable();
-
-    this._leaveAnimationDone$ = new Subject<void>();
-    this.leaveAnimationDone$ = this._leaveAnimationDone$.asObservable();
   }
 
   public get panelWidth(): string | undefined {
@@ -103,7 +99,7 @@ export class SidebarContainerComponent implements ISidebarContainer, AfterViewIn
 
   public leaveAnimationDone(event: AnimationEvent): void {
     if (event.fromState === AnimationStateEnum.ENTER && event.toState === AnimationStateEnum.LEAVE) {
-      this._leaveAnimationDone$.next();
+      this.sidebarContainerRef.finishClosing();
     }
   }
 

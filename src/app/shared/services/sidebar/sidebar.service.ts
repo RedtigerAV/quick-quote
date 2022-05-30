@@ -1,10 +1,10 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ComponentRef, Inject, Injectable, Injector } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { Nullable } from '@core/types/nullable.type';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Subject, take, takeUntil } from 'rxjs';
+import { filter, Subject, take, takeUntil } from 'rxjs';
 import { SidebarContainerComponent } from './sidebar-container/sidebar-container.component';
 import { SidebarContainerRef } from './sidebar-container/sidebar-container.reference';
 import { ISidebarConfig } from './sidebar.interface';
@@ -45,7 +45,7 @@ export class SidebarService {
   private attach(sidebarRef: SidebarRef): void {
     const scrollStrategy = this.overlay.scrollStrategies.block();
 
-    this.overlayRef = this.overlay.create({ scrollStrategy, disposeOnNavigation: !!sidebarRef.closeOnNavigation });
+    this.overlayRef = this.overlay.create({ scrollStrategy });
     this.containerRef = this.overlayRef.attach(
       new ComponentPortal(SidebarContainerComponent, undefined, this.createInjector(sidebarRef, sidebarRef.data))
     );
@@ -53,14 +53,11 @@ export class SidebarService {
     this.initSidebarListeners(sidebarRef);
 
     this.sidebarContainerRef?.onStartClosing(() => this.close());
+    this.sidebarContainerRef?.onFinishClosing(() => this.destroySidebar());
   }
 
   private close(): void {
     if (this.containerRef?.instance) {
-      this.containerRef.instance.leaveAnimationDone$.pipe(take(1), untilDestroyed(this)).subscribe(() => {
-        this.destroySidebar();
-      });
-
       this.containerRef.instance.startLeaveAnimation();
     }
   }
@@ -68,7 +65,6 @@ export class SidebarService {
   private destroySidebar(): void {
     this.detach();
 
-    this.sidebarContainerRef?.finishClosing();
     this.sidebarContainerRef?.destroy();
     this.sidebarDestroy$.next();
     this.sidebarContainerRef = null;
@@ -97,18 +93,18 @@ export class SidebarService {
       }
     }
 
-    // if (sidebarRef.closeOnNavigation) {
-    //   this.router.events
-    //     .pipe(
-    //       filter(e => e instanceof NavigationStart),
-    //       take(1),
-    //       takeUntil(this.sidenavDestroy$),
-    //       untilDestroyed(this)
-    //     )
-    //     .subscribe(() => {
-    //       this.sidenavContainerRef?.close();
-    //     });
-    // }
+    if (sidebarRef.closeOnNavigation) {
+      this.router.events
+        .pipe(
+          filter(e => e instanceof NavigationStart),
+          take(1),
+          takeUntil(this.sidebarDestroy$),
+          untilDestroyed(this)
+        )
+        .subscribe(() => {
+          this.sidebarContainerRef?.close();
+        });
+    }
   }
 
   private createInjector(sidebarRef: SidebarRef, data: any): Injector {
@@ -117,6 +113,10 @@ export class SidebarService {
         {
           provide: SidebarRef,
           useValue: sidebarRef
+        },
+        {
+          provide: SidebarContainerRef,
+          useValue: this.sidebarContainerRef
         },
         {
           provide: SIDEBAR_DATA,
