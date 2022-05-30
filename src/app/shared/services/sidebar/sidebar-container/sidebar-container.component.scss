@@ -1,0 +1,41 @@
+:host {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebar-container {
+  position: fixed;
+  width: 100%;
+  pointer-events: none;
+
+  &__panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+    overflow-y: scroll;
+    // FIXME
+    background-color: transparent;
+    pointer-events: auto;
+
+    &--right {
+      right: 0;
+      left: unset;
+    }
+  }
+
+  &__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 900;
+    width: 100%;
+    height: 100%;
+    // FIXME
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+  }
+}

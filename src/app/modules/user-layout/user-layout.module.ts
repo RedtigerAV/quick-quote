@@ -5,9 +5,22 @@ import { TrackByPipeModule } from '@shared/pipes/track-by/track-by-pipe.module';
 import { UserLayoutComponent } from './user-layout.component';
 import { SetupImagesService } from './services/setup-images.service';
 import { MediaLoaderService } from './services/media-loader.service';
+import { SidebarModule } from '@shared/services/sidebar/sidebar.module';
+import { SidebarPositionEnum } from '@shared/services/sidebar/sidebar.interface';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, TrackByPipeModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    TrackByPipeModule,
+    SidebarModule.forRoot({
+      position: SidebarPositionEnum.RIGHT,
+      width: 300,
+      closeOnBackdropClick: true,
+      hasBackdrop: true,
+      closeOnNavigation: true
+    })
+  ],
   exports: [UserLayoutComponent],
   declarations: [UserLayoutComponent],
   providers: [SetupImagesService, MediaLoaderService]

@@ -27,6 +27,8 @@ import { globalConfig } from '@core/global/global.config';
 import * as FileSaver from 'file-saver';
 import { Platform } from '@angular/cdk/platform';
 import { FavouritesFacade } from '@core/redux/favourites/favourites.facade';
+import { SidebarService } from '@shared/services/sidebar/sidebar.service';
+import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 
 const ANIMATION_DELAY = 1000;
 
@@ -65,7 +67,8 @@ export class QuotePageComponent implements OnInit {
     private readonly nextQuoteService: NextQuoteService,
     private readonly previousQuoteService: PreviousQuoteService,
     private readonly quotesLoaderService: QuotesLoaderService,
-    private readonly htmlToImage: HtmlToImageService
+    private readonly htmlToImage: HtmlToImageService,
+    private readonly sidebarService: SidebarService
   ) {
     this.quotes$ = quotesFacade.quotes$;
     this.selectedQuote$ = quotesFacade.selectedQuote$;
@@ -130,6 +133,19 @@ export class QuotePageComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe();
+  }
+
+  public openBookmarks(): void {
+    this.sidebarService
+      .open({
+        content: BookmarksComponent,
+        data: {
+          test: 'test data'
+        }
+      })
+      .afterClosed()
+      .pipe(take(1), untilDestroyed(this))
+      .subscribe(result => console.log(result));
   }
 
   public switchBottomBarState(state: ActionsStateType): void {

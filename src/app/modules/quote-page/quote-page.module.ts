@@ -13,6 +13,7 @@ import { LockedPipeModule } from '@shared/pipes/locked/locked-pipe.module';
 import { HtmlToImageService } from '@shared/services/html-to-image.service';
 import { SocialNetworksModule } from './components/social-networks/social-networks.module';
 import { BarItemModule } from '@shared/components/bar-item/bar-item.module';
+import { BookmarksModule } from './components/bookmarks/bookmarks.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { BarItemModule } from '@shared/components/bar-item/bar-item.module';
     SvgIconsModule,
     LockedPipeModule,
     SocialNetworksModule,
-    BarItemModule
+    BarItemModule,
+    BookmarksModule
   ],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
