@@ -1,5 +1,18 @@
-<p>bookmarks works!</p>
+<app-sidebar-content>
+  <app-sidebar-content-title> Bookmarks </app-sidebar-content-title>
 
-<p>{{ data | json }}</p>
+  <button class="qq-button qq-button__icon" appSidebarContentClose (click)="sidebarRef.close()">
+    <svg-icon key="cancel"></svg-icon>
+  </button>
 
-<button (click)="sidebarRef.close('result')">Close</button>
+  <app-sidebar-content-body>
+    <div class="bookmarks">
+      <ng-container *ngFor="let favourite of favourites$ | async">
+        <div class="bookmark">
+          <span class="bookmark__quote">{{ favourite.quote }}</span>
+          <span class="bookmark__author">{{ favourite | cache: getAuthorInfo }}</span>
+        </div>
+      </ng-container>
+    </div>
+  </app-sidebar-content-body>
+</app-sidebar-content>

@@ -2,16 +2,23 @@
 @import 'styles/mixins/rhythm.mixin';
 
 .qq-button {
-  height: rhythm(12);
+  height: rhythm(8);
+  color: var(--qq-color-text-main);
+  transition: color 0.2s ease-in, transform 0.2s ease-in;
   cursor: pointer;
 
   @include mediaQuery(xs, lg) {
     height: rhythm(10);
   }
 
+  &:hover {
+    color: var(--qq-color-text-secondary);
+    transform: scale(1.1);
+  }
+
   &__icon {
     svg-icon {
-      font-size: rhythm(12) !important;
+      font-size: rhythm(8) !important;
 
       @include mediaQuery(xs, lg) {
         font-size: rhythm(10) !important;

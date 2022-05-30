@@ -11,6 +11,9 @@
 @import 'styles/components/sidebar-panel.scss';
 @import 'app/shared/components/bar-item/bar-item.directive.scss';
 
+// HELPERS
+@import 'styles/helpers/empty-scrollbar.scss';
+
 html,
 body {
   background-color: var(--qq-color-bg-main);

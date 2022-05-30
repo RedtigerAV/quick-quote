@@ -24,7 +24,7 @@
 }
 
 @mixin qq-font-heading-6 {
-  font-size: 20px;
+  font-size: 21px;
   line-height: 24px;
 }
 
@@ -46,9 +46,4 @@
 @mixin qq-font-text-s {
   font-size: 13px;
   line-height: 20px;
-}
-
-@mixin qq-font-text-ss {
-  font-size: 11px;
-  line-height: 16px;
 }
