@@ -33,7 +33,8 @@
 
 .header {
   &__title {
-    font-family: 'Special Elite', 'Trebuchet MS', Helvetica, sans-serif;
+    @include qq-font-family-heading(medium);
+
     color: var(--qq-color-text-main);
 
     @include qq-font-heading-3;
