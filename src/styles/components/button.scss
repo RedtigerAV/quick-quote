@@ -1,22 +1,44 @@
 @import 'styles/mixins/media-query.mixin';
 @import 'styles/mixins/rhythm.mixin';
+@import 'styles/core/typography';
 
 .qq-button {
   height: rhythm(8);
   color: var(--qq-color-text-main);
-  transition: color 0.2s ease-in, transform 0.2s ease-in;
+  transition: color 0.2s ease-in, transform 0.2s ease-in, background-color 0.2s ease-in;
   cursor: pointer;
+  border-radius: rhythm(3);
 
   @include mediaQuery(xs, lg) {
     height: rhythm(10);
   }
 
-  &:hover {
-    color: var(--qq-color-text-secondary);
-    transform: scale(1.1);
+  &__view {
+    &-1 {
+      height: rhythm(10);
+      width: fit-content;
+      min-width: rhythm(30);
+      background-color: var(--qq-color-element-brand-secondary);
+      @include qq-font-text-m;
+
+      &:hover {
+        background-color: var(--qq-color-element-brand-secondary-light);
+      }
+
+      &:active {
+        background-color: var(--qq-color-element-brand-secondary-darken);
+      }
+    }
   }
 
   &__icon {
+    border-radius: 50%;
+
+    &:hover {
+      color: var(--qq-color-text-secondary);
+      transform: scale(1.1);
+    }
+
     svg-icon {
       font-size: rhythm(8) !important;
 
