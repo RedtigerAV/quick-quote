@@ -12,10 +12,11 @@ export class NextQuoteService {
    * @returns result of operation
    */
   public goToNextQuote(): Observable<boolean> {
-    if (!!this.quotesFacade.nextQuote) {
-      const { id } = this.quotesFacade.nextQuote;
+    const currentPosition = this.quotesFacade.currentPosition;
+    const total = this.quotesFacade.quotesTotal;
 
-      this.quotesFacade.selectQuote(id);
+    if (currentPosition < total - 1) {
+      this.quotesFacade.selectQuote(currentPosition + 1);
       this.checkAndHandleImageSelection();
 
       return of(true);
@@ -25,7 +26,7 @@ export class NextQuoteService {
 
     return merge(
       this.quotesFacade.loadQuoteSuccessAction$.pipe(
-        tap(({ quote: { id } }) => this.quotesFacade.selectQuote(id)),
+        tap(() => this.quotesFacade.selectQuote(currentPosition + 1)),
         tap(() => this.checkAndHandleImageSelection()),
         map(() => true)
       ),

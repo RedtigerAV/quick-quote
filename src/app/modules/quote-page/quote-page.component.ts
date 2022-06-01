@@ -27,6 +27,8 @@ import { globalConfig } from '@core/global/global.config';
 import * as FileSaver from 'file-saver';
 import { Platform } from '@angular/cdk/platform';
 import { FavouritesFacade } from '@core/redux/favourites/favourites.facade';
+import { SidebarService } from '@shared/services/sidebar/sidebar.service';
+import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 
 const ANIMATION_DELAY = 1000;
 
@@ -65,11 +67,12 @@ export class QuotePageComponent implements OnInit {
     private readonly nextQuoteService: NextQuoteService,
     private readonly previousQuoteService: PreviousQuoteService,
     private readonly quotesLoaderService: QuotesLoaderService,
-    private readonly htmlToImage: HtmlToImageService
+    private readonly htmlToImage: HtmlToImageService,
+    private readonly sidebarService: SidebarService
   ) {
     this.quotes$ = quotesFacade.quotes$;
     this.selectedQuote$ = quotesFacade.selectedQuote$;
-    this.currentPosition$ = quotesFacade.currentQuotePosition$.pipe(filter(p => p !== null)) as Observable<number>;
+    this.currentPosition$ = quotesFacade.currentPosition$.pipe(filter(p => p !== null)) as Observable<number>;
     this.isFirstQuote$ = this.currentPosition$.pipe(map(position => !position));
     this.isPreviousQuoteDisabled$ = combineLatest([this.isFirstQuote$, isLocked$(this, this.toPreviousQuote)]).pipe(
       map(([isFirst, isLocked]) => isFirst || isLocked)
@@ -130,6 +133,25 @@ export class QuotePageComponent implements OnInit {
         untilDestroyed(this)
       )
       .subscribe();
+  }
+
+  public openBookmarks(): void {
+    this.sidebarService
+      .open({ content: BookmarksComponent })
+      .afterClosed()
+      .pipe(take(1), filter(Boolean), untilDestroyed(this))
+      .subscribe(result => {
+        const isEqual = result.id === this.quotesFacade.selectedQuoteID;
+        const isNextEqual = result.id === this.quotesFacade.nextQuote?.id;
+
+        if (isNextEqual) {
+          this.nextQuoteService.goToNextQuote();
+        } else if (!isEqual) {
+          this.quotesFacade.addQuote(result, this.quotesFacade.currentPosition + 1);
+
+          setTimeout(() => this.nextQuoteService.goToNextQuote(), 0);
+        }
+      });
   }
 
   public switchBottomBarState(state: ActionsStateType): void {

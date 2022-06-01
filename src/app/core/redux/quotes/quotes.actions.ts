@@ -5,4 +5,5 @@ export const loadRandomQuote = createAction('[quotes] [Command] Load random quot
 export const loadQuoteByID = createAction('[quotes] [Command] Load quote by ID', props<{ id: string }>());
 export const loadQuoteSuccess = createAction('[quotes] [Query] Load quote -> Success', props<{ quote: IQuote }>());
 export const loadQuoteFailure = createAction('[quotes] [Query] Load quote -> Failure');
-export const selectQuote = createAction('[quotes] [Command] Select quote', props<{ id: string }>());
+export const selectQuote = createAction('[quotes] [Command] Select quote', props<{ position: number }>());
+export const addQuote = createAction('[quotes] [Command] Add quote', props<{ quote: IQuote; position: number }>());

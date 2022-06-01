@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { qqBookmarkIcon } from './icons/bookmark';
 import { qqBookmarkFilledIcon } from './icons/bookmark-filled';
+import { qqBookmarkRemoveIcon } from './icons/bookmark-remove';
 import { qqBookmarksCollectionIcon } from './icons/bookmarks-collection';
 import { qqCameraIcon } from './icons/camera';
 import { qqCancelIcon } from './icons/cancel';
@@ -30,6 +31,7 @@ import { qqWhatsappIcon } from './icons/whatsapp';
         qqBookmarkIcon,
         qqBookmarkFilledIcon,
         qqBookmarksCollectionIcon,
+        qqBookmarkRemoveIcon,
         qqFacebookIcon,
         qqTelegramIcon,
         qqWhatsappIcon,

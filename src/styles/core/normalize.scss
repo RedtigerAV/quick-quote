@@ -10,3 +10,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+
+a {
+  color: var(--qq-color-text-secondary);
+  text-decoration-line: underline;
+
+  &:visited {
+    color: var(--qq-color-element-brand);
+  }
+}

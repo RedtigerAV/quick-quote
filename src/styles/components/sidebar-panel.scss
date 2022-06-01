@@ -1,0 +1,17 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+
+.sidebar-panel {
+  position: absolute;
+  width: rhythm(85) !important;
+  top: rhythm(2) !important;
+  right: rhythm(2) !important;
+  height: calc(100% - rhythm(4)) !important;
+  background-color: var(--qq-color-bg-additional) !important;
+  border-radius: var(--qq-border-radius);
+  box-shadow: var(--qq-box-shadow) rgba(0, 0, 0, 0.5);
+
+  @include mediaQuery(xs, sm) {
+    width: calc(100% - rhythm(4)) !important;
+  }
+}

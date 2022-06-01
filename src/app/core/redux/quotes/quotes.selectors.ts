@@ -5,16 +5,24 @@ const selectQuotesState = createFeatureSelector<IQuotesState>('quotes');
 
 export const selectQuotes = createSelector(selectQuotesState, ({ quotes }) => quotes);
 export const selectQuotesIDs = createSelector(selectQuotesState, ({ quotes }) => quotes.map(({ id }) => id));
-export const selectCurrentQuoteID = createSelector(selectQuotesState, ({ selectedQuoteID }) => selectedQuoteID);
-export const selectCurrentQuote = createSelector(selectQuotes, selectCurrentQuoteID, (quotes, quoteID) =>
-  !!quoteID ? quotes.find(({ id }) => id === quoteID) || null : null
+export const selectCurrentPosition = createSelector(selectQuotesState, ({ currentPosition }) => currentPosition);
+export const selectCurrentQuoteID = createSelector(
+  selectQuotesIDs,
+  selectCurrentPosition,
+  (ids, position) => ids[position] || null
 );
-export const selectCurrentQuotePosition = createSelector(selectQuotes, selectCurrentQuoteID, (quotes, quoteID) =>
-  !!quoteID ? quotes.findIndex(({ id }) => id === quoteID) : null
+export const selectCurrentQuote = createSelector(
+  selectQuotes,
+  selectCurrentPosition,
+  (quotes, position) => quotes[position] || null
 );
-export const selectNextQuote = createSelector(selectQuotes, selectCurrentQuotePosition, (quotes, position) =>
-  position !== null ? quotes[position + 1] || null : null
+export const selectNextQuote = createSelector(
+  selectQuotes,
+  selectCurrentPosition,
+  (quotes, position) => quotes[position + 1] || null
 );
-export const selectPrevQuote = createSelector(selectQuotes, selectCurrentQuotePosition, (quotes, position) =>
-  position !== null ? quotes[position - 1] || null : null
+export const selectPrevQuote = createSelector(
+  selectQuotes,
+  selectCurrentPosition,
+  (quotes, position) => quotes[position - 1] || null
 );

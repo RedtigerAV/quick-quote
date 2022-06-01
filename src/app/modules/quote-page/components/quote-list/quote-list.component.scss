@@ -112,5 +112,18 @@
     right: 0;
     top: 0;
     color: var(--qq-color-element-brand);
+    height: rhythm(12);
+
+    svg-icon {
+      font-size: rhythm(12) !important;
+    }
+
+    @include mediaQuery(xs, lg) {
+      height: rhythm(10);
+
+      svg-icon {
+        font-size: rhythm(10) !important;
+      }
+    }
   }
 }

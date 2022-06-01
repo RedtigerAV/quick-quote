@@ -77,7 +77,11 @@
         </button>
 
         <!--Bookmarks-->
-        <button *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL" appBarItem>
+        <button
+          *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
+          appBarItem
+          (click)="openBookmarks()"
+        >
           <app-bar-item-content>
             <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
             <span appBarItemText>Bookmarks</span>
