@@ -1,4 +1,8 @@
 <div class="layout">
+  <div class="header">
+    <app-logo class="header__logo"></app-logo>
+  </div>
+
   <ng-container
     *ngIf="{ selectedImage: selectedImage$ | async, currentImagePosition: currentImagePosition$ | async } as data"
   >

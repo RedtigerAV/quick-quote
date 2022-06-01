@@ -8,6 +8,28 @@
   height: 100%;
 }
 
+.header {
+  position: absolute;
+  width: 100%;
+  height: rhythm(15);
+  z-index: 1;
+  background-color: red;
+
+  &__logo {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    padding: 0 rhythm(2);
+    box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand-darken);
+    background-color: rgba(var(--qq-color-element-brand-rgb), 0.8);
+    border-radius: var(--qq-border-radius);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+  }
+}
+
 .layout {
   position: relative;
   display: block;

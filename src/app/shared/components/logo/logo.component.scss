@@ -1,0 +1,19 @@
+@import 'styles/core/typography';
+@import 'styles/mixins/rhythm.mixin';
+
+:host {
+  display: block;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  height: rhythm(20);
+  color: var(--qq-color-element-brand-darken);
+
+  &::ng-deep {
+    path:first-child {
+      color: var(--qq-color-bg-secondary);
+    }
+  }
+}

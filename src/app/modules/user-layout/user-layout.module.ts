@@ -7,12 +7,14 @@ import { SetupImagesService } from './services/setup-images.service';
 import { MediaLoaderService } from './services/media-loader.service';
 import { SidebarModule } from '@shared/services/sidebar/sidebar.module';
 import { SidebarPositionEnum } from '@shared/services/sidebar/sidebar.interface';
+import { LogoModule } from '@shared/components/logo/logo.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     TrackByPipeModule,
+    LogoModule,
     SidebarModule.forRoot({
       position: SidebarPositionEnum.RIGHT,
       closeOnBackdropClick: true,

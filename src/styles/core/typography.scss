@@ -51,7 +51,7 @@
 }
 
 @mixin qq-font-family-heading($weight: false, $italic: false) {
-  font-family: 'Mali', 'Trebuchet MS', Helvetica, sans-serif;
+  font-family: 'Raleway', 'Trebuchet MS', Helvetica, sans-serif;
 
   @if $italic == true {
     font-style: italic;
