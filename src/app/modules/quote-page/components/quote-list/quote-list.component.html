@@ -1,5 +1,4 @@
 <div class="quotes" [@flyInOut]="currentPosition">
-  <!-- FIXME: Animation doesn't work properly using ng-container -->
   <ng-container *ngFor="let quote of quotes; let idx = index">
     <div *ngIf="idx === currentPosition" class="quotes__item">
       <div class="quote">
@@ -17,12 +16,17 @@
         <button
           *ngIf="!isSelectedFavourite; else favouriteBtn"
           class="qq-button qq-button__icon quote__bookmark"
+          [ngClass]="[skipHtmlToImage]"
           (click)="likeQuote.emit(quote)"
         >
           <svg-icon key="bookmark"></svg-icon>
         </button>
         <ng-template #favouriteBtn>
-          <button class="qq-button qq-button__icon quote__bookmark" (click)="dislikeQuote.emit(quote.id)">
+          <button
+            class="qq-button qq-button__icon quote__bookmark"
+            [ngClass]="[skipHtmlToImage]"
+            (click)="dislikeQuote.emit(quote.id)"
+          >
             <svg-icon key="bookmark-filled"></svg-icon>
           </button>
         </ng-template>

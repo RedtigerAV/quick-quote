@@ -79,7 +79,8 @@
   }
 
   &__content {
-    font-family: 'Special Elite', 'Trebuchet MS', Helvetica, sans-serif;
+    @include qq-font-family-heading(bold);
+
     @include qq-font-heading-3;
 
     @include mediaQuery(lg, xl) {

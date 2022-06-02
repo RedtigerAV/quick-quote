@@ -80,8 +80,8 @@
   }
 
   &__content {
-    font-style: italic;
     @include textCrop(2, 48px);
+    @include qq-font-family-heading(light, true);
     @include qq-font-text-l;
   }
 

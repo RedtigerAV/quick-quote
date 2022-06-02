@@ -1,11 +1,127 @@
 @import 'styles/mixins/rhythm.mixin';
 @import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
 
 :host {
   position: relative;
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.header {
+  position: absolute;
+  width: 100%;
+  height: rhythm(15);
+  z-index: 1;
+
+  @include mediaQuery(xs, md) {
+    height: rhythm(25);
+  }
+
+  &__logo {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    padding: 0 rhythm(2);
+    box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand-darken);
+    background-color: rgba(var(--qq-color-element-brand-rgb), 0.8);
+    border-radius: var(--qq-border-radius);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+  }
+
+  &__menu {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: rhythm(5);
+
+    @include mediaQuery(xs, md) {
+      padding: rhythm(2);
+    }
+  }
+}
+
+.menu {
+  &__author {
+    height: min-content;
+    max-width: calc(50% - #{rhythm(20)});
+    transition: color var(--qq-transition);
+    @include qq-font-text-l;
+
+    a {
+      color: inherit !important;
+    }
+
+    @include mediaQuery(xs, sm) {
+      @include qq-font-text-m;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    margin-left: auto;
+  }
+}
+
+.action__item {
+  display: flex;
+  flex-wrap: nowrap;
+  text-decoration: none;
+  align-items: center;
+  color: inherit !important;
+  @include qq-font-text-xl;
+  transition: color var(--qq-transition);
+  cursor: pointer;
+}
+
+.action__item + .action__item {
+  margin-left: rhythm(4);
+}
+
+.logo {
+  position: relative;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(0.5 * 100vw - #{rhythm(25)});
+    height: 2.5px;
+  }
+
+  &::before {
+    left: 0;
+    transform: translateX(calc(-1 * (100% + #{rhythm(5)})));
+    background: linear-gradient(
+      270deg,
+      var(--qq-color-bg-secondary) 0%,
+      var(--qq-color-element-brand-darken) 50%,
+      var(--qq-color-element-brand) 90%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  &::after {
+    right: 0;
+    transform: translateX(calc(100% + #{rhythm(5)}));
+    background: linear-gradient(
+      90deg,
+      var(--qq-color-bg-secondary) 0%,
+      var(--qq-color-element-brand-darken) 50%,
+      var(--qq-color-element-brand) 90%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
 }
 
 .layout {

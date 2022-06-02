@@ -19,6 +19,10 @@
 .quotes {
   width: 100%;
   height: calc(100% - rhythm(35));
+
+  @include mediaQuery(xs, md) {
+    height: calc(100% - rhythm(50));
+  }
 }
 
 .bottom-bar {

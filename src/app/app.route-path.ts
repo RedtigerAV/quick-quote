@@ -1,5 +1,5 @@
 export enum AppRoutePath {
   ABOUT = 'about',
-  CONTACT = 'contact',
+  CONTACT = 'contact-us',
   OOPS = 'oops'
 }

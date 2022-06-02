@@ -1,3 +1,5 @@
+@import './variables.scss';
+
 @mixin qq-font-heading-1 {
   font-size: 40px;
   line-height: 45px;
@@ -46,4 +48,32 @@
 @mixin qq-font-text-s {
   font-size: 13px;
   line-height: 20px;
+}
+
+@mixin qq-font-family-heading($weight: false, $italic: false) {
+  font-family: 'Raleway', 'Trebuchet MS', Helvetica, sans-serif;
+
+  @if $italic == true {
+    font-style: italic;
+  }
+
+  @if $weight {
+    font-weight: map-get($font-weight, $weight);
+  } @else {
+    font-weight: 400;
+  }
+}
+
+@mixin qq-font-family-text($weight: false, $italic: false) {
+  font-family: 'Dosis', sans-serif;
+
+  @if $italic == true {
+    font-style: italic;
+  }
+
+  @if $weight {
+    font-weight: map-get($font-weight, $weight);
+  } @else {
+    font-weight: 400;
+  }
 }

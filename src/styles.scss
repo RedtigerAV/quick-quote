@@ -18,7 +18,26 @@
 html,
 body {
   background-color: var(--qq-color-bg-main);
+  background: linear-gradient(150deg, var(--qq-color-bg-main), var(--qq-color-bg-secondary));
+  background-size: 400% 400%;
+  animation: backgroundAnimation 15s ease infinite;
   color: var(--qq-color-text-main);
   font-family: 'Dosis', sans-serif;
   font-weight: 400;
+}
+
+.without-animation {
+  animation: unset;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
