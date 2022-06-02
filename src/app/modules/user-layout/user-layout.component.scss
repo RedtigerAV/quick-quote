@@ -13,11 +13,9 @@
   position: absolute;
   width: 100%;
   height: rhythm(15);
-  padding: rhythm(5);
   z-index: 1;
 
   @include mediaQuery(xs, md) {
-    padding: rhythm(2);
     height: rhythm(25);
   }
 
@@ -42,6 +40,11 @@
     align-items: center;
     height: 100%;
     width: 100%;
+    padding: rhythm(5);
+
+    @include mediaQuery(xs, md) {
+      padding: rhythm(2);
+    }
   }
 }
 
