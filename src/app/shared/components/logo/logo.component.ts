@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 
 @Component({
   selector: 'app-logo',
@@ -7,6 +7,9 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoComponent implements OnInit {
+  @Input() fontSize = 120;
+  @Input() height = 80;
+
   constructor() {}
 
   ngOnInit(): void {}

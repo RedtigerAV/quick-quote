@@ -1,5 +1,6 @@
 @import 'styles/mixins/rhythm.mixin';
 @import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
 
 :host {
   position: relative;
@@ -12,8 +13,13 @@
   position: absolute;
   width: 100%;
   height: rhythm(15);
+  padding: rhythm(5);
   z-index: 1;
-  // background-color: red;
+
+  @include mediaQuery(xs, md) {
+    padding: rhythm(2);
+    height: rhythm(25);
+  }
 
   &__logo {
     position: absolute;
@@ -27,6 +33,30 @@
     -webkit-backdrop-filter: blur(5px);
     backdrop-filter: blur(5px);
     cursor: pointer;
+  }
+
+  &__menu {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.menu {
+  &__author {
+    max-width: calc(50% - #{rhythm(20)});
+    transition: color var(--qq-transition);
+    @include qq-font-text-l;
+
+    a {
+      color: inherit !important;
+    }
+
+    @include mediaQuery(xs, sm) {
+      @include qq-font-text-m;
+    }
   }
 }
 

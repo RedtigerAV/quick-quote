@@ -8,6 +8,7 @@ import { MediaLoaderService } from './services/media-loader.service';
 import { SidebarModule } from '@shared/services/sidebar/sidebar.module';
 import { SidebarPositionEnum } from '@shared/services/sidebar/sidebar.interface';
 import { LogoModule } from '@shared/components/logo/logo.module';
+import { CachePipeModule } from '@shared/pipes/cache/cache-pipe.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { LogoModule } from '@shared/components/logo/logo.module';
     RouterModule,
     TrackByPipeModule,
     LogoModule,
+    CachePipeModule,
     SidebarModule.forRoot({
       position: SidebarPositionEnum.RIGHT,
       closeOnBackdropClick: true,

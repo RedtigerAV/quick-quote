@@ -5,6 +5,7 @@ import { Nullable } from '@core/types/nullable.type';
 import { MediaFacade } from '@core/redux/media/media.facade';
 import { SetupImagesService } from './services/setup-images.service';
 import { MediaLoaderService } from './services/media-loader.service';
+import { BrightnessLevelEnum, ColorsHelper } from '@shared/helpers/colors.helper';
 
 const IMAGE_POSITION_OFFSET = 1;
 
@@ -19,6 +20,9 @@ export class UserLayoutComponent implements OnInit {
   public readonly selectedImage$: Observable<IMedia>;
   public readonly currentImagePosition$: Observable<number>;
   public readonly maxSafeNumber = Number.MAX_SAFE_INTEGER;
+  public readonly unsplashLink = 'https://unsplash.com/?utm_source=quick-quote&utm_medium=referral';
+
+  private readonly appName = 'quick-quote';
 
   constructor(
     mediaFacade: MediaFacade,
@@ -45,5 +49,26 @@ export class UserLayoutComponent implements OnInit {
   public ngOnInit(): void {
     this.mediaLoaderService.init();
     this.setupImagesService.setupImages();
+  }
+
+  public getImageAuthorLink(image: IMedia): string {
+    const link = image.user.link;
+
+    return `${link}?utm_source=${this.appName}&utm_medium=referral`;
+  }
+
+  public getMenuTextColor(image: IMedia): string {
+    const forDarkBG = 'var(--qq-color-text-main)';
+    const forLightBG = 'var(--qq-color-text-constrast)';
+    const darkenColor = ColorsHelper.lightenDarkenHex(image.color, -30);
+    const backgroundRGB = ColorsHelper.hexToRGB(darkenColor);
+
+    if (!backgroundRGB) {
+      return forDarkBG;
+    }
+
+    const bgBrightness = ColorsHelper.getBrightnessLevel(backgroundRGB);
+
+    return bgBrightness === BrightnessLevelEnum.LIGHT ? forLightBG : forDarkBG;
   }
 }

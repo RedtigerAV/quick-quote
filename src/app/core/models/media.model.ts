@@ -10,4 +10,8 @@ export interface IMedia {
     thumb: string;
     small_s3: string;
   };
+  user: {
+    name: string;
+    link: string;
+  };
 }

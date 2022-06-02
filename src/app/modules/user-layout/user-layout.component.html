@@ -1,15 +1,29 @@
 <div class="layout">
-  <div class="header">
-    <div class="header__logo">
-      <div class="logo">
-        <app-logo></app-logo>
-      </div>
-    </div>
-  </div>
-
   <ng-container
     *ngIf="{ selectedImage: selectedImage$ | async, currentImagePosition: currentImagePosition$ | async } as data"
   >
+    <div class="header">
+      <div class="header__logo">
+        <div class="logo">
+          <app-logo></app-logo>
+        </div>
+      </div>
+
+      <div class="header__menu">
+        <span
+          class="menu__author"
+          *ngIf="data.selectedImage as image"
+          [ngStyle]="{ color: image | cache: getMenuTextColor:this }"
+        >
+          Photo by
+          <a [href]="image | cache: getImageAuthorLink:this" target="_blank">{{ image.user.name }}</a>
+          on
+          <a [href]="unsplashLink" target="_blank">Unsplash</a>
+        </span>
+        <div class="menu__actions"></div>
+      </div>
+    </div>
+
     <div class="layout__images" [ngStyle]="{ 'background-color': data.selectedImage?.color }">
       <ng-container *ngFor="let image of images$ | async; trackBy: 'id' | trackBy; let i = index">
         <div
@@ -19,7 +33,7 @@
           [class.image--next]="i + 1 > (data.currentImagePosition || 0) + 1"
           [ngStyle]="{
             'background-image': 'url(' + image.urls.regular + ')',
-            'box-shadow': 'inset 0px 0px 70px 10px' + image.color
+            'box-shadow': 'inset 0px 40px 70px 10px' + image.color
           }"
         ></div>
       </ng-container>

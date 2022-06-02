@@ -35,6 +35,10 @@ const prepareImage = image => ({
     small: image.urls.small,
     thumb: image.urls.thumb,
     small_s3: image.urls.small_s3
+  },
+  user: {
+    name: image.user.name,
+    link: image.user.links.html
   }
 });
 
