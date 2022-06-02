@@ -1,9 +1,13 @@
 <div class="layout">
   <ng-container
-    *ngIf="{ selectedImage: selectedImage$ | async, currentImagePosition: currentImagePosition$ | async } as data"
+    *ngIf="{
+      selectedImage: selectedImage$ | async,
+      currentImagePosition: currentImagePosition$ | async,
+      isMobile: viewport.isMobileViewport$ | async
+    } as data"
   >
     <div class="header">
-      <div class="header__logo">
+      <div class="header__logo" routerLink="/">
         <div class="logo">
           <app-logo></app-logo>
         </div>
@@ -20,7 +24,16 @@
           on
           <a [href]="unsplashLink" target="_blank">Unsplash</a>
         </span>
-        <div class="menu__actions"></div>
+        <div class="menu__actions" [ngStyle]="{ color: data.selectedImage | cache: getMenuTextColor:this }">
+          <a [routerLink]="appRoutePathEnum.ABOUT" class="action__item">
+            <svg-icon key="info" fontSize="40px" *ngIf="data.isMobile"></svg-icon>
+            <span *ngIf="!data.isMobile">About</span>
+          </a>
+          <a [routerLink]="appRoutePathEnum.CONTACT" class="action__item">
+            <svg-icon key="contact" fontSize="40px" *ngIf="data.isMobile"></svg-icon>
+            <span *ngIf="!data.isMobile">Contact us</span>
+          </a>
+        </div>
       </div>
     </div>
 

@@ -6,6 +6,8 @@ import { MediaFacade } from '@core/redux/media/media.facade';
 import { SetupImagesService } from './services/setup-images.service';
 import { MediaLoaderService } from './services/media-loader.service';
 import { BrightnessLevelEnum, ColorsHelper } from '@shared/helpers/colors.helper';
+import { ViewportService } from '@core/services/viewport/viewport.service';
+import { AppRoutePath } from 'src/app/app.route-path';
 
 const IMAGE_POSITION_OFFSET = 1;
 
@@ -20,12 +22,14 @@ export class UserLayoutComponent implements OnInit {
   public readonly selectedImage$: Observable<IMedia>;
   public readonly currentImagePosition$: Observable<number>;
   public readonly maxSafeNumber = Number.MAX_SAFE_INTEGER;
+  public readonly appRoutePathEnum = AppRoutePath;
   public readonly unsplashLink = 'https://unsplash.com/?utm_source=quick-quote&utm_medium=referral';
 
   private readonly appName = 'quick-quote';
 
   constructor(
     mediaFacade: MediaFacade,
+    public readonly viewport: ViewportService,
     private readonly setupImagesService: SetupImagesService,
     private readonly mediaLoaderService: MediaLoaderService
   ) {
@@ -59,7 +63,12 @@ export class UserLayoutComponent implements OnInit {
 
   public getMenuTextColor(image: IMedia): string {
     const forDarkBG = 'var(--qq-color-text-main)';
-    const forLightBG = 'var(--qq-color-text-constrast)';
+    const forLightBG = 'var(--qq-color-text-contrast)';
+
+    if (!image) {
+      return forDarkBG;
+    }
+
     const darkenColor = ColorsHelper.lightenDarkenHex(image.color, -30);
     const backgroundRGB = ColorsHelper.hexToRGB(darkenColor);
 

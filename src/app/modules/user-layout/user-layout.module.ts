@@ -9,6 +9,7 @@ import { SidebarModule } from '@shared/services/sidebar/sidebar.module';
 import { SidebarPositionEnum } from '@shared/services/sidebar/sidebar.interface';
 import { LogoModule } from '@shared/components/logo/logo.module';
 import { CachePipeModule } from '@shared/pipes/cache/cache-pipe.module';
+import { SvgIconsModule } from '@ngneat/svg-icon';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { CachePipeModule } from '@shared/pipes/cache/cache-pipe.module';
     TrackByPipeModule,
     LogoModule,
     CachePipeModule,
+    SvgIconsModule,
     SidebarModule.forRoot({
       position: SidebarPositionEnum.RIGHT,
       closeOnBackdropClick: true,

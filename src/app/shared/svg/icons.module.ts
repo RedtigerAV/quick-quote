@@ -6,7 +6,9 @@ import { qqBookmarkRemoveIcon } from './icons/bookmark-remove';
 import { qqBookmarksCollectionIcon } from './icons/bookmarks-collection';
 import { qqCameraIcon } from './icons/camera';
 import { qqCancelIcon } from './icons/cancel';
+import { qqContactIcon } from './icons/contact';
 import { qqFacebookIcon } from './icons/facebook';
+import { qqInfoIcon } from './icons/info';
 import { qqLogoIcon } from './icons/logo';
 import { qqMoreIcon } from './icons/more';
 import { qqNextIcon } from './icons/next';
@@ -42,7 +44,9 @@ import { qqWhatsappIcon } from './icons/whatsapp';
         qqPauseIcon,
         qqMoreIcon,
         qqSettingsIcon,
-        qqLogoIcon
+        qqLogoIcon,
+        qqInfoIcon,
+        qqContactIcon
       ]
     })
   ],

@@ -39,6 +39,7 @@
     position: relative;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     height: 100%;
     width: 100%;
   }
@@ -46,6 +47,7 @@
 
 .menu {
   &__author {
+    height: min-content;
     max-width: calc(50% - #{rhythm(20)});
     transition: color var(--qq-transition);
     @include qq-font-text-l;
@@ -58,6 +60,28 @@
       @include qq-font-text-m;
     }
   }
+
+  &__actions {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    margin-left: auto;
+  }
+}
+
+.action__item {
+  display: flex;
+  flex-wrap: nowrap;
+  text-decoration: none;
+  align-items: center;
+  color: inherit !important;
+  @include qq-font-text-xl;
+  transition: color var(--qq-transition);
+  cursor: pointer;
+}
+
+.action__item + .action__item {
+  margin-left: rhythm(4);
 }
 
 .logo {
