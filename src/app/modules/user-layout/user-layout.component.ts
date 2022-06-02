@@ -8,9 +8,12 @@ import { MediaLoaderService } from './services/media-loader.service';
 import { BrightnessLevelEnum, ColorsHelper } from '@shared/helpers/colors.helper';
 import { ViewportService } from '@core/services/viewport/viewport.service';
 import { AppRoutePath } from 'src/app/app.route-path';
+import { BackgroundAnimationService } from '@core/services/background-animation.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 const IMAGE_POSITION_OFFSET = 1;
 
+@UntilDestroy()
 @Component({
   selector: 'app-user-layout',
   templateUrl: './user-layout.component.html',
@@ -28,8 +31,9 @@ export class UserLayoutComponent implements OnInit {
   private readonly appName = 'quick-quote';
 
   constructor(
-    mediaFacade: MediaFacade,
     public readonly viewport: ViewportService,
+    private readonly mediaFacade: MediaFacade,
+    private readonly backgroundAnimation: BackgroundAnimationService,
     private readonly setupImagesService: SetupImagesService,
     private readonly mediaLoaderService: MediaLoaderService
   ) {
@@ -53,6 +57,7 @@ export class UserLayoutComponent implements OnInit {
   public ngOnInit(): void {
     this.mediaLoaderService.init();
     this.setupImagesService.setupImages();
+    this.setupBackgroundAnimation();
   }
 
   public getImageAuthorLink(image: IMedia): string {
@@ -69,7 +74,7 @@ export class UserLayoutComponent implements OnInit {
       return forDarkBG;
     }
 
-    const darkenColor = ColorsHelper.lightenDarkenHex(image.color, -30);
+    const darkenColor = ColorsHelper.lightenDarkenHex(image.color, -70);
     const backgroundRGB = ColorsHelper.hexToRGB(darkenColor);
 
     if (!backgroundRGB) {
@@ -79,5 +84,15 @@ export class UserLayoutComponent implements OnInit {
     const bgBrightness = ColorsHelper.getBrightnessLevel(backgroundRGB);
 
     return bgBrightness === BrightnessLevelEnum.LIGHT ? forLightBG : forDarkBG;
+  }
+
+  private setupBackgroundAnimation(): void {
+    this.mediaFacade.selectedImage$.pipe(untilDestroyed(this)).subscribe(image => {
+      if (!image) {
+        this.backgroundAnimation.turnOnAnimation();
+      } else {
+        this.backgroundAnimation.turnOffAnimation();
+      }
+    });
   }
 }
