@@ -4,7 +4,6 @@ import { TrackByPipeModule } from '@shared/pipes/track-by/track-by-pipe.module';
 
 import { QuotePageComponent } from './quote-page.component';
 import { NextQuoteService } from './services/next-quote.service';
-import { QuotesLoaderService } from './services/quotes-loader.service';
 import { QuoteListModule } from './components/quote-list/quote-list.module';
 import { PreviousQuoteService } from './services/previous-quote.service';
 import { BottomBarModule } from './components/bottom-bar/bottom-bar.module';
@@ -29,6 +28,6 @@ import { BookmarksModule } from './components/bookmarks/bookmarks.module';
   ],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
-  providers: [QuotesLoaderService, NextQuoteService, PreviousQuoteService, HtmlToImageService]
+  providers: [NextQuoteService, PreviousQuoteService, HtmlToImageService]
 })
 export class QuotePageModule {}

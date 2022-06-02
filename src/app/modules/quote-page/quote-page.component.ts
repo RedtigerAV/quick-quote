@@ -43,7 +43,8 @@ type ActionsStateType = ActionsStateEnum.MAIN | ActionsStateEnum.ADDITIONAL | Ac
 @Component({
   templateUrl: './quote-page.component.html',
   styleUrls: ['./quote-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [QuotesLoaderService]
 })
 export class QuotePageComponent implements OnInit {
   public readonly quotes$: Observable<Array<IQuote>>;
@@ -85,9 +86,7 @@ export class QuotePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // TODO: проверить, может не нужно здесь делать init и load
     this.quotesLoaderService.init();
-    this.favouritesFacade.loadFavourites();
     this.listenQuoteChanges();
   }
 

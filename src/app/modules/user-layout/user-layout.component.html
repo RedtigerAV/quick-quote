@@ -6,7 +6,7 @@
       isMobile: viewport.isMobileViewport$ | async
     } as data"
   >
-    <div class="header">
+    <div class="header" [ngClass]="[skipHtmlToImage]">
       <div class="header__logo" routerLink="/">
         <div class="logo">
           <app-logo></app-logo>

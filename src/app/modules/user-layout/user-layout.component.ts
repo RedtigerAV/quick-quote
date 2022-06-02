@@ -1,7 +1,6 @@
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IMedia } from '@core/models/media.model';
-import { Nullable } from '@core/types/nullable.type';
 import { MediaFacade } from '@core/redux/media/media.facade';
 import { SetupImagesService } from './services/setup-images.service';
 import { MediaLoaderService } from './services/media-loader.service';
@@ -10,6 +9,7 @@ import { ViewportService } from '@core/services/viewport/viewport.service';
 import { AppRoutePath } from 'src/app/app.route-path';
 import { BackgroundAnimationService } from '@core/services/background-animation.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { globalConfig } from '@core/global/global.config';
 
 const IMAGE_POSITION_OFFSET = 1;
 
@@ -27,6 +27,7 @@ export class UserLayoutComponent implements OnInit {
   public readonly maxSafeNumber = Number.MAX_SAFE_INTEGER;
   public readonly appRoutePathEnum = AppRoutePath;
   public readonly unsplashLink = 'https://unsplash.com/?utm_source=quick-quote&utm_medium=referral';
+  public readonly skipHtmlToImage = globalConfig.skipHtmlToImageClass;
 
   private readonly appName = 'quick-quote';
 

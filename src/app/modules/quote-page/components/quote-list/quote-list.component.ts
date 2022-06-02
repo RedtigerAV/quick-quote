@@ -4,6 +4,7 @@ import { IQuote } from '@core/models/quote.model';
 import { Nullable } from '@core/types/nullable.type';
 import { toNextQuoteAnimation, toPreviousQuoteAnimation } from './quote-list.animation';
 import { QuoteHelper } from '../../helpers/quote.helper';
+import { globalConfig } from '@core/global/global.config';
 
 @Component({
   selector: 'app-quote-list',
@@ -24,6 +25,8 @@ export class QuoteListComponent implements OnInit {
   @Input() public isSelectedFavourite!: Nullable<boolean>;
   @Output() public likeQuote = new EventEmitter<IQuote>();
   @Output() public dislikeQuote = new EventEmitter<string>();
+
+  public readonly skipHtmlToImage = globalConfig.skipHtmlToImageClass;
 
   constructor() {}
 

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserLayoutComponent } from './modules/user-layout/user-layout.component';
 import { QuotePageComponent } from './modules/quote-page/quote-page.component';
 import { QuotePageGuard } from './modules/quote-page/guards/quote-page.guard';
+import { FavoutitesGuard } from './modules/quote-page/guards/favourites.guard';
 
 const routes: Routes = [
   {
@@ -14,7 +15,7 @@ const routes: Routes = [
         path: '',
         pathMatch: 'full',
         component: QuotePageComponent,
-        canActivate: [QuotePageGuard]
+        canActivate: [QuotePageGuard, FavoutitesGuard]
       },
       {
         path: AppRoutePath.ABOUT,
