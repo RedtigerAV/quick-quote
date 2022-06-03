@@ -14,4 +14,5 @@ export interface IMedia {
     name: string;
     link: string;
   };
+  ixid: string;
 }

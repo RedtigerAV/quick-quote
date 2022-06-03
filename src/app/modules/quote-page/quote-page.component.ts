@@ -32,6 +32,7 @@ import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 import { AnimationProcessService } from '@core/services/animations/animation-process.service';
 import { AnimationNameEnum } from '@core/services/animations/animations';
 import { animationDone$ } from '@core/rxjs-operators/animation-process.operator';
+import { DownloadImageService } from './services/dowload-image.service';
 
 enum ActionsStateEnum {
   MAIN = 'main',
@@ -45,7 +46,7 @@ type ActionsStateType = ActionsStateEnum.MAIN | ActionsStateEnum.ADDITIONAL | Ac
   templateUrl: './quote-page.component.html',
   styleUrls: ['./quote-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [QuotesLoaderService]
+  providers: [QuotesLoaderService, DownloadImageService]
 })
 export class QuotePageComponent implements OnInit {
   public readonly quotes$: Observable<Array<IQuote>>;
@@ -71,7 +72,8 @@ export class QuotePageComponent implements OnInit {
     private readonly previousQuoteService: PreviousQuoteService,
     private readonly quotesLoaderService: QuotesLoaderService,
     private readonly htmlToImage: HtmlToImageService,
-    private readonly sidebarService: SidebarService
+    private readonly sidebarService: SidebarService,
+    private readonly downloadImage: DownloadImageService
   ) {
     this.quotes$ = quotesFacade.quotes$;
     this.selectedQuote$ = quotesFacade.selectedQuote$;
@@ -140,6 +142,9 @@ export class QuotePageComponent implements OnInit {
     const filter: (node: HTMLElement) => boolean = node => !node.classList?.contains(globalConfig.skipHtmlToImageClass);
     const imageName = `[Quick Quote] ${this.quotesFacade.selectedQuote?.authorName}`;
     const imageExtension = 'jpeg';
+
+    // https://help.unsplash.com/en/articles/2511258-guideline-triggering-a-download
+    this.downloadImage.triggerDownload();
 
     this.htmlToImage
       .toJpeg(filter)

@@ -14,6 +14,7 @@ if ((process.env.NODE_ENV = 'development')) {
   CACHE_EXPIRES_MINUTES = 60;
 }
 
+// CONSTANTS
 const SEARCH_QUERY = 'nature';
 const IMAGES_COUNT = 30;
 const DEFAULT_ORIENTATION = 'landscape';
@@ -23,8 +24,16 @@ const headers = {
   'Accept-Version': 'v1',
   Authorization: `Client-ID ${process.env.UNSPLASH_API_KEY}`
 };
+
+// FUNCTIONS
 const errorStatus = error => error.response?.status || 500;
 const errorData = error => error.response?.data?.errors || { message: 'Unsplash API internal error' };
+const getIxidParam = download_location => {
+  const paramsString = download_location.split('?')[1];
+  const searchParams = new URLSearchParams(paramsString);
+
+  return searchParams.get('ixid');
+};
 const prepareImage = image => ({
   id: image.id,
   color: image.color,
@@ -40,7 +49,8 @@ const prepareImage = image => ({
   user: {
     name: image.user.name,
     link: image.user.links.html
-  }
+  },
+  ixid: getIxidParam(image.links.download_location)
 });
 
 async function readMediaCache() {
@@ -102,6 +112,7 @@ function shuffleArray(array) {
   return array.sort(() => 0.5 - Math.random());
 }
 
+// ENPOINTS
 router.get('/', async (req, res) => {
   const orientation = req.query?.orientation || DEFAULT_ORIENTATION;
   const params = {
@@ -134,6 +145,24 @@ router.get('/', async (req, res) => {
     }
 
     res.json(result);
+  } catch (error) {
+    res.status(errorStatus(error)).json(errorData(error));
+  }
+});
+
+router.post('/download', async (req, res) => {
+  const { id, ixid } = req.body;
+
+  if (!id || !ixid) {
+    res.status(500).json({ message: 'API should include id and ixid params' });
+
+    return;
+  }
+
+  try {
+    const response = await axios.get(`${API_HOST}/photos/${id}/download`, { headers, params: { ixid } });
+
+    res.status(200).json(response.data);
   } catch (error) {
     res.status(errorStatus(error)).json(errorData(error));
   }
