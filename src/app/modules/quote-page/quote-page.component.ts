@@ -107,6 +107,7 @@ export class QuotePageComponent implements OnInit {
 
     animationDone$(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE)
       .pipe(
+        take(1),
         finalize(() => unlock(this, this.toPreviousQuote)),
         untilDestroyed(this)
       )
@@ -125,6 +126,7 @@ export class QuotePageComponent implements OnInit {
         switchMap(result =>
           result ? animationDone$(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE) : of()
         ),
+        take(1),
         finalize(() => unlock(this, this.toNextQuote)),
         untilDestroyed(this)
       )
@@ -142,10 +144,10 @@ export class QuotePageComponent implements OnInit {
     this.htmlToImage
       .toJpeg(filter)
       .pipe(
-        take(1),
         tap(dataUrl => FileSaver.saveAs(dataUrl, `${imageName}.${imageExtension}`)),
         // TODO: Обработать ошибку
         catchError(error => of(null)),
+        take(1),
         finalize(() => unlock(this, this.convertToImage)),
         untilDestroyed(this)
       )
