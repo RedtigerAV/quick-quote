@@ -41,6 +41,9 @@
       <ng-container *ngFor="let image of images$ | async; trackBy: 'id' | trackBy; let i = index">
         <div
           class="image"
+          [@fade]="image.id === data.selectedImage?.id ? 'active' : 'inactive'"
+          (@fade.start)="animationStart($event)"
+          (@fade.done)="animationDone($event)"
           [class.image--active]="image.id === data.selectedImage?.id"
           [class.image--previous]="i < (data.currentImagePosition || 0)"
           [class.image--next]="i + 1 > (data.currentImagePosition || 0) + 1"

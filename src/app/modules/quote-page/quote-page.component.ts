@@ -2,12 +2,12 @@ import {
   BehaviorSubject,
   catchError,
   combineLatest,
-  delay,
   filter,
   finalize,
   map,
   Observable,
   of,
+  switchMap,
   take,
   tap
 } from 'rxjs';
@@ -29,8 +29,9 @@ import { Platform } from '@angular/cdk/platform';
 import { FavouritesFacade } from '@core/redux/favourites/favourites.facade';
 import { SidebarService } from '@shared/services/sidebar/sidebar.service';
 import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
-
-const ANIMATION_DELAY = 1000;
+import { AnimationProcessService } from '@core/services/animations/animation-process.service';
+import { AnimationNameEnum } from '@core/services/animations/animations';
+import { animationDone$ } from '@core/rxjs-operators/animation-process.operator';
 
 enum ActionsStateEnum {
   MAIN = 'main',
@@ -63,6 +64,7 @@ export class QuotePageComponent implements OnInit {
     public readonly viewport: ViewportService,
     public readonly favouritesFacade: FavouritesFacade,
     private readonly quotesFacade: QuotesFacade,
+    private readonly animationProcess: AnimationProcessService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly nextQuoteService: NextQuoteService,
@@ -90,23 +92,39 @@ export class QuotePageComponent implements OnInit {
     this.listenQuoteChanges();
   }
 
+  public animationStart(): void {
+    this.animationProcess.animationStart(AnimationNameEnum.QUOTE_CHANGE);
+  }
+
+  public animationDone(): void {
+    this.animationProcess.animationDone(AnimationNameEnum.QUOTE_CHANGE);
+  }
+
   @locker()
   public toPreviousQuote(): void {
     lock(this, this.toPreviousQuote);
     this.previousQuoteService.goToPreviousQuote();
 
-    setTimeout(() => unlock(this, this.toPreviousQuote), ANIMATION_DELAY);
+    animationDone$(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE)
+      .pipe(
+        finalize(() => unlock(this, this.toPreviousQuote)),
+        untilDestroyed(this)
+      )
+      .subscribe();
   }
 
   @locker()
   public toNextQuote(): void {
     lock(this, this.toNextQuote);
 
-    combineLatest([this.nextQuoteService.goToNextQuote(), of(null).pipe(delay(ANIMATION_DELAY))])
+    this.nextQuoteService
+      .goToNextQuote()
       .pipe(
-        take(1),
         // TODO: Обработать ошибку, если result === false
-        tap(([result]) => {}),
+        tap(result => {}),
+        switchMap(result =>
+          result ? animationDone$(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE) : of()
+        ),
         finalize(() => unlock(this, this.toNextQuote)),
         untilDestroyed(this)
       )
