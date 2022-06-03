@@ -3,6 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
+const environment = process.env.NODE_ENV;
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
@@ -108,22 +109,29 @@ router.get('/', async (req, res) => {
     count: IMAGES_COUNT,
     query: SEARCH_QUERY
   };
-  const cache = await readMediaCache();
 
-  if (isCacheValid(cache, orientation)) {
-    const cachedImages = getCachedImages(cache, orientation);
-    const result = shuffleArray(cachedImages);
+  let cache = {};
 
-    res.json(result);
+  if (environment === 'development') {
+    cache = await readMediaCache();
 
-    return;
+    if (isCacheValid(cache, orientation)) {
+      const cachedImages = getCachedImages(cache, orientation);
+      const result = shuffleArray(cachedImages);
+
+      res.json(result);
+
+      return;
+    }
   }
 
   try {
     const response = await axios.get(`${API_HOST}/photos/random`, { headers, params });
     const result = response.data.map(image => prepareImage(image));
 
-    await writeMediaCache(cache, result, orientation);
+    if (environment === 'development') {
+      await writeMediaCache(cache, result, orientation);
+    }
 
     res.json(result);
   } catch (error) {

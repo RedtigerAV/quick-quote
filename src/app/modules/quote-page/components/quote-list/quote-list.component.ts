@@ -25,6 +25,8 @@ export class QuoteListComponent implements OnInit {
   @Input() public isSelectedFavourite!: Nullable<boolean>;
   @Output() public likeQuote = new EventEmitter<IQuote>();
   @Output() public dislikeQuote = new EventEmitter<string>();
+  @Output() public animationStart = new EventEmitter<void>();
+  @Output() public animationDone = new EventEmitter<void>();
 
   public readonly skipHtmlToImage = globalConfig.skipHtmlToImageClass;
 

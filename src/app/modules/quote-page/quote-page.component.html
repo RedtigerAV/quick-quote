@@ -7,6 +7,8 @@
     [isSelectedFavourite]="isSelectedFavourite$ | async"
     (likeQuote)="favouritesFacade.addFavourite($event)"
     (dislikeQuote)="favouritesFacade.removeFavourite($event)"
+    (animationStart)="animationStart()"
+    (animationDone)="animationDone()"
   ></app-quote-list>
 
   <ng-container *ngIf="{ isMobile: viewport.isMobileViewport$ | async, state: actionsState$ | async } as data">
