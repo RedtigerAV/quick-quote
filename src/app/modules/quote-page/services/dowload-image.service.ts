@@ -12,8 +12,8 @@ export class DownloadImageService {
       return;
     }
 
-    const { id, ixid } = this.mediaFacade.selectedImage;
+    const { download_location } = this.mediaFacade.selectedImage;
 
-    this.mediaApi.v1MediaDownload({ id, ixid }).pipe(take(1)).subscribe();
+    this.mediaApi.v1MediaDownload({ download_location }).pipe(take(1)).subscribe();
   }
 }

@@ -28,12 +28,6 @@ const headers = {
 // FUNCTIONS
 const errorStatus = error => error.response?.status || 500;
 const errorData = error => error.response?.data?.errors || { message: 'Unsplash API internal error' };
-const getIxidParam = download_location => {
-  const paramsString = download_location.split('?')[1];
-  const searchParams = new URLSearchParams(paramsString);
-
-  return searchParams.get('ixid');
-};
 const prepareImage = image => ({
   id: image.id,
   color: image.color,
@@ -50,7 +44,7 @@ const prepareImage = image => ({
     name: image.user.name,
     link: image.user.links.html
   },
-  ixid: getIxidParam(image.links.download_location)
+  download_location: image.links.download_location
 });
 
 async function readMediaCache() {
@@ -151,16 +145,16 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/download', async (req, res) => {
-  const { id, ixid } = req.body;
+  const { download_location } = req.body;
 
-  if (!id || !ixid) {
-    res.status(500).json({ message: 'API should include id and ixid params' });
+  if (!download_location) {
+    res.status(500).json({ message: 'API should include download_location' });
 
     return;
   }
 
   try {
-    const response = await axios.get(`${API_HOST}/photos/${id}/download`, { headers, params: { ixid } });
+    const response = await axios.get(download_location, { headers });
 
     res.status(200).json(response.data);
   } catch (error) {

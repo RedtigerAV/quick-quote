@@ -12,8 +12,7 @@ export interface V1MediaReadRequestParams {
 }
 
 export interface V1MediaDownloadRequestParams {
-  id: string;
-  ixid: string;
+  download_location: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -33,7 +32,7 @@ export class MediaApiService {
     return this.httpClient.get<Array<IMedia>>(`${this.basePath}/v1/media`, { params });
   }
 
-  public v1MediaDownload({ id, ixid }: V1MediaDownloadRequestParams): Observable<void> {
-    return this.httpClient.post<void>(`${this.basePath}/v1/media/download`, { id, ixid });
+  public v1MediaDownload({ download_location }: V1MediaDownloadRequestParams): Observable<void> {
+    return this.httpClient.post<void>(`${this.basePath}/v1/media/download`, { download_location });
   }
 }
