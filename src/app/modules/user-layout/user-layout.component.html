@@ -47,6 +47,7 @@
           [class.image--active]="image.id === data.selectedImage?.id"
           [class.image--previous]="i < (data.currentImagePosition || 0)"
           [class.image--next]="i + 1 > (data.currentImagePosition || 0) + 1"
+          [ngClass]="{ 'skip-html-to-image': image.id !== data.selectedImage?.id }"
           [ngStyle]="{
             'background-image': 'url(' + image.urls.regular + ')',
             'box-shadow': 'inset 0px 40px 70px 10px' + image.color

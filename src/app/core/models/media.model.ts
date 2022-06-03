@@ -14,4 +14,5 @@ export interface IMedia {
     name: string;
     link: string;
   };
+  download_location: string;
 }

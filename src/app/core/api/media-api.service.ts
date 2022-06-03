@@ -11,6 +11,10 @@ export interface V1MediaReadRequestParams {
   orientation?: 'landscape' | 'portrait' | 'squarish';
 }
 
+export interface V1MediaDownloadRequestParams {
+  download_location: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class MediaApiService {
   private basePath = `${environment.serverUrl}/api`;
@@ -26,5 +30,9 @@ export class MediaApiService {
     }
 
     return this.httpClient.get<Array<IMedia>>(`${this.basePath}/v1/media`, { params });
+  }
+
+  public v1MediaDownload({ download_location }: V1MediaDownloadRequestParams): Observable<void> {
+    return this.httpClient.post<void>(`${this.basePath}/v1/media/download`, { download_location });
   }
 }
