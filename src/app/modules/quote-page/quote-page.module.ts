@@ -13,6 +13,7 @@ import { HtmlToImageService } from '@shared/services/html-to-image.service';
 import { SocialNetworksModule } from './components/social-networks/social-networks.module';
 import { BarItemModule } from '@shared/components/bar-item/bar-item.module';
 import { BookmarksModule } from './components/bookmarks/bookmarks.module';
+import { TimerModule } from '@shared/components/timer/timer.module';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { BookmarksModule } from './components/bookmarks/bookmarks.module';
     LockedPipeModule,
     SocialNetworksModule,
     BarItemModule,
-    BookmarksModule
+    BookmarksModule,
+    TimerModule
   ],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
