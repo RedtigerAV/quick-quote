@@ -1,0 +1,38 @@
+<ng-template #toastsPanel let-toasts>
+  <div *ngFor="let toast of toasts; trackBy: 'id' | trackBy" [@nested]>
+    <div class="toast" [ngClass]="toast.panelClass" [@shrink]>
+      <ng-container *ngComponentOutlet="toast.component; injector: toast | cache: createInjector:this"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<div class="toasts-overlay">
+  <div class="toasts-panel top top-center">
+    <ng-container
+      *ngTemplateOutlet="toastsPanel; context: { $implicit: toastsCollections['top-center'] }"
+    ></ng-container>
+  </div>
+  <div class="toasts-panel top top-left">
+    <ng-container *ngTemplateOutlet="toastsPanel; context: { $implicit: toastsCollections['top-left'] }"></ng-container>
+  </div>
+  <div class="toasts-panel top top-right">
+    <ng-container
+      *ngTemplateOutlet="toastsPanel; context: { $implicit: toastsCollections['top-right'] }"
+    ></ng-container>
+  </div>
+  <div class="toasts-panel bottom bottom-center">
+    <ng-container
+      *ngTemplateOutlet="toastsPanel; context: { $implicit: toastsCollections['bottom-center'] }"
+    ></ng-container>
+  </div>
+  <div class="toasts-panel bottom bottom-left">
+    <ng-container
+      *ngTemplateOutlet="toastsPanel; context: { $implicit: toastsCollections['bottom-left'] }"
+    ></ng-container>
+  </div>
+  <div class="toasts-panel bottom bottom-right">
+    <ng-container
+      *ngTemplateOutlet="toastsPanel; context: { $implicit: toastsCollections['bottom-right'] }"
+    ></ng-container>
+  </div>
+</div>
