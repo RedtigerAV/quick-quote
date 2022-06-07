@@ -11,7 +11,13 @@
     (animationDone)="animationDone()"
   ></app-quote-list>
 
-  <ng-container *ngIf="{ isMobile: viewport.isMobileViewport$ | async, state: actionsState$ | async } as data">
+  <ng-container
+    *ngIf="{
+      isMobile: viewport.isMobileViewport$ | async,
+      state: actionsState$ | async,
+      isSlideshowMode: isSlideshowMode$ | async
+    } as data"
+  >
     <app-bottom-bar class="bottom-bar" [ngClass]="[skipHtmlToImageClass]" [opened]="data.isMobile">
       <app-bar-item-list
         *ngIf="data.state !== actionsStateEnum.SOCIAL; else socialNetworksState"
@@ -25,7 +31,7 @@
           (click)="switchBottomBarState(actionsStateEnum.SOCIAL)"
         >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="share"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="share"></svg-icon>
             <span appBarItemText>Share</span>
           </app-bar-item-content>
         </button>
@@ -39,7 +45,7 @@
           (click)="convertToImage()"
         >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="camera"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="camera"></svg-icon>
             <span appBarItemText>Capture</span>
           </app-bar-item-content>
         </button>
@@ -52,16 +58,35 @@
           (click)="toPreviousQuote()"
         >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="previous"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="previous"></svg-icon>
             <span appBarItemText>Previous</span>
           </app-bar-item-content>
         </button>
 
         <!--Play-->
-        <button *ngIf="data.state === actionsStateEnum.MAIN" appBarItem>
+        <button
+          *ngIf="data.state === actionsStateEnum.MAIN && !data.isSlideshowMode"
+          appBarItem
+          (click)="runSlideshow()"
+        >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="play"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="play"></svg-icon>
             <span appBarItemText>Play</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Pause-->
+        <button
+          *ngIf="data.state === actionsStateEnum.MAIN && data.isSlideshowMode"
+          appBarItem
+          (click)="stopSlideshow()"
+        >
+          <app-bar-item-content>
+            <app-timer appBarItemIcon [size]="28" [timer]="timer">
+              <svg-icon class="svg svg--small" appBarItemIcon key="pause"></svg-icon>
+            </app-timer>
+
+            <span appBarItemText>Pause</span>
           </app-bar-item-content>
         </button>
 
@@ -73,7 +98,7 @@
           (click)="toNextQuote()"
         >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="next"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="next"></svg-icon>
             <span appBarItemText>Next</span>
           </app-bar-item-content>
         </button>
@@ -85,7 +110,7 @@
           (click)="openBookmarks()"
         >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="bookmarks-collection"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="bookmarks-collection"></svg-icon>
             <span appBarItemText>Bookmarks</span>
           </app-bar-item-content>
         </button>
@@ -93,7 +118,7 @@
         <!--Settings-->
         <button *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL" appBarItem>
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="settings"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="settings"></svg-icon>
             <span appBarItemText>Settings</span>
           </app-bar-item-content>
         </button>
@@ -105,7 +130,7 @@
           (click)="switchBottomBarState(actionsStateEnum.ADDITIONAL)"
         >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="more"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="more"></svg-icon>
             <span appBarItemText>More</span>
           </app-bar-item-content>
         </button>
@@ -117,7 +142,7 @@
           (click)="switchBottomBarState(actionsStateEnum.MAIN)"
         >
           <app-bar-item-content>
-            <svg-icon appBarItemIcon key="cancel"></svg-icon>
+            <svg-icon class="svg" appBarItemIcon key="cancel"></svg-icon>
             <span appBarItemText>Cancel</span>
           </app-bar-item-content>
         </button>

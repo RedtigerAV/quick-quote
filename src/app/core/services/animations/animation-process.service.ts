@@ -6,11 +6,8 @@ import {
   distinctUntilChanged,
   EMPTY,
   filter,
-  map,
   Observable,
   of,
-  skip,
-  Subject,
   switchMap,
   take,
   tap

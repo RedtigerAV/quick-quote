@@ -12,7 +12,7 @@ import {
   tap
 } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NextQuoteService } from './services/next-quote.service';
@@ -33,6 +33,7 @@ import { AnimationProcessService } from '@core/services/animations/animation-pro
 import { AnimationNameEnum } from '@core/services/animations/animations';
 import { animationDone$ } from '@core/rxjs-operators/animation-process.operator';
 import { DownloadImageService } from './services/dowload-image.service';
+import { Timer } from '@shared/models/timer';
 
 enum ActionsStateEnum {
   MAIN = 'main',
@@ -48,7 +49,7 @@ type ActionsStateType = ActionsStateEnum.MAIN | ActionsStateEnum.ADDITIONAL | Ac
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [QuotesLoaderService, DownloadImageService]
 })
-export class QuotePageComponent implements OnInit {
+export class QuotePageComponent implements OnInit, OnDestroy {
   public readonly quotes$: Observable<Array<IQuote>>;
   public readonly selectedQuote$: Observable<Nullable<IQuote>>;
   public readonly currentPosition$: Observable<number>;
@@ -58,7 +59,10 @@ export class QuotePageComponent implements OnInit {
   public readonly skipHtmlToImageClass = globalConfig.skipHtmlToImageClass;
   public readonly actionsStateEnum = ActionsStateEnum;
   public readonly actionsState$: Observable<ActionsStateType>;
-  private readonly _actionsState$: BehaviorSubject<ActionsStateType>;
+  public readonly timer = new Timer({ seconds: 6 });
+  public readonly isSlideshowMode$: Observable<boolean>;
+  private readonly _actionsState$ = new BehaviorSubject<ActionsStateType>(ActionsStateEnum.MAIN);
+  private readonly _isSlideshowMode$ = new BehaviorSubject(false);
 
   constructor(
     public readonly platform: Platform,
@@ -85,14 +89,16 @@ export class QuotePageComponent implements OnInit {
     this.isSelectedFavourite$ = combineLatest([quotesFacade.selectedQuoteID$, favouritesFacade.favouritesIDs$]).pipe(
       map(([selectedQuoteID, favouritesIDs]) => (selectedQuoteID ? favouritesIDs.includes(selectedQuoteID) : false))
     );
-    this._actionsState$ = new BehaviorSubject<ActionsStateType>(ActionsStateEnum.MAIN);
     this.actionsState$ = this._actionsState$.asObservable();
+    this.isSlideshowMode$ = this._isSlideshowMode$.asObservable();
   }
 
   public ngOnInit(): void {
     this.quotesLoaderService.init();
     this.listenQuoteChanges();
   }
+
+  public ngOnDestroy(): void {}
 
   public animationStart(): void {
     this.animationProcess.animationStart(AnimationNameEnum.QUOTE_CHANGE);
@@ -135,6 +141,7 @@ export class QuotePageComponent implements OnInit {
       .subscribe();
   }
 
+  // TODO: вынести в сервис
   @locker()
   public convertToImage(): void {
     lock(this, this.convertToImage);
@@ -159,6 +166,17 @@ export class QuotePageComponent implements OnInit {
       .subscribe();
   }
 
+  public runSlideshow(): void {
+    this._isSlideshowMode$.next(true);
+    this.toNextQuote();
+  }
+
+  public stopSlideshow(): void {
+    this._isSlideshowMode$.next(false);
+    this.timer.reset();
+  }
+
+  // TODO: вынести в сервис
   public openBookmarks(): void {
     this.sidebarService
       .open({ content: BookmarksComponent })

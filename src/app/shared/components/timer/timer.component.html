@@ -1,0 +1,23 @@
+<div class="timer" [ngStyle]="{ 'width.px': size, 'height.px': size }">
+  <ng-content></ng-content>
+
+  <svg class="circle__wrapper" [ngStyle]="{ 'width.px': size, 'height.px': size }">
+    <circle
+      class="circle circle--background"
+      [attr.r]="radius"
+      [attr.cx]="size / 2"
+      [attr.cy]="size / 2"
+      [ngStyle]="{ 'stroke-width': strokeWidth }"
+    ></circle>
+  </svg>
+
+  <svg class="circle__wrapper" [ngStyle]="{ 'width.px': size, 'height.px': size }">
+    <circle
+      class="circle circle--remaining"
+      [attr.r]="radius"
+      [attr.cx]="size / 2"
+      [attr.cy]="size / 2"
+      [ngStyle]="{ 'stroke-width': strokeWidth, 'stroke-dasharray': [leftDasharray$ | async, dasharray] }"
+    ></circle>
+  </svg>
+</div>

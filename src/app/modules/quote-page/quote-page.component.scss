@@ -38,10 +38,6 @@
     width: 100%;
   }
 
-  svg-icon {
-    font-size: 28px !important;
-  }
-
   &__list--additional {
     button {
       flex: 1.33;
@@ -51,5 +47,13 @@
         flex: 1;
       }
     }
+  }
+}
+
+.svg {
+  font-size: 28px !important;
+
+  &--small {
+    font-size: 24px !important;
   }
 }

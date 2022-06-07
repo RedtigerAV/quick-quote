@@ -1,0 +1,34 @@
+:host {
+  display: block;
+}
+
+.timer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+}
+
+.circle__wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: rotateY(-180deg) rotateZ(90deg) scaleX(-1);
+}
+
+.circle {
+  stroke-linecap: round;
+  stroke: var(--qq-color-text-contrast);
+  fill: none;
+  animation: countdown 10s linear infinite forwards;
+
+  &--background {
+    stroke: var(--qq-color-text-disabled);
+  }
+
+  &--remaining {
+    transition: 1s linear stroke-dasharray;
+  }
+}
