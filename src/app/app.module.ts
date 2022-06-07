@@ -15,6 +15,7 @@ import { effects } from '@core/redux/index.effects';
 import { reducers } from '@core/redux/index.reducers';
 import { IconsModule } from '@shared/svg/icons.module';
 import { ViewportModule } from '@core/services/viewport/viewport.module';
+import { ToasterModule } from '@shared/services/toaster/toaster.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,10 @@ import { ViewportModule } from '@core/services/viewport/viewport.module';
         lg: 1024,
         xl: 1280
       }
+    }),
+    ToasterModule.forRoot({
+      autoClose: true,
+      duration: 5000
     })
   ],
   providers: [],
