@@ -7,10 +7,6 @@
   <ng-container *ngFor="let quote of quotes; let idx = index">
     <div *ngIf="idx === currentPosition" class="quotes__item">
       <div class="quote">
-        <!--TODO: think about decoration-->
-        <!-- <span class="quote__decoration">
-          <svg-icon key="quote"></svg-icon>
-        </span> -->
         <h1 class="quote__content">
           {{ quote.quote }}
         </h1>
@@ -19,14 +15,14 @@
         </span>
 
         <button
-          *ngIf="!isSelectedFavourite; else favouriteBtn"
+          *ngIf="!isSelectedBookmark; else bookmarkBtn"
           class="qq-button qq-button__icon quote__bookmark"
           [ngClass]="[skipHtmlToImage]"
           (click)="likeQuote.emit(quote)"
         >
           <svg-icon key="bookmark"></svg-icon>
         </button>
-        <ng-template #favouriteBtn>
+        <ng-template #bookmarkBtn>
           <button
             class="qq-button qq-button__icon quote__bookmark"
             [ngClass]="[skipHtmlToImage]"
@@ -35,10 +31,6 @@
             <svg-icon key="bookmark-filled"></svg-icon>
           </button>
         </ng-template>
-
-        <!-- <span class="quote__decoration">
-          <svg-icon key="quote"></svg-icon>
-        </span> -->
       </div>
     </div>
   </ng-container>

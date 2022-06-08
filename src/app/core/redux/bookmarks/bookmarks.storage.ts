@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { WebStorageService } from '@core/services/webstorage/webstorage.service';
 
 @Injectable({ providedIn: 'root' })
-export class FavouritesStorage {
-  private key = 'favourites';
+export class BookmarksStorage {
+  private key = 'bookmarks';
 
   constructor(private readonly webStorageService: WebStorageService) {}
 
-  public get favouriteIDs(): Array<string> {
+  public get bookmarkIDs(): Array<string> {
     const rawString: string = this.webStorageService.local.getItem(this.key);
     const rawIDs = !!rawString ? rawString.split(',') : [];
 
@@ -15,17 +15,17 @@ export class FavouritesStorage {
   }
 
   public addID(id: string): void {
-    if (this.favouriteIDs.includes(id)) {
+    if (this.bookmarkIDs.includes(id)) {
       return;
     }
 
-    const newIDs = [id, ...this.favouriteIDs].toString();
+    const newIDs = [id, ...this.bookmarkIDs].toString();
 
     this.webStorageService.local.setItem(this.key, newIDs);
   }
 
   public removeID(id: string): void {
-    const newIDs = this.favouriteIDs.filter(_id => _id !== id).toString();
+    const newIDs = this.bookmarkIDs.filter(_id => _id !== id).toString();
 
     this.webStorageService.local.setItem(this.key, newIDs);
   }

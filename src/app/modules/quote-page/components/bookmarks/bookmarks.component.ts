@@ -1,7 +1,7 @@
 import { animate, group, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IQuote } from '@core/models/quote.model';
-import { FavouritesFacade } from '@core/redux/favourites/favourites.facade';
+import { BookmarksFacade } from '@core/redux/bookmarks/bookmarks.facade';
 import { RequestStatusEnum, RequestStatusType } from '@core/types/request-status.type';
 import { SidebarRef } from '@shared/services/sidebar/sidebar.reference';
 import { Observable } from 'rxjs';
@@ -24,14 +24,14 @@ import { QuoteHelper } from '../../helpers/quote.helper';
   ]
 })
 export class BookmarksComponent implements OnInit {
-  public readonly favourites$: Observable<Array<IQuote>>;
+  public readonly bookmarks$: Observable<Array<IQuote>>;
   public readonly status$: Observable<RequestStatusType>;
   public readonly statusEnum = RequestStatusEnum;
   public readonly routePath = AppRoutePath;
 
-  constructor(public readonly sidebarRef: SidebarRef, private readonly favouritesFacade: FavouritesFacade) {
-    this.favourites$ = favouritesFacade.favourites$;
-    this.status$ = favouritesFacade.favouritesStatus$;
+  constructor(public readonly sidebarRef: SidebarRef, private readonly bookmarksFacade: BookmarksFacade) {
+    this.bookmarks$ = bookmarksFacade.bookmarks$;
+    this.status$ = bookmarksFacade.bookmarksStatus$;
   }
 
   ngOnInit(): void {}
@@ -40,15 +40,15 @@ export class BookmarksComponent implements OnInit {
     return QuoteHelper.getAuthoInfo(quote);
   }
 
-  public selectQuote(favourite: IQuote): void {
-    this.sidebarRef.close(favourite);
+  public selectQuote(bookmark: IQuote): void {
+    this.sidebarRef.close(bookmark);
   }
 
   public remove(id: string): void {
-    this.favouritesFacade.removeFavourite(id);
+    this.bookmarksFacade.removeBookmark(id);
   }
 
   public loadBookmarks(): void {
-    this.favouritesFacade.loadFavourites();
+    this.bookmarksFacade.loadBookmarks();
   }
 }

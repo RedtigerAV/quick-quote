@@ -1,74 +1,48 @@
-import {
-  BehaviorSubject,
-  catchError,
-  combineLatest,
-  filter,
-  finalize,
-  map,
-  Observable,
-  of,
-  switchMap,
-  take,
-  tap
-} from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, filter, finalize, map, Observable, of, take, tap } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NextQuoteService } from './services/next-quote.service';
 import { QuotesLoaderService } from './services/quotes-loader.service';
-import { Nullable } from '@core/types/nullable.type';
-import { IQuote } from '@core/models/quote.model';
 import { PreviousQuoteService } from './services/previous-quote.service';
 import { ViewportService } from '@core/services/viewport/viewport.service';
 import { isLocked$, lock, locker, unlock } from '@shared/decorators/locker.decorator';
-import { HtmlToImageService } from '@shared/services/html-to-image.service';
-import { globalConfig } from '@core/global/global.config';
-import * as FileSaver from 'file-saver';
+import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.service';
 import { Platform } from '@angular/cdk/platform';
-import { FavouritesFacade } from '@core/redux/favourites/favourites.facade';
-import { SidebarService } from '@shared/services/sidebar/sidebar.service';
-import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
+import { BookmarksFacade } from '@core/redux/bookmarks/bookmarks.facade';
 import { AnimationProcessService } from '@core/services/animations/animation-process.service';
 import { AnimationNameEnum } from '@core/services/animations/animations';
-import { animationDone$ } from '@core/rxjs-operators/animation-process.operator';
 import { DownloadImageService } from './services/dowload-image.service';
 import { Timer } from '@shared/models/timer';
-
-enum ActionsStateEnum {
-  MAIN = 'main',
-  ADDITIONAL = 'additional',
-  SOCIAL = 'social'
-}
-type ActionsStateType = ActionsStateEnum.MAIN | ActionsStateEnum.ADDITIONAL | ActionsStateEnum.SOCIAL;
+import { BookmarksService } from './services/bookmarks.service';
+import { ActionsStateEnum, ActionsStateType } from './quote-page.interfaces';
+import { animationDone$, waitUntilAnimationDone } from '@core/rxjs-operators/animation-process.operator';
 
 @UntilDestroy()
 @Component({
   templateUrl: './quote-page.component.html',
   styleUrls: ['./quote-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [QuotesLoaderService, DownloadImageService]
+  providers: [NextQuoteService, PreviousQuoteService, QuotesLoaderService, DownloadImageService, BookmarksService]
 })
 export class QuotePageComponent implements OnInit, OnDestroy {
-  public readonly quotes$: Observable<Array<IQuote>>;
-  public readonly selectedQuote$: Observable<Nullable<IQuote>>;
-  public readonly currentPosition$: Observable<number>;
-  public readonly isFirstQuote$: Observable<boolean>;
-  public readonly isSelectedFavourite$: Observable<boolean>;
   public readonly isPreviousQuoteDisabled$: Observable<boolean>;
-  public readonly skipHtmlToImageClass = globalConfig.skipHtmlToImageClass;
+  public readonly isNextQuoteDisabled$: Observable<boolean>;
+  public readonly skipHtmlToImageClass = HtmlToImageService.skipHtmlToImageClass;
   public readonly actionsStateEnum = ActionsStateEnum;
   public readonly actionsState$: Observable<ActionsStateType>;
   public readonly timer = new Timer({ seconds: 6 });
-  public readonly isSlideshowMode$: Observable<boolean>;
+  public readonly inSlideshowMode$: Observable<boolean>;
   private readonly _actionsState$ = new BehaviorSubject<ActionsStateType>(ActionsStateEnum.MAIN);
-  private readonly _isSlideshowMode$ = new BehaviorSubject(false);
+  private readonly _inSlideshowMode$ = new BehaviorSubject(false);
 
   constructor(
     public readonly platform: Platform,
     public readonly viewport: ViewportService,
-    public readonly favouritesFacade: FavouritesFacade,
-    private readonly quotesFacade: QuotesFacade,
+    public readonly bookmarksFacade: BookmarksFacade,
+    public readonly bookmarksService: BookmarksService,
+    public readonly quotesFacade: QuotesFacade,
     private readonly animationProcess: AnimationProcessService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
@@ -76,21 +50,17 @@ export class QuotePageComponent implements OnInit, OnDestroy {
     private readonly previousQuoteService: PreviousQuoteService,
     private readonly quotesLoaderService: QuotesLoaderService,
     private readonly htmlToImage: HtmlToImageService,
-    private readonly sidebarService: SidebarService,
     private readonly downloadImage: DownloadImageService
   ) {
-    this.quotes$ = quotesFacade.quotes$;
-    this.selectedQuote$ = quotesFacade.selectedQuote$;
-    this.currentPosition$ = quotesFacade.currentPosition$.pipe(filter(p => p !== null)) as Observable<number>;
-    this.isFirstQuote$ = this.currentPosition$.pipe(map(position => !position));
-    this.isPreviousQuoteDisabled$ = combineLatest([this.isFirstQuote$, isLocked$(this, this.toPreviousQuote)]).pipe(
-      map(([isFirst, isLocked]) => isFirst || isLocked)
-    );
-    this.isSelectedFavourite$ = combineLatest([quotesFacade.selectedQuoteID$, favouritesFacade.favouritesIDs$]).pipe(
-      map(([selectedQuoteID, favouritesIDs]) => (selectedQuoteID ? favouritesIDs.includes(selectedQuoteID) : false))
-    );
     this.actionsState$ = this._actionsState$.asObservable();
-    this.isSlideshowMode$ = this._isSlideshowMode$.asObservable();
+    this.inSlideshowMode$ = this._inSlideshowMode$.asObservable();
+
+    this.isPreviousQuoteDisabled$ = combineLatest([
+      quotesFacade.currentPosition$.pipe(map(position => !position)),
+      isLocked$(this, this.toPreviousQuote)
+    ]).pipe(map(([isFirst, isLocked]) => isFirst || isLocked));
+
+    this.isNextQuoteDisabled$ = isLocked$(this, this.toNextQuote);
   }
 
   public ngOnInit(): void {
@@ -111,6 +81,7 @@ export class QuotePageComponent implements OnInit, OnDestroy {
   @locker()
   public toPreviousQuote(): void {
     lock(this, this.toPreviousQuote);
+
     this.previousQuoteService.goToPreviousQuote();
 
     animationDone$(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE)
@@ -126,37 +97,28 @@ export class QuotePageComponent implements OnInit, OnDestroy {
   public toNextQuote(): void {
     lock(this, this.toNextQuote);
 
+    // TODO: Обработать ошибку
     this.nextQuoteService
       .goToNextQuote()
       .pipe(
-        // TODO: Обработать ошибку, если result === false
-        tap(result => {}),
-        switchMap(result =>
-          result ? animationDone$(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE) : of()
-        ),
-        take(1),
+        waitUntilAnimationDone(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
         finalize(() => unlock(this, this.toNextQuote)),
         untilDestroyed(this)
       )
       .subscribe();
   }
 
-  // TODO: вынести в сервис
   @locker()
   public convertToImage(): void {
     lock(this, this.convertToImage);
-
-    const filter: (node: HTMLElement) => boolean = node => !node.classList?.contains(globalConfig.skipHtmlToImageClass);
     const imageName = `[Quick Quote] ${this.quotesFacade.selectedQuote?.authorName}`;
-    const imageExtension = 'jpeg';
 
     // https://help.unsplash.com/en/articles/2511258-guideline-triggering-a-download
     this.downloadImage.triggerDownload();
 
     this.htmlToImage
-      .toJpeg(filter)
+      .saveImage(imageName)
       .pipe(
-        tap(dataUrl => FileSaver.saveAs(dataUrl, `${imageName}.${imageExtension}`)),
         // TODO: Обработать ошибку
         catchError(error => of(null)),
         take(1),
@@ -167,33 +129,13 @@ export class QuotePageComponent implements OnInit, OnDestroy {
   }
 
   public runSlideshow(): void {
-    this._isSlideshowMode$.next(true);
+    this._inSlideshowMode$.next(true);
     this.toNextQuote();
   }
 
   public stopSlideshow(): void {
-    this._isSlideshowMode$.next(false);
+    this._inSlideshowMode$.next(false);
     this.timer.reset();
-  }
-
-  // TODO: вынести в сервис
-  public openBookmarks(): void {
-    this.sidebarService
-      .open({ content: BookmarksComponent })
-      .afterClosed()
-      .pipe(take(1), filter(Boolean), untilDestroyed(this))
-      .subscribe(result => {
-        const isEqual = result.id === this.quotesFacade.selectedQuoteID;
-        const isNextEqual = result.id === this.quotesFacade.nextQuote?.id;
-
-        if (isNextEqual) {
-          this.nextQuoteService.goToNextQuote();
-        } else if (!isEqual) {
-          this.quotesFacade.addQuote(result, this.quotesFacade.currentPosition + 1);
-
-          setTimeout(() => this.nextQuoteService.goToNextQuote(), 0);
-        }
-      });
   }
 
   public switchBottomBarState(state: ActionsStateType): void {
