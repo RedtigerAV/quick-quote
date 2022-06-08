@@ -6,6 +6,7 @@ import {
   distinctUntilChanged,
   EMPTY,
   filter,
+  map,
   Observable,
   of,
   switchMap,
@@ -45,13 +46,18 @@ export class AnimationProcessService {
   }
 
   public getAnimationState$(animation: AnimationNameType): Observable<AnimationProcessStateType> {
-    if (!animation || !this.animationsStateMap.has(animation)) {
-      return EMPTY;
-    }
+    this.checkAnimation(animation);
 
     return (this.animationsStateMap.get(animation) as BehaviorSubject<AnimationProcessStateType>)
       .asObservable()
       .pipe(distinctUntilChanged());
+  }
+
+  public animationsPlaying$(...animations: AnimationNameType[]): Observable<boolean> {
+    return combineLatest(animations.map(animation => this.getAnimationState$(animation))).pipe(
+      map(states => states.some(state => state === AnimationProcessStateEnum.PLAYING)),
+      distinctUntilChanged()
+    );
   }
 
   public animationsDone$(...animations: AnimationNameType[]): Observable<unknown> {
@@ -76,5 +82,11 @@ export class AnimationProcessService {
     const animationState = this.animationsStateMap.get(animation);
 
     animationState?.next(AnimationProcessStateEnum.PENDING);
+  }
+
+  private checkAnimation(animation: AnimationNameType): void {
+    if (!animation || !this.animationsStateMap.has(animation)) {
+      throw new Error(`Unknown animation ${animation}`);
+    }
   }
 }

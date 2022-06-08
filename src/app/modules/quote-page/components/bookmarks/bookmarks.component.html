@@ -5,9 +5,9 @@
     <svg-icon key="cancel"></svg-icon>
   </button>
 
-  <app-sidebar-content-body *ngIf="{ favourites: favourites$ | async, status: status$ | async } as data">
+  <app-sidebar-content-body *ngIf="{ bookmarks: bookmarks$ | async, status: status$ | async } as data">
     <!-- Empty bookmarks -->
-    <div class="info info--empty" *ngIf="data.status === statusEnum.SUCCESS && !data.favourites?.length">
+    <div class="info info--empty" *ngIf="data.status === statusEnum.SUCCESS && !data.bookmarks?.length">
       <div class="info__description">
         You can save your favorite quotes and reread them again. To&nbsp;do&nbsp;this, click on&nbsp;the&nbsp;<span
           class="info__text-icon"
@@ -36,14 +36,14 @@
 
     <!--TODO: make fade before and after quotes-->
     <div class="bookmarks">
-      <ng-container *ngFor="let favourite of data.favourites; trackBy: 'id' | trackBy">
+      <ng-container *ngFor="let bookmark of data.bookmarks; trackBy: 'id' | trackBy">
         <div class="bookmark" [@fadeOut]>
-          <div class="quote bookmark__quote" (click)="selectQuote(favourite)">
-            <span class="quote__content">{{ favourite.quote }}</span>
-            <span class="quote__author">{{ favourite | cache: getAuthorInfo }}</span>
+          <div class="quote bookmark__quote" (click)="selectQuote(bookmark)">
+            <span class="quote__content">{{ bookmark.quote }}</span>
+            <span class="quote__author">{{ bookmark | cache: getAuthorInfo }}</span>
           </div>
 
-          <button class="qq-button qq-button__icon bookmark__remove" (click)="remove(favourite.id)">
+          <button class="qq-button qq-button__icon bookmark__remove" (click)="remove(bookmark.id)">
             <svg-icon key="bookmark-remove"></svg-icon>
           </button>
         </div>

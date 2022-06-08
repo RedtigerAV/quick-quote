@@ -10,10 +10,10 @@ import { AppRoutePath } from 'src/app/app.route-path';
 import { BackgroundAnimationService } from '@core/services/animations/background-animation.service';
 import { AnimationProcessService } from '@core/services/animations/animation-process.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { globalConfig } from '@core/global/global.config';
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { AnimationNameEnum } from '@core/services/animations/animations';
 import { waitUntilAnimationDone } from '@core/rxjs-operators/animation-process.operator';
+import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.service';
 
 const IMAGE_POSITION_OFFSET = 1;
 
@@ -37,7 +37,7 @@ export class UserLayoutComponent implements OnInit {
   public readonly currentImagePosition$: Observable<number>;
   public readonly appRoutePathEnum = AppRoutePath;
   public readonly unsplashLink = 'https://unsplash.com/?utm_source=quick-quote&utm_medium=referral';
-  public readonly skipHtmlToImage = globalConfig.skipHtmlToImageClass;
+  public readonly skipHtmlToImage = HtmlToImageService.skipHtmlToImageClass;
 
   private readonly appName = 'quick-quote';
 

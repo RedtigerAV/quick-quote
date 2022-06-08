@@ -52,32 +52,6 @@
     padding: rhythm(10) rhythm(5);
   }
 
-  &__decoration {
-    position: absolute;
-    color: var(--qq-color-element-brand);
-    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
-
-    svg-icon {
-      font-size: 40px !important;
-
-      @include mediaQuery(xs, md) {
-        font-size: 32px !important;
-      }
-    }
-
-    &:first-child {
-      top: 0;
-      left: 0;
-      transform: translate(-25%, -25%);
-    }
-
-    &:last-child {
-      bottom: 0;
-      right: 0;
-      transform: translate(25%, 25%) rotate(180deg);
-    }
-  }
-
   &__content {
     @include qq-font-family-heading(bold);
 

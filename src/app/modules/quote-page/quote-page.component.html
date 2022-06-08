@@ -1,12 +1,12 @@
 <div class="container">
   <app-quote-list
     class="quotes"
-    [selectedQuote]="selectedQuote$ | async"
-    [quotes]="quotes$ | async"
-    [currentPosition]="currentPosition$ | async"
-    [isSelectedFavourite]="isSelectedFavourite$ | async"
-    (likeQuote)="favouritesFacade.addFavourite($event)"
-    (dislikeQuote)="favouritesFacade.removeFavourite($event)"
+    [selectedQuote]="quotesFacade.selectedQuote$ | async"
+    [quotes]="quotesFacade.quotes$ | async"
+    [currentPosition]="quotesFacade.currentPosition$ | async"
+    [isSelectedBookmark]="bookmarksService.isSelectedQuoteBookmark$ | async"
+    (likeQuote)="bookmarksFacade.addBookmark($event)"
+    (dislikeQuote)="bookmarksFacade.removeBookmark($event)"
     (animationStart)="animationStart()"
     (animationDone)="animationDone()"
   ></app-quote-list>
@@ -15,7 +15,7 @@
     *ngIf="{
       isMobile: viewport.isMobileViewport$ | async,
       state: actionsState$ | async,
-      isSlideshowMode: isSlideshowMode$ | async
+      isSlideshowMode: inSlideshowMode$ | async
     } as data"
   >
     <app-bottom-bar class="bottom-bar" [ngClass]="[skipHtmlToImageClass]" [opened]="data.isMobile">
@@ -107,7 +107,7 @@
         <button
           *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
           appBarItem
-          (click)="openBookmarks()"
+          (click)="bookmarksService.openBookmarks()"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="bookmarks-collection"></svg-icon>
@@ -150,7 +150,7 @@
 
       <ng-template #socialNetworksState>
         <app-social-networks
-          [quote]="selectedQuote$ | async"
+          [quote]="quotesFacade.selectedQuote$ | async"
           [opened]="data.isMobile"
           (collapse)="switchBottomBarState(actionsStateEnum.MAIN)"
         ></app-social-networks>

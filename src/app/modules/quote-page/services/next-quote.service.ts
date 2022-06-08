@@ -1,6 +1,6 @@
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { Injectable } from '@angular/core';
-import { map, merge, Observable, of, take, tap } from 'rxjs';
+import { map, merge, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
 import { MediaFacade } from '@core/redux/media/media.facade';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class NextQuoteService {
    * Method to change quote and background image concurrently
    * @returns result of operation
    */
-  public goToNextQuote(): Observable<boolean> {
+  public goToNextQuote(): Observable<void> {
     const currentPosition = this.quotesFacade.currentPosition;
     const total = this.quotesFacade.quotesTotal;
 
@@ -19,7 +19,7 @@ export class NextQuoteService {
       this.quotesFacade.selectQuote(currentPosition + 1);
       this.checkAndHandleImageSelection();
 
-      return of(true);
+      return of(void 0);
     }
 
     this.quotesFacade.loadQuote();
@@ -28,9 +28,11 @@ export class NextQuoteService {
       this.quotesFacade.loadQuoteSuccessAction$.pipe(
         tap(() => this.quotesFacade.selectQuote(currentPosition + 1)),
         tap(() => this.checkAndHandleImageSelection()),
-        map(() => true)
+        map(() => void 0)
       ),
-      this.quotesFacade.loadQuoteFailureAction$.pipe(map(() => false))
+      this.quotesFacade.loadQuoteFailureAction$.pipe(
+        switchMap(() => throwError(() => new Error('Can not load next quote')))
+      )
     ).pipe(take(1));
   }
 
