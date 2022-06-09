@@ -8,7 +8,7 @@
     (likeQuote)="bookmarksFacade.addBookmark($event)"
     (dislikeQuote)="bookmarksFacade.removeBookmark($event)"
     (animationStart)="animationStart()"
-    (animationDone)="animationDone()"
+    (animationDone)="animationDone($event)"
   ></app-quote-list>
 
   <ng-container
@@ -54,8 +54,8 @@
         <button
           *ngIf="data.state === actionsStateEnum.MAIN"
           appBarItem
-          [disabled]="isPreviousQuoteDisabled$ | async"
-          (click)="toPreviousQuote()"
+          [disabled]="isPreviousButtonDisabled$ | async"
+          (click)="quotesMediatorNotify(quotesEventsEnum.TO_PREVIOUS_QUOTE)"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="previous"></svg-icon>
@@ -67,7 +67,7 @@
         <button
           *ngIf="data.state === actionsStateEnum.MAIN && !data.isSlideshowMode"
           appBarItem
-          (click)="runSlideshow()"
+          (click)="slideshowService.start()"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="play"></svg-icon>
@@ -79,10 +79,10 @@
         <button
           *ngIf="data.state === actionsStateEnum.MAIN && data.isSlideshowMode"
           appBarItem
-          (click)="stopSlideshow()"
+          (click)="slideshowService.stop()"
         >
           <app-bar-item-content>
-            <app-timer appBarItemIcon [size]="28" [timer]="timer">
+            <app-timer appBarItemIcon [size]="28" [timer]="slideshowService.timer">
               <svg-icon class="svg svg--small" appBarItemIcon key="pause"></svg-icon>
             </app-timer>
 
@@ -94,8 +94,8 @@
         <button
           *ngIf="data.state === actionsStateEnum.MAIN"
           appBarItem
-          [disabled]="toNextQuote | locked: this | async"
-          (click)="toNextQuote()"
+          [disabled]="isNextButtonDisabled$ | async"
+          (click)="quotesMediatorNotify(quotesEventsEnum.TO_NEXT_QUOTE)"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="next"></svg-icon>
@@ -107,7 +107,7 @@
         <button
           *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
           appBarItem
-          (click)="bookmarksService.openBookmarks()"
+          (click)="openBookmarks()"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="bookmarks-collection"></svg-icon>

@@ -12,6 +12,7 @@ export class BookmarksEffects {
       ofType(bookmarksActions.loadBookmarks),
       switchMap(() =>
         this.quotesAPI.v1QuotesInBulk(this.bookmarksStorage.bookmarkIDs).pipe(
+          // TODO: сортировать согласно bookmarkIDs
           map(bookmarks => bookmarksActions.loadBookmarksSuccess({ bookmarks })),
           catchError(() => of(bookmarksActions.loadBookmarksFailure()))
         )

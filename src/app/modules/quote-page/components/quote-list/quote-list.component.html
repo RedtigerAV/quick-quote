@@ -1,8 +1,8 @@
 <div
   class="quotes"
   [@flyInOut]="currentPosition"
-  (@flyInOut.start)="animationStart.emit()"
-  (@flyInOut.done)="animationDone.emit()"
+  (@flyInOut.start)="animationStart.emit($event)"
+  (@flyInOut.done)="animationDone.emit($event)"
 >
   <ng-container *ngFor="let quote of quotes; let idx = index">
     <div *ngIf="idx === currentPosition" class="quotes__item">

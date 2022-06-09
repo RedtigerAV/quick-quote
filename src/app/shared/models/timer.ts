@@ -1,15 +1,15 @@
 import {
   BehaviorSubject,
   bufferCount,
+  delay,
   filter,
   map,
   merge,
   Observable,
-  of,
   Subject,
-  switchMap,
   takeUntil,
   takeWhile,
+  tap,
   timer
 } from 'rxjs';
 
@@ -43,9 +43,10 @@ export class Timer {
 
     this.left$ = this._left$.asObservable();
     this.state$ = this._state$.asObservable();
-    this.finish$ = this._left$.pipe(
+    this.finish$ = this.left$.pipe(
       filter(value => value === 0),
-      switchMap(() => of(void 0))
+      map(() => void 0),
+      delay(0)
     );
   }
 
@@ -73,8 +74,8 @@ export class Timer {
 
   public reset(): void {
     this.destroy();
-    this._state$.next(TimerStateEnum.RESET);
     this._left$.next(this.seconds);
+    this._state$.next(TimerStateEnum.RESET);
   }
 
   public destroy(): void {
@@ -90,6 +91,6 @@ export class Timer {
         takeWhile(() => this.state !== TimerStateEnum.RESET),
         takeUntil(merge(this.destroy$, this.finish$))
       )
-      .subscribe(this._left$);
+      .subscribe(left => this._left$.next(left));
   }
 }
