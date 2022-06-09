@@ -23,15 +23,16 @@ export class BookmarksService {
   }
 
   public openBookmarks(): void {
-    this.sidebarService
-      .open({ content: BookmarksComponent })
-      .afterClosed()
+    QuotesMediator.notify(QuotesMediatorEvents.SIDEBAR_OPENED);
+
+    const sidebarRef = this.sidebarService.open({ content: BookmarksComponent });
+
+    sidebarRef
+      .beforeClosed()
       .pipe(take(1), filter(Boolean), untilDestroyed(this))
       .subscribe(result => {
         const isEqual = result.id === this.quotesFacade.selectedQuoteID;
         const isNextEqual = result.id === this.quotesFacade.nextQuote?.id;
-
-        // if isEqual => slideshow.continue ???
 
         if (isNextEqual) {
           QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
@@ -41,5 +42,10 @@ export class BookmarksService {
           QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
         }
       });
+
+    sidebarRef
+      .beforeClosed()
+      .pipe(take(1), untilDestroyed(this))
+      .subscribe(() => QuotesMediator.notify(QuotesMediatorEvents.SIDEBAR_CLOSED));
   }
 }

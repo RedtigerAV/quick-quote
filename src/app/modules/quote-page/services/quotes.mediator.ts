@@ -10,7 +10,9 @@ export enum QuotesMediatorEvents {
   TO_NEXT_QUOTE_FINISH,
   TO_NEXT_QUOTE_ERROR,
   TO_PREVIOUS_QUOTE,
-  TO_PREVIOUS_QUOTE_FINISH
+  TO_PREVIOUS_QUOTE_FINISH,
+  SIDEBAR_OPENED,
+  SIDEBAR_CLOSED
 }
 
 @Injectable()
@@ -43,6 +45,10 @@ export class QuotesMediator implements OnDestroy {
         return QuotesMediator._instance.onToPreviousQuote();
       case QuotesMediatorEvents.TO_PREVIOUS_QUOTE_FINISH:
         return QuotesMediator._instance.onToPreviousQuoteFinish();
+      case QuotesMediatorEvents.SIDEBAR_OPENED:
+        return QuotesMediator._instance.onSidebarOpened();
+      case QuotesMediatorEvents.SIDEBAR_CLOSED:
+        return QuotesMediator._instance.onSidebarClosed();
     }
   }
 
@@ -99,5 +105,17 @@ export class QuotesMediator implements OnDestroy {
       this.slideshowService.playTimer();
     }
     // gesturesService.unlockSwipeRight();
+  }
+
+  private onSidebarOpened(): void {
+    if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
+      this.slideshowService.pauseTimer();
+    }
+  }
+
+  private onSidebarClosed(): void {
+    if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
+      this.slideshowService.playTimer();
+    }
   }
 }
