@@ -84,7 +84,6 @@ export class QuotesMediator implements OnDestroy {
     }
 
     // hostComponent.unlockSwipeLeft();
-    // if slideshow.state === 'running' => slideshow.stop();
     // show error (another service?)
   }
 

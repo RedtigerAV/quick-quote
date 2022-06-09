@@ -5,6 +5,8 @@
     [quotes]="quotesFacade.quotes$ | async"
     [currentPosition]="quotesFacade.currentPosition$ | async"
     [isSelectedBookmark]="bookmarksService.isSelectedQuoteBookmark$ | async"
+    (swipeNext)="onSwipeNext()"
+    (swipePrevious)="onSwipePrevious()"
     (likeQuote)="bookmarksFacade.addBookmark($event)"
     (dislikeQuote)="bookmarksFacade.removeBookmark($event)"
     (animationStart)="animationStart()"
@@ -107,7 +109,7 @@
         <button
           *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
           appBarItem
-          (click)="openBookmarks()"
+          (click)="bookmarksService.openBookmarks()"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="bookmarks-collection"></svg-icon>

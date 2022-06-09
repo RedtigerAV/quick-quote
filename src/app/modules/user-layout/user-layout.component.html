@@ -26,11 +26,11 @@
         </span>
         <div class="menu__actions" [ngStyle]="{ color: data.selectedImage | cache: getMenuTextColor:this }">
           <a [routerLink]="appRoutePathEnum.ABOUT" class="action__item">
-            <svg-icon key="info" fontSize="40px" *ngIf="data.isMobile"></svg-icon>
+            <svg-icon key="info" fontSize="32px" *ngIf="data.isMobile"></svg-icon>
             <span *ngIf="!data.isMobile">About</span>
           </a>
           <a [routerLink]="appRoutePathEnum.CONTACT" class="action__item">
-            <svg-icon key="contact" fontSize="40px" *ngIf="data.isMobile"></svg-icon>
+            <svg-icon key="contact" fontSize="32px" *ngIf="data.isMobile"></svg-icon>
             <span *ngIf="!data.isMobile">Contact us</span>
           </a>
         </div>
