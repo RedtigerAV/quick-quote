@@ -25,6 +25,8 @@ export class QuoteListComponent implements OnInit {
   @Input() public isSelectedBookmark!: Nullable<boolean>;
   @Output() public likeQuote = new EventEmitter<IQuote>();
   @Output() public dislikeQuote = new EventEmitter<string>();
+  @Output() public swipeNext = new EventEmitter<void>();
+  @Output() public swipePrevious = new EventEmitter<void>();
   @Output() public animationStart = new EventEmitter<AnimationEvent>();
   @Output() public animationDone = new EventEmitter<AnimationEvent>();
 
@@ -36,5 +38,13 @@ export class QuoteListComponent implements OnInit {
 
   public getAuthorInfo(quote: IQuote): string {
     return QuoteHelper.getAuthoInfo(quote);
+  }
+
+  public onDoubleTap(): void {
+    if (this.isSelectedBookmark) {
+      this.dislikeQuote.emit((this.selectedQuote as IQuote).id);
+    } else {
+      this.likeQuote.emit(this.selectedQuote as IQuote);
+    }
   }
 }

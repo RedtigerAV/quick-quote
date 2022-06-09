@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { reducers } from '@core/redux/index.reducers';
 import { IconsModule } from '@shared/svg/icons.module';
 import { ViewportModule } from '@core/services/viewport/viewport.module';
 import { ToasterModule } from '@shared/services/toaster/toaster.module';
+import { HammerGestureProvider } from '@core/configuration/hammer.configuration';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,9 +45,10 @@ import { ToasterModule } from '@shared/services/toaster/toaster.module';
     ToasterModule.forRoot({
       autoClose: true,
       duration: 5000
-    })
+    }),
+    HammerModule
   ],
-  providers: [],
+  providers: [HammerGestureProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

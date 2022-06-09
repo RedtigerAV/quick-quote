@@ -3,10 +3,12 @@
   [@flyInOut]="currentPosition"
   (@flyInOut.start)="animationStart.emit($event)"
   (@flyInOut.done)="animationDone.emit($event)"
+  (swiperight)="swipePrevious.emit()"
+  (swipeleft)="swipeNext.emit()"
 >
   <ng-container *ngFor="let quote of quotes; let idx = index">
     <div *ngIf="idx === currentPosition" class="quotes__item">
-      <div class="quote">
+      <div class="quote" (doubletap)="onDoubleTap()">
         <h1 class="quote__content">
           {{ quote.quote }}
         </h1>

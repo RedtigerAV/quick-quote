@@ -1,6 +1,6 @@
 import { BehaviorSubject, catchError, combineLatest, filter, finalize, map, Observable, of, take, tap } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { NextQuoteService } from './services/next-quote.service';
@@ -36,7 +36,7 @@ import isNumber from 'lodash-es/isNumber';
     SlideshowService
   ]
 })
-export class QuotePageComponent implements OnInit, OnDestroy {
+export class QuotePageComponent implements OnInit {
   public readonly isPreviousButtonDisabled$: Observable<boolean>;
   public readonly isNextButtonDisabled$: Observable<boolean>;
   public readonly actionsState$: Observable<ActionsStateType>;
@@ -80,8 +80,6 @@ export class QuotePageComponent implements OnInit, OnDestroy {
     this.listenQuoteChanges();
   }
 
-  public ngOnDestroy(): void {}
-
   public animationStart(): void {
     this.animationProcess.animationStart(AnimationNameEnum.QUOTE_CHANGE);
   }
@@ -101,11 +99,39 @@ export class QuotePageComponent implements OnInit, OnDestroy {
   }
 
   public setNextButtonDisabledState(disabled: boolean): void {
+    disabled ? lock(this, this.onSwipeNext) : unlock(this, this.onSwipeNext);
+    disabled ? lock(this, this.onArrowRight) : unlock(this, this.onArrowRight);
+
     this._isNextButtonDisabled$.next(disabled);
   }
 
   public setPreviousButtonDisabledState(disabled: boolean): void {
+    disabled ? lock(this, this.onSwipePrevious) : unlock(this, this.onSwipePrevious);
+    disabled ? lock(this, this.onArrowLeft) : unlock(this, this.onArrowLeft);
+
     this._isPreviousButtonDisabled$.next(disabled);
+  }
+
+  @locker()
+  public onSwipeNext(): void {
+    QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
+  }
+
+  @locker()
+  public onSwipePrevious(): void {
+    QuotesMediator.notify(QuotesMediatorEvents.TO_PREVIOUS_QUOTE);
+  }
+
+  @locker()
+  @HostListener('document:keyup.arrowright')
+  public onArrowRight(): void {
+    QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
+  }
+
+  @locker()
+  @HostListener('document:keyup.arrowleft')
+  public onArrowLeft(): void {
+    QuotesMediator.notify(QuotesMediatorEvents.TO_PREVIOUS_QUOTE);
   }
 
   @locker()
@@ -126,10 +152,6 @@ export class QuotePageComponent implements OnInit, OnDestroy {
         untilDestroyed(this)
       )
       .subscribe();
-  }
-
-  public openBookmarks(): void {
-    this.bookmarksService.openBookmarks();
   }
 
   public switchBottomBarState(state: ActionsStateType): void {
