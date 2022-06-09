@@ -6,7 +6,7 @@ import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 export class PreviousQuoteService {
   constructor(private readonly quotesFacade: QuotesFacade, private readonly mediaFacade: MediaFacade) {}
 
-  public goToPreviousQuote(): void {
+  public toPreviousQuote(): void {
     const quotePosition = this.quotesFacade.currentPosition;
     const prevImage = this.mediaFacade.prevImage;
 

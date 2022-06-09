@@ -67,8 +67,9 @@ export class AnimationProcessService {
         combineLatest(animations.map(animation => this.getAnimationState$(animation))).pipe(
           filter(states => states.every(state => state === AnimationProcessStateEnum.PENDING))
         )
-      ),
-      take(1)
+      )
+      // TODO: проверить, что в нужных местах есть take(1)
+      // take(1)
     );
   }
 

@@ -1,8 +1,11 @@
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { Injectable } from '@angular/core';
-import { map, merge, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
+import { map, merge, take, tap } from 'rxjs';
 import { MediaFacade } from '@core/redux/media/media.facade';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { QuotesMediator, QuotesMediatorEvents } from './quotes.mediator';
 
+@UntilDestroy()
 @Injectable()
 export class NextQuoteService {
   constructor(private readonly quotesFacade: QuotesFacade, private readonly mediaFacade: MediaFacade) {}
@@ -11,7 +14,7 @@ export class NextQuoteService {
    * Method to change quote and background image concurrently
    * @returns result of operation
    */
-  public goToNextQuote(): Observable<void> {
+  public toNextQuote(): void {
     const currentPosition = this.quotesFacade.currentPosition;
     const total = this.quotesFacade.quotesTotal;
 
@@ -19,21 +22,23 @@ export class NextQuoteService {
       this.quotesFacade.selectQuote(currentPosition + 1);
       this.checkAndHandleImageSelection();
 
-      return of(void 0);
+      return;
     }
 
     this.quotesFacade.loadQuote();
 
-    return merge(
+    merge(
       this.quotesFacade.loadQuoteSuccessAction$.pipe(
         tap(() => this.quotesFacade.selectQuote(currentPosition + 1)),
         tap(() => this.checkAndHandleImageSelection()),
         map(() => void 0)
       ),
       this.quotesFacade.loadQuoteFailureAction$.pipe(
-        switchMap(() => throwError(() => new Error('Can not load next quote')))
+        tap(() => QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE_ERROR))
       )
-    ).pipe(take(1));
+    )
+      .pipe(take(1), untilDestroyed(this))
+      .subscribe();
   }
 
   private checkAndHandleImageSelection(): void {

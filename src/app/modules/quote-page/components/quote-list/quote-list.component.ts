@@ -1,4 +1,4 @@
-import { transition, trigger } from '@angular/animations';
+import { AnimationEvent, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { IQuote } from '@core/models/quote.model';
 import { Nullable } from '@core/types/nullable.type';
@@ -25,8 +25,8 @@ export class QuoteListComponent implements OnInit {
   @Input() public isSelectedBookmark!: Nullable<boolean>;
   @Output() public likeQuote = new EventEmitter<IQuote>();
   @Output() public dislikeQuote = new EventEmitter<string>();
-  @Output() public animationStart = new EventEmitter<void>();
-  @Output() public animationDone = new EventEmitter<void>();
+  @Output() public animationStart = new EventEmitter<AnimationEvent>();
+  @Output() public animationDone = new EventEmitter<AnimationEvent>();
 
   public readonly skipHtmlToImage = HtmlToImageService.skipHtmlToImageClass;
 

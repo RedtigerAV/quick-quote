@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Timer, TimerStateEnum } from '@shared/models/timer';
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, delay, filter, map, Observable, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-timer',
@@ -21,14 +21,18 @@ export class TimerComponent implements OnInit, OnChanges {
 
   public ngOnInit(): void {
     this.recalculateCircle();
+
     this.leftDasharray$ = combineLatest([this.timer.left$, this.timer.state$]).pipe(
+      delay(0),
+      filter(([left]) => left !== 0),
       map(([left, state]) => {
         if (state === TimerStateEnum.RESET) {
           return this.calculateLeftDasharray(left);
         }
 
         return this.calculateLeftDasharray(left - 1);
-      })
+      }),
+      startWith(this.calculateLeftDasharray(this.timer.left))
     );
   }
 
