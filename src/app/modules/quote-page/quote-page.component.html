@@ -5,8 +5,8 @@
     [quotes]="quotesFacade.quotes$ | async"
     [currentPosition]="quotesFacade.currentPosition$ | async"
     [isSelectedBookmark]="bookmarksService.isSelectedQuoteBookmark$ | async"
-    (swipeNext)="onSwipeNext()"
-    (swipePrevious)="onSwipePrevious()"
+    (swipeNext)="toNextQuote()"
+    (swipePrevious)="toPreviousQuote()"
     (likeQuote)="bookmarksFacade.addBookmark($event)"
     (dislikeQuote)="bookmarksFacade.removeBookmark($event)"
     (animationStart)="animationStart()"
@@ -57,7 +57,7 @@
           *ngIf="data.state === actionsStateEnum.MAIN"
           appBarItem
           [disabled]="isPreviousButtonDisabled$ | async"
-          (click)="quotesMediatorNotify(quotesEventsEnum.TO_PREVIOUS_QUOTE)"
+          (click)="toPreviousQuote()"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="previous"></svg-icon>
@@ -97,7 +97,7 @@
           *ngIf="data.state === actionsStateEnum.MAIN"
           appBarItem
           [disabled]="isNextButtonDisabled$ | async"
-          (click)="quotesMediatorNotify(quotesEventsEnum.TO_NEXT_QUOTE)"
+          (click)="toNextQuote()"
         >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="next"></svg-icon>
@@ -118,7 +118,11 @@
         </button>
 
         <!--Settings-->
-        <button *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL" appBarItem>
+        <button
+          *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
+          appBarItem
+          (click)="settingsService.openSettings()"
+        >
           <app-bar-item-content>
             <svg-icon class="svg" appBarItemIcon key="settings"></svg-icon>
             <span appBarItemText>Settings</span>

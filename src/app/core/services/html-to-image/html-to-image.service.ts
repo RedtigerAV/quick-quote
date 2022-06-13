@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { Observable, of, switchMap, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { HtmlToImageStrategy, StrategyNameEnum } from './html-to-image.strategy';
 import { WebStorageService } from '@core/services/webstorage/webstorage.service';
@@ -38,7 +38,7 @@ export class HtmlToImageService {
   public saveImage(name: string): Observable<void> {
     return this.strategy.toImage(this.document.body, this.filter).pipe(
       tap(dataUrl => FileSaver.saveAs(dataUrl, `${name}.${this.strategy.extension}`)),
-      switchMap(() => of(void 0))
+      map(() => void 0)
     );
   }
 }

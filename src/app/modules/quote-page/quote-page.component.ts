@@ -20,6 +20,7 @@ import { SlideshowService, SlidwshowStateEnum } from './services/slideshow.servi
 import { QuotesMediator, QuotesMediatorEvents } from './services/quotes.mediator';
 import { AnimationEvent } from '@angular/animations';
 import isNumber from 'lodash-es/isNumber';
+import { SettingsService } from './services/settings.service';
 
 @UntilDestroy()
 @Component({
@@ -33,7 +34,8 @@ import isNumber from 'lodash-es/isNumber';
     QuotesLoaderService,
     DownloadImageService,
     BookmarksService,
-    SlideshowService
+    SlideshowService,
+    SettingsService
   ]
 })
 export class QuotePageComponent implements OnInit {
@@ -41,7 +43,6 @@ export class QuotePageComponent implements OnInit {
   public readonly isNextButtonDisabled$: Observable<boolean>;
   public readonly actionsState$: Observable<ActionsStateType>;
   public readonly inSlideshowMode$: Observable<boolean>;
-  public readonly quotesMediatorNotify = QuotesMediator.notify;
   public readonly skipHtmlToImageClass = HtmlToImageService.skipHtmlToImageClass;
   public readonly actionsStateEnum = ActionsStateEnum;
   public readonly quotesEventsEnum = QuotesMediatorEvents;
@@ -57,6 +58,7 @@ export class QuotePageComponent implements OnInit {
     public readonly quotesFacade: QuotesFacade,
     public readonly slideshowService: SlideshowService,
     public readonly quotesMediator: QuotesMediator,
+    public readonly settingsService: SettingsService,
     private readonly animationProcess: AnimationProcessService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
@@ -99,38 +101,26 @@ export class QuotePageComponent implements OnInit {
   }
 
   public setNextButtonDisabledState(disabled: boolean): void {
-    disabled ? lock(this, this.onSwipeNext) : unlock(this, this.onSwipeNext);
-    disabled ? lock(this, this.onArrowRight) : unlock(this, this.onArrowRight);
+    disabled ? lock(this, this.toNextQuote) : unlock(this, this.toNextQuote);
 
     this._isNextButtonDisabled$.next(disabled);
   }
 
   public setPreviousButtonDisabledState(disabled: boolean): void {
-    disabled ? lock(this, this.onSwipePrevious) : unlock(this, this.onSwipePrevious);
-    disabled ? lock(this, this.onArrowLeft) : unlock(this, this.onArrowLeft);
+    disabled ? lock(this, this.toPreviousQuote) : unlock(this, this.toPreviousQuote);
 
     this._isPreviousButtonDisabled$.next(disabled);
   }
 
   @locker()
-  public onSwipeNext(): void {
-    QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
-  }
-
-  @locker()
-  public onSwipePrevious(): void {
-    QuotesMediator.notify(QuotesMediatorEvents.TO_PREVIOUS_QUOTE);
-  }
-
-  @locker()
   @HostListener('document:keyup.arrowright')
-  public onArrowRight(): void {
+  public toNextQuote(): void {
     QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
   }
 
   @locker()
   @HostListener('document:keyup.arrowleft')
-  public onArrowLeft(): void {
+  public toPreviousQuote(): void {
     QuotesMediator.notify(QuotesMediatorEvents.TO_PREVIOUS_QUOTE);
   }
 

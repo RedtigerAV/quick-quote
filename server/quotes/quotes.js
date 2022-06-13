@@ -1,18 +1,10 @@
 const express = require('express');
-const path = require('path');
+const { API_HOST, headers } = require('./config');
 const axios = require('axios');
 const router = express.Router();
 
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-
-const API_HOST = 'https://quotel-quotes.p.rapidapi.com';
-const headers = {
-  'content-type': 'application/json',
-  'X-RapidAPI-Host': 'quotel-quotes.p.rapidapi.com',
-  'X-RapidAPI-Key': process.env.RAPID_API_KEY
-};
 const errorStatus = error => error.response?.status || 500;
-const errorData = error => error.response?.data || { message: 'Quote API internal error' };
+const errorData = error => error.response?.data || { message: 'Quotel API internal error' };
 const prepareQuote = quote => ({
   id: quote.quoteId.toString(),
   quote: quote.quote,

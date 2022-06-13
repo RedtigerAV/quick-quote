@@ -11,6 +11,7 @@ import { SocialNetworksModule } from './components/social-networks/social-networ
 import { BarItemModule } from '@shared/components/bar-item/bar-item.module';
 import { BookmarksModule } from './components/bookmarks/bookmarks.module';
 import { TimerModule } from '@shared/components/timer/timer.module';
+import { SettingsModule } from './components/settings/settings.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { TimerModule } from '@shared/components/timer/timer.module';
     SocialNetworksModule,
     BarItemModule,
     BookmarksModule,
+    SettingsModule,
     TimerModule
   ],
   exports: [QuotePageComponent],
