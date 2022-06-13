@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MediaFacade } from '@core/redux/media/media.facade';
+import { PhotosFacade } from '@core/redux/photo/photos.facade';
 import { waitUntilAnimationDone } from '@core/rxjs-operators/animation-process.operator';
 import { AnimationNameEnum } from '@core/services/animations/animations';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -7,16 +7,16 @@ import { filter, tap } from 'rxjs';
 
 @UntilDestroy()
 @Injectable()
-export class MediaLoaderService {
-  constructor(private readonly mediaFacade: MediaFacade) {}
+export class PhotosLoaderService {
+  constructor(private readonly photosFacade: PhotosFacade) {}
 
   public init(): void {
-    this.mediaFacade.nextImage$
+    this.photosFacade.nextPhoto$
       .pipe(
-        filter(() => !!this.mediaFacade.selectedImageID),
+        filter(() => !!this.photosFacade.selectedPhotoID),
         filter(nextQuote => !nextQuote),
-        waitUntilAnimationDone(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
-        tap(() => this.mediaFacade.loadImages()),
+        waitUntilAnimationDone(AnimationNameEnum.PHOTO_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
+        tap(() => this.photosFacade.loadPhotos()),
         untilDestroyed(this)
       )
       .subscribe();

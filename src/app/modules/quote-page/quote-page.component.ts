@@ -13,7 +13,7 @@ import { Platform } from '@angular/cdk/platform';
 import { BookmarksFacade } from '@core/redux/bookmarks/bookmarks.facade';
 import { AnimationProcessService } from '@core/services/animations/animation-process.service';
 import { AnimationNameEnum } from '@core/services/animations/animations';
-import { DownloadImageService } from './services/dowload-image.service';
+import { DownloadPhotoService } from './services/dowload-photo.service';
 import { BookmarksService } from './services/bookmarks.service';
 import { ActionsStateEnum, ActionsStateType } from './quote-page.interfaces';
 import { SlideshowService, SlidwshowStateEnum } from './services/slideshow.service';
@@ -32,7 +32,7 @@ import { SettingsService } from './services/settings.service';
     NextQuoteService,
     PreviousQuoteService,
     QuotesLoaderService,
-    DownloadImageService,
+    DownloadPhotoService,
     BookmarksService,
     SlideshowService,
     SettingsService
@@ -63,8 +63,8 @@ export class QuotePageComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly quotesLoaderService: QuotesLoaderService,
-    private readonly htmlToImage: HtmlToImageService,
-    private readonly downloadImage: DownloadImageService
+    private readonly htmlToImageService: HtmlToImageService,
+    private readonly downloadPhotoService: DownloadPhotoService
   ) {
     this.quotesMediator.hostComponent = this;
 
@@ -130,9 +130,9 @@ export class QuotePageComponent implements OnInit {
     const imageName = `[Quick Quote] ${this.quotesFacade.selectedQuote?.authorName}`;
 
     // https://help.unsplash.com/en/articles/2511258-guideline-triggering-a-download
-    this.downloadImage.triggerDownload();
+    this.downloadPhotoService.triggerDownload();
 
-    this.htmlToImage
+    this.htmlToImageService
       .saveImage(imageName)
       .pipe(
         // TODO: Обработать ошибку

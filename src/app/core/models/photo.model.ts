@@ -1,4 +1,4 @@
-export interface IMedia {
+export interface IPhoto {
   id: string;
   color: string;
   blur_hash: string;

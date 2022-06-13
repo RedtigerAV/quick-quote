@@ -16,7 +16,7 @@ export class QuotesLoaderService {
       .pipe(
         filter(() => !!this.quotesFacade.selectedQuoteID),
         filter(position => position === this.quotesFacade.quotesTotal - 1),
-        waitUntilAnimationDone(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
+        waitUntilAnimationDone(AnimationNameEnum.PHOTO_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
         tap(() => this.quotesFacade.loadQuote()),
         untilDestroyed(this)
       )

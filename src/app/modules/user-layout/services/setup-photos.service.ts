@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { MediaFacade } from '@core/redux/media/media.facade';
+import { PhotosFacade } from '@core/redux/photo/photos.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, take, tap } from 'rxjs';
 
 @UntilDestroy()
 @Injectable()
-export class SetupImagesService {
-  constructor(private readonly mediaFacade: MediaFacade) {}
+export class SetupPhotosService {
+  constructor(private readonly photosFacade: PhotosFacade) {}
 
-  public setupImages(): void {
-    this.mediaFacade.loadImages();
+  public setupPhotos(): void {
+    this.photosFacade.loadPhotos();
 
-    this.mediaFacade.imageIDs$
+    this.photosFacade.photoIDs$
       .pipe(
         filter(ids => !!ids.length),
         take(1),
-        tap(([id]) => this.mediaFacade.selectImage(id)),
+        tap(([id]) => this.photosFacade.selectPhotos(id)),
         untilDestroyed(this)
       )
       .subscribe();

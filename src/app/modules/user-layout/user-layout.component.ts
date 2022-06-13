@@ -1,9 +1,9 @@
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { IMedia } from '@core/models/media.model';
-import { MediaFacade } from '@core/redux/media/media.facade';
-import { SetupImagesService } from './services/setup-images.service';
-import { MediaLoaderService } from './services/media-loader.service';
+import { IPhoto } from '@core/models/photo.model';
+import { PhotosFacade } from '@core/redux/photo/photos.facade';
+import { SetupPhotosService } from './services/setup-photos.service';
+import { PhotosLoaderService } from './services/photos-loader.service';
 import { BrightnessLevelEnum, ColorsHelper } from '@shared/helpers/colors.helper';
 import { ViewportService } from '@core/services/viewport/viewport.service';
 import { AppRoutePath } from 'src/app/app.route-path';
@@ -15,7 +15,7 @@ import { AnimationNameEnum } from '@core/services/animations/animations';
 import { waitUntilAnimationDone } from '@core/rxjs-operators/animation-process.operator';
 import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.service';
 
-const IMAGE_POSITION_OFFSET = 1;
+const PHOTO_POSITION_OFFSET = 1;
 
 @UntilDestroy()
 @Component({
@@ -32,9 +32,9 @@ const IMAGE_POSITION_OFFSET = 1;
   ]
 })
 export class UserLayoutComponent implements OnInit {
-  public readonly images$: Observable<Array<IMedia>>;
-  public readonly selectedImage$: Observable<IMedia>;
-  public readonly currentImagePosition$: Observable<number>;
+  public readonly photos$: Observable<Array<IPhoto>>;
+  public readonly selectedPhoto$: Observable<IPhoto>;
+  public readonly currentPhotoPosition$: Observable<number>;
   public readonly appRoutePathEnum = AppRoutePath;
   public readonly unsplashLink = 'https://unsplash.com/?utm_source=quick-quote&utm_medium=referral';
   public readonly skipHtmlToImage = HtmlToImageService.skipHtmlToImageClass;
@@ -44,62 +44,64 @@ export class UserLayoutComponent implements OnInit {
   constructor(
     public readonly viewport: ViewportService,
     private readonly animationProcess: AnimationProcessService,
-    private readonly mediaFacade: MediaFacade,
+    private readonly photosFacade: PhotosFacade,
     private readonly backgroundAnimation: BackgroundAnimationService,
-    private readonly setupImagesService: SetupImagesService,
-    private readonly mediaLoaderService: MediaLoaderService
+    private readonly setupPhotosService: SetupPhotosService,
+    private readonly photosLoaderService: PhotosLoaderService
   ) {
-    this.images$ = combineLatest([
-      mediaFacade.images$.pipe(filter(images => !!images?.length)),
-      mediaFacade.selectedImagePosition$.pipe(filter(position => position !== null))
+    this.photos$ = combineLatest([
+      photosFacade.photos$.pipe(filter(photos => !!photos?.length)),
+      photosFacade.selectedPhotoPosition$.pipe(filter(position => position !== null))
     ]).pipe(
-      waitUntilAnimationDone(AnimationNameEnum.IMAGE_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
-      map(([images, position]) =>
-        images.slice(
-          Math.max(0, (position as number) - IMAGE_POSITION_OFFSET),
-          Math.min(images.length, (position as number) + IMAGE_POSITION_OFFSET + 1)
+      waitUntilAnimationDone(AnimationNameEnum.PHOTO_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
+      map(([photos, position]) =>
+        photos.slice(
+          Math.max(0, (position as number) - PHOTO_POSITION_OFFSET),
+          Math.min(photos.length, (position as number) + PHOTO_POSITION_OFFSET + 1)
         )
       )
     );
-    this.selectedImage$ = mediaFacade.selectedImage$.pipe(filter(Boolean));
-    this.currentImagePosition$ = combineLatest([this.images$, mediaFacade.selectedImageID$.pipe(filter(Boolean))]).pipe(
-      map(([images, selectedID]) => images.findIndex(({ id }) => id === selectedID))
-    );
+    this.selectedPhoto$ = photosFacade.selectedPhoto$.pipe(filter(Boolean));
+    this.currentPhotoPosition$ = combineLatest([
+      this.photos$,
+      photosFacade.selectedPhotoID$.pipe(filter(Boolean))
+    ]).pipe(map(([photos, selectedID]) => photos.findIndex(({ id }) => id === selectedID)));
   }
 
   public ngOnInit(): void {
-    this.mediaLoaderService.init();
-    this.setupImagesService.setupImages();
+    // TODO: проверить что при смене компонента подписки не пересоздаются
+    this.photosLoaderService.init();
+    this.setupPhotosService.setupPhotos();
     this.setupBackgroundAnimation();
   }
 
   public animationStart(event: AnimationEvent): void {
     if (event.fromState === 'inactive' && event.toState === 'active') {
-      this.animationProcess.animationStart(AnimationNameEnum.IMAGE_CHANGE);
+      this.animationProcess.animationStart(AnimationNameEnum.PHOTO_CHANGE);
     }
   }
 
   public animationDone(event: AnimationEvent): void {
     if (event.fromState === 'inactive' && event.toState === 'active') {
-      this.animationProcess.animationDone(AnimationNameEnum.IMAGE_CHANGE);
+      this.animationProcess.animationDone(AnimationNameEnum.PHOTO_CHANGE);
     }
   }
 
-  public getImageAuthorLink(image: IMedia): string {
-    const link = image.user.link;
+  public getPhotoAuthorLink(photo: IPhoto): string {
+    const link = photo.user.link;
 
     return `${link}?utm_source=${this.appName}&utm_medium=referral`;
   }
 
-  public getMenuTextColor(image: IMedia): string {
+  public getMenuTextColor(photo: IPhoto): string {
     const forDarkBG = 'var(--qq-color-text-main)';
     const forLightBG = 'var(--qq-color-text-contrast)';
 
-    if (!image) {
+    if (!photo) {
       return forDarkBG;
     }
 
-    const darkenColor = ColorsHelper.lightenDarkenHex(image.color, -70);
+    const darkenColor = ColorsHelper.lightenDarkenHex(photo.color, -70);
     const backgroundRGB = ColorsHelper.hexToRGB(darkenColor);
 
     if (!backgroundRGB) {
@@ -112,8 +114,8 @@ export class UserLayoutComponent implements OnInit {
   }
 
   private setupBackgroundAnimation(): void {
-    this.mediaFacade.selectedImage$.pipe(untilDestroyed(this)).subscribe(image => {
-      if (!image) {
+    this.photosFacade.selectedPhoto$.pipe(untilDestroyed(this)).subscribe(photo => {
+      if (!photo) {
         this.backgroundAnimation.turnOnAnimation();
       } else {
         this.backgroundAnimation.turnOffAnimation();

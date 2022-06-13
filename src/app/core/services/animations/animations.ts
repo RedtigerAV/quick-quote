@@ -1,6 +1,6 @@
 export enum AnimationNameEnum {
   QUOTE_CHANGE = 'quote-change',
-  IMAGE_CHANGE = 'image-change'
+  PHOTO_CHANGE = 'photo-change'
 }
 
-export type AnimationNameType = AnimationNameEnum.IMAGE_CHANGE | AnimationNameEnum.QUOTE_CHANGE;
+export type AnimationNameType = AnimationNameEnum.PHOTO_CHANGE | AnimationNameEnum.QUOTE_CHANGE;

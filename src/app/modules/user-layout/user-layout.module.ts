@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TrackByPipeModule } from '@shared/pipes/track-by/track-by-pipe.module';
 import { UserLayoutComponent } from './user-layout.component';
-import { SetupImagesService } from './services/setup-images.service';
-import { MediaLoaderService } from './services/media-loader.service';
+import { SetupPhotosService } from './services/setup-photos.service';
+import { PhotosLoaderService } from './services/photos-loader.service';
 import { SidebarModule } from '@shared/services/sidebar/sidebar.module';
 import { SidebarPositionEnum } from '@shared/services/sidebar/sidebar.interface';
 import { LogoModule } from '@shared/components/logo/logo.module';
@@ -29,6 +29,6 @@ import { SvgIconsModule } from '@ngneat/svg-icon';
   ],
   exports: [UserLayoutComponent],
   declarations: [UserLayoutComponent],
-  providers: [SetupImagesService, MediaLoaderService]
+  providers: [SetupPhotosService, PhotosLoaderService]
 })
 export class UserLayoutModule {}
