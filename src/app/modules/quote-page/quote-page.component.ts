@@ -19,24 +19,14 @@ import { ActionsStateEnum, ActionsStateType } from './quote-page.interfaces';
 import { SlideshowService, SlidwshowStateEnum } from './services/slideshow.service';
 import { QuotesMediator, QuotesMediatorEvents } from './services/quotes.mediator';
 import { AnimationEvent } from '@angular/animations';
-import isNumber from 'lodash-es/isNumber';
 import { SettingsService } from './services/settings.service';
+import isNumber from 'lodash-es/isNumber';
 
 @UntilDestroy()
 @Component({
   templateUrl: './quote-page.component.html',
   styleUrls: ['./quote-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    QuotesMediator,
-    NextQuoteService,
-    PreviousQuoteService,
-    QuotesLoaderService,
-    DownloadPhotoService,
-    BookmarksService,
-    SlideshowService,
-    SettingsService
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuotePageComponent implements OnInit {
   public readonly isPreviousButtonDisabled$: Observable<boolean>;
@@ -78,6 +68,7 @@ export class QuotePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    // TODO: сервисы были перенесены в модуль. Избавиться от UntilDestroy в них
     this.quotesLoaderService.init();
     this.listenQuoteChanges();
   }

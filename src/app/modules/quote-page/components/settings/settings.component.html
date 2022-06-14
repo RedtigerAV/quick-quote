@@ -11,7 +11,7 @@
       as&nbsp;possible.
     </div>
 
-    <div class="menu" *ngIf="{ expanded: expandedItem$ | async } as data">
+    <div class="menu" *ngIf="{ expanded: expandedItem$ | async, result: result$ | async } as data">
       <!-- Slideshow time -->
       <div class="item menu__item">
         <div
@@ -21,7 +21,7 @@
         >
           <svg-icon class="header__icon" key="play"></svg-icon>
           <span class="header__name">Slideshow time</span>
-          <span class="header__value chip chip--selected">6s</span>
+          <span class="header__value chip chip--selected">{{ data.result?.slideshowTime }}s</span>
         </div>
 
         <div
@@ -29,7 +29,13 @@
           class="item__body item__body__view--3"
         >
           <ng-container *ngFor="let time of slideshowTimes">
-            <div class="chip">{{ time }}s</div>
+            <div
+              class="chip"
+              [class.chip--selected]="time === data.result?.slideshowTime"
+              (click)="selectSlideshowTime(time)"
+            >
+              {{ time }}s
+            </div>
           </ng-container>
         </div>
       </div>

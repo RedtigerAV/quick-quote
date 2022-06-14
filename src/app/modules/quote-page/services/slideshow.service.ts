@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { WebStorageService } from '@core/services/webstorage/webstorage.service';
 import { Timer } from '@shared/models/timer';
 import { BehaviorSubject, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { QuotesMediator, QuotesMediatorEvents } from './quotes.mediator';
@@ -13,15 +14,24 @@ export type SlidwshowStateType = SlidwshowStateEnum.STOPPED | SlidwshowStateEnum
 @Injectable()
 export class SlideshowService implements OnDestroy {
   public static availableTimes = [5, 15, 30, 45, 60, 90];
+  public time!: number;
   public timer: Timer;
   public readonly state$: Observable<SlidwshowStateType>;
 
+  private readonly key = 'slideshow-time';
   private readonly _state$ = new BehaviorSubject<SlidwshowStateType>(SlidwshowStateEnum.STOPPED);
   private readonly destroy$ = new Subject<void>();
 
-  constructor() {
-    // TODO: тянуть из LS
-    this.timer = new Timer({ seconds: 6 });
+  constructor(private readonly webstorage: WebStorageService) {
+    let time = +this.webstorage.local.getItem(this.key);
+
+    if (!time || !SlideshowService.availableTimes.includes(time)) {
+      time = SlideshowService.availableTimes[0];
+    }
+
+    this.time = time;
+    this.timer = new Timer({ seconds: time });
+
     this.state$ = this._state$.asObservable();
   }
 
