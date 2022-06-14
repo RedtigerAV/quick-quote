@@ -12,6 +12,7 @@ export type SlidwshowStateType = SlidwshowStateEnum.STOPPED | SlidwshowStateEnum
 
 @Injectable()
 export class SlideshowService implements OnDestroy {
+  public static availableTimes = [5, 15, 30, 45, 60, 90];
   public timer: Timer;
   public readonly state$: Observable<SlidwshowStateType>;
 

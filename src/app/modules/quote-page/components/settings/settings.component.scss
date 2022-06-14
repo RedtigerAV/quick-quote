@@ -1,5 +1,122 @@
+@import 'styles/core/typography';
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+
 :host {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: rhythm(2);
+  margin-bottom: rhythm(5);
+  @include qq-font-text-xl;
+  text-align: center;
+  width: 100%;
+  border: 1px solid var(--qq-color-element-brand);
+  border-radius: var(--qq-border-radius);
+}
+
+.menu {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: rhythm(3);
+}
+
+.item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__header {
+    padding: 0 rhythm(1);
+  }
+
+  &__body {
+    padding: rhythm(2) rhythm(1);
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-gap: rhythm(2);
+    border-bottom: 1.5px solid var(--qq-color-element-brand-secondary-darken);
+
+    &__view {
+      &--2 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      &--3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  }
+}
+
+.item + .item {
+  margin-top: rhythm(1);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  background-color: var(--qq-color-bg-additional);
+  align-items: center;
+  width: 100%;
+  height: rhythm(12);
+  transition: background-color 0.2s ease-in;
+  @include qq-font-text-xl;
+
+  &:hover {
+    background-color: var(--qq-color-element-brand-secondary);
+    cursor: pointer;
+  }
+
+  &--expanded {
+    background-color: var(--qq-color-element-brand-secondary-darken);
+  }
+
+  &__icon {
+    margin-right: rhythm(1);
+    font-size: 20px !important;
+  }
+
+  &__value {
+    margin-left: auto;
+    @include qq-font-text-m;
+
+    @include mediaQuery(xs, sm) {
+      @include qq-font-text-l;
+    }
+  }
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: rhythm(8);
+  border-radius: rhythm(2);
+  padding: rhythm(1);
+  box-sizing: border-box;
+  border: 2px solid;
+  transition: border-color 0.1s ease-in;
+  border-color: var(--qq-color-element-brand-secondary);
+
+  &:hover {
+    border-color: var(--qq-color-element-brand-secondary-light);
+    cursor: pointer;
+  }
+
+  &--selected {
+    border-color: var(--qq-color-element-brand-secondary-light);
+    background-color: var(--qq-color-element-brand-secondary-light);
+  }
 }
