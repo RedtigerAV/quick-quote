@@ -26,7 +26,7 @@ export class SidebarService {
     private readonly injector: Injector
   ) {}
 
-  public open<T>(config: ISidebarConfig): SidebarRef<T> {
+  public open<T = any, D = any>(config: ISidebarConfig<T, D>): SidebarRef<T, D> {
     const currentConfig: ISidebarConfig = { ...this.defaultConfig, ...config };
     const sidebarContainerRef = new SidebarContainerRef();
     const sidebarRef = new SidebarRef<T>(currentConfig, sidebarContainerRef);

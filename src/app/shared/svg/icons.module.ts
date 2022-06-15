@@ -8,6 +8,7 @@ import { qqCameraIcon } from './icons/camera';
 import { qqCancelIcon } from './icons/cancel';
 import { qqContactIcon } from './icons/contact';
 import { qqFacebookIcon } from './icons/facebook';
+import { qqImageIcon } from './icons/image';
 import { qqInfoIcon } from './icons/info';
 import { qqLogoIcon } from './icons/logo';
 import { qqMoreIcon } from './icons/more';
@@ -46,7 +47,8 @@ import { qqWhatsappIcon } from './icons/whatsapp';
         qqSettingsIcon,
         qqLogoIcon,
         qqInfoIcon,
-        qqContactIcon
+        qqContactIcon,
+        qqImageIcon
       ]
     })
   ],

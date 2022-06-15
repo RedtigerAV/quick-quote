@@ -8,6 +8,12 @@
   height: 100%;
 }
 
+.content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .info {
   position: relative;
   display: flex;
@@ -43,7 +49,6 @@
   &__body {
     padding: rhythm(2) rhythm(1);
     display: grid;
-    grid-template-rows: auto auto;
     grid-gap: rhythm(2);
     border-bottom: 1.5px solid var(--qq-color-element-brand-secondary-darken);
 
@@ -119,4 +124,10 @@
     border-color: var(--qq-color-element-brand-secondary-light);
     background-color: var(--qq-color-element-brand-secondary-light);
   }
+}
+
+.save {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

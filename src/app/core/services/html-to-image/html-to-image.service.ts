@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { map, Observable, tap } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import { HtmlToImageStrategy, StrategyNameEnum } from './html-to-image.strategy';
+import { HtmlToImageStrategy, HtmlToImageExtensionEnum } from './html-to-image.strategy';
 import { WebStorageService } from '@core/services/webstorage/webstorage.service';
 import { HtmlToPngStrategy } from './html-to-png.strategy';
 import { HtmlToJpegStrategy } from './html-to-jpeg.strategy';
@@ -13,26 +13,22 @@ export class HtmlToImageService {
   private readonly filter: (node: HTMLElement) => boolean = node =>
     !node.classList?.contains(HtmlToImageService.skipHtmlToImageClass);
   private strategy!: HtmlToImageStrategy;
-  private lsKey = 'html-to-image';
+  private readonly lsKey = 'html-to-image';
 
   constructor(@Inject(DOCUMENT) private readonly document: Document, private readonly webstorage: WebStorageService) {
-    const strategyFromLS: StrategyNameEnum = webstorage.local.getItem(this.lsKey);
+    const strategyFromLS: HtmlToImageExtensionEnum = webstorage.local.getItem(this.lsKey);
 
-    switch (strategyFromLS) {
-      case StrategyNameEnum.TO_PNG:
-        this.strategy = new HtmlToPngStrategy();
-        break;
-      case StrategyNameEnum.TO_JPEG:
-      default:
-        this.strategy = new HtmlToJpegStrategy();
-        break;
-    }
+    this.strategy = this.getStrategyByExtension(strategyFromLS);
   }
 
-  public setStrategy(strategy: HtmlToImageStrategy): void {
-    this.strategy = strategy;
+  public getStrategy(): HtmlToImageStrategy {
+    return this.strategy;
+  }
 
-    this.webstorage.local.setItem(this.lsKey, strategy.name);
+  public setStrategy(extension: HtmlToImageExtensionEnum): void {
+    this.strategy = this.getStrategyByExtension(extension);
+
+    this.webstorage.local.setItem(this.lsKey, extension);
   }
 
   public saveImage(name: string): Observable<void> {
@@ -40,5 +36,15 @@ export class HtmlToImageService {
       tap(dataUrl => FileSaver.saveAs(dataUrl, `${name}.${this.strategy.extension}`)),
       map(() => void 0)
     );
+  }
+
+  private getStrategyByExtension(extension: HtmlToImageExtensionEnum): HtmlToImageStrategy {
+    switch (extension) {
+      case HtmlToImageExtensionEnum.PNG:
+        return new HtmlToPngStrategy();
+      case HtmlToImageExtensionEnum.JPEG:
+      default:
+        return new HtmlToJpegStrategy();
+    }
   }
 }

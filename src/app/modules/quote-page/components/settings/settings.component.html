@@ -6,90 +6,115 @@
   </button>
 
   <app-sidebar-content-body>
-    <div class="info">
-      Here you can customize the application for yourself to&nbsp;make it&nbsp;as&nbsp;useful and convenient
-      as&nbsp;possible.
-    </div>
+    <div class="content">
+      <div class="info">
+        Here you can customize the application for yourself to&nbsp;make it&nbsp;as&nbsp;useful and convenient
+        as&nbsp;possible.
+      </div>
 
-    <div class="menu" *ngIf="{ expanded: expandedItem$ | async, result: result$ | async } as data">
-      <!-- Slideshow time -->
-      <div class="item menu__item">
-        <div
-          class="header item__header"
-          [class.header--expanded]="data.expanded === itemsEnum.SLIDESHOW"
-          (click)="toggle(itemsEnum.SLIDESHOW)"
-        >
-          <svg-icon class="header__icon" key="play"></svg-icon>
-          <span class="header__name">Slideshow time</span>
-          <span class="header__value chip chip--selected">{{ data.result?.slideshowTime }}s</span>
+      <div class="menu" *ngIf="{ expanded: expandedItem$ | async, result: result$ | async } as data">
+        <!-- Slideshow time -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.SLIDESHOW"
+            (click)="toggle(itemsEnum.SLIDESHOW)"
+          >
+            <svg-icon class="header__icon" key="play"></svg-icon>
+            <span class="header__name">Slideshow time</span>
+            <span class="header__value chip chip--selected">{{ data.result?.slideshowTime }}s</span>
+          </div>
+
+          <div
+            [@collapsible]="[itemsEnum.SLIDESHOW, data.expanded] | cache: getExpandedState:this"
+            class="item__body item__body__view--3"
+          >
+            <ng-container *ngFor="let time of slideshowTimes">
+              <div
+                class="chip"
+                [class.chip--selected]="time === data.result?.slideshowTime"
+                (click)="selectSlideshowTime(time)"
+              >
+                {{ time }}s
+              </div>
+            </ng-container>
+          </div>
         </div>
 
-        <div
-          [@collapsible]="[itemsEnum.SLIDESHOW, data.expanded] | cache: getExpandedState:this"
-          class="item__body item__body__view--3"
-        >
-          <ng-container *ngFor="let time of slideshowTimes">
-            <div
-              class="chip"
-              [class.chip--selected]="time === data.result?.slideshowTime"
-              (click)="selectSlideshowTime(time)"
-            >
-              {{ time }}s
-            </div>
-          </ng-container>
+        <!-- Snapshot extension -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.SNAPSHOT"
+            (click)="toggle(itemsEnum.SNAPSHOT)"
+          >
+            <svg-icon class="header__icon" key="camera"></svg-icon>
+            <span class="header__name">Snapshot extension</span>
+            <span class="header__value chip chip--selected">{{
+              data.result?.snapshotExtension | cache: toUpperCase:this
+            }}</span>
+          </div>
+
+          <div
+            [@collapsible]="[itemsEnum.SNAPSHOT, data.expanded] | cache: getExpandedState:this"
+            class="item__body item__body__view--2"
+          >
+            <ng-container *ngFor="let extension of htmlToImageExtensions">
+              <div
+                class="chip"
+                [class.chip--selected]="extension === data.result?.snapshotExtension"
+                (click)="selectSnapshotExtension(extension)"
+              >
+                {{ extension | cache: toUpperCase:this }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Quote topics -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.QUOTE_TOPICS"
+            (click)="toggle(itemsEnum.QUOTE_TOPICS)"
+          >
+            <svg-icon class="header__icon" key="quote"></svg-icon>
+            <span class="header__name">Quote topics</span>
+            <span class="header__value chip chip--selected">Inspirational, +3</span>
+          </div>
+
+          <div
+            [@collapsible]="[itemsEnum.QUOTE_TOPICS, data.expanded] | cache: getExpandedState:this"
+            class="item__body"
+          >
+            Some body
+          </div>
+        </div>
+
+        <!-- Photo topics -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.PHOTO_TOPICS"
+            (click)="toggle(itemsEnum.PHOTO_TOPICS)"
+          >
+            <svg-icon class="header__icon" key="image"></svg-icon>
+            <span class="header__name">Background photo</span>
+            <span class="header__value chip chip--selected">Nature, +2</span>
+          </div>
+
+          <div
+            [@collapsible]="[itemsEnum.PHOTO_TOPICS, data.expanded] | cache: getExpandedState:this"
+            class="item__body"
+          >
+            Some body
+          </div>
         </div>
       </div>
 
-      <!-- Snapshot extension -->
-      <div class="item menu__item">
-        <div
-          class="header item__header"
-          [class.header--expanded]="data.expanded === itemsEnum.SNAPSHOT"
-          (click)="toggle(itemsEnum.SNAPSHOT)"
-        >
-          <svg-icon class="header__icon" key="camera"></svg-icon>
-          <span class="header__name">Snapshot extension</span>
-          <span class="header__value chip chip--selected">JPEG</span>
-        </div>
-
-        <div [@collapsible]="[itemsEnum.SNAPSHOT, data.expanded] | cache: getExpandedState:this" class="item__body">
-          Some body
-        </div>
-      </div>
-
-      <!-- Quote topics -->
-      <div class="item menu__item">
-        <div
-          class="header item__header"
-          [class.header--expanded]="data.expanded === itemsEnum.QUOTE_TOPICS"
-          (click)="toggle(itemsEnum.QUOTE_TOPICS)"
-        >
-          <svg-icon class="header__icon" key="quote"></svg-icon>
-          <span class="header__name">Quote topics</span>
-          <span class="header__value chip chip--selected">Inspirational, +3</span>
-        </div>
-
-        <div [@collapsible]="[itemsEnum.QUOTE_TOPICS, data.expanded] | cache: getExpandedState:this" class="item__body">
-          Some body
-        </div>
-      </div>
-
-      <!-- Photo topics -->
-      <div class="item menu__item">
-        <div
-          class="header item__header"
-          [class.header--expanded]="data.expanded === itemsEnum.PHOTO_TOPICS"
-          (click)="toggle(itemsEnum.PHOTO_TOPICS)"
-        >
-          <svg-icon class="header__icon" key="camera"></svg-icon>
-          <span class="header__name">Background photo</span>
-          <span class="header__value chip chip--selected">Nature, +2</span>
-        </div>
-
-        <div [@collapsible]="[itemsEnum.PHOTO_TOPICS, data.expanded] | cache: getExpandedState:this" class="item__body">
-          Some body
-        </div>
-      </div>
+      <button *ngIf="isSaveButtonVisible$ | async" class="save qq-button qq-button__view-1" (click)="save()">
+        Save changes
+      </button>
     </div>
   </app-sidebar-content-body>
 </app-sidebar-content>

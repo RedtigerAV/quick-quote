@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SidebarService } from '@shared/services/sidebar/sidebar.service';
 import { take } from 'rxjs';
@@ -10,14 +11,21 @@ import { SlideshowService } from './slideshow.service';
 @UntilDestroy()
 @Injectable()
 export class SettingsService {
-  constructor(private readonly sidebar: SidebarService, private readonly slideshowService: SlideshowService) {}
+  constructor(
+    private readonly sidebar: SidebarService,
+    private readonly slideshowService: SlideshowService,
+    private readonly htmlToImageService: HtmlToImageService
+  ) {}
 
   public openSettings(): void {
     QuotesMediator.notify(QuotesMediatorEvents.SIDEBAR_OPENED);
 
-    const sidebarRef = this.sidebar.open({
+    const sidebarRef = this.sidebar.open<SettingsComponent, ISettingsData>({
       content: SettingsComponent,
-      data: { slideshowTime: this.slideshowService.time } as ISettingsData
+      data: {
+        slideshowTime: this.slideshowService.time,
+        snapshotExtension: this.htmlToImageService.getStrategy().extension
+      }
     });
 
     sidebarRef

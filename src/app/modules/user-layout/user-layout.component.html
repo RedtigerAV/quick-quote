@@ -47,7 +47,7 @@
           [class.photo--active]="photo.id === data.selectedPhoto?.id"
           [class.photo--previous]="i < (data.currentPhotoPosition || 0)"
           [class.photo--next]="i + 1 > (data.currentPhotoPosition || 0) + 1"
-          [ngClass]="{ 'skip-html-to-image': photo.id !== data.selectedPhoto?.id }"
+          [ngClass]="{ 'qq-skip-html-to-image': photo.id !== data.selectedPhoto?.id }"
           [ngStyle]="{
             'background-image': 'url(' + photo.urls.regular + ')',
             'box-shadow': 'inset 0px 40px 70px 10px' + photo.color
