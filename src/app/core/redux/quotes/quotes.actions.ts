@@ -7,3 +7,5 @@ export const loadQuoteSuccess = createAction('[quotes] [Query] Load quote -> Suc
 export const loadQuoteFailure = createAction('[quotes] [Query] Load quote -> Failure');
 export const selectQuote = createAction('[quotes] [Command] Select quote', props<{ position: number }>());
 export const addQuote = createAction('[quotes] [Command] Add quote', props<{ quote: IQuote; position: number }>());
+
+// removeQuotes props(startPos, endPos)

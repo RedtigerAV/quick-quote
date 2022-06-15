@@ -16,9 +16,16 @@ const prepareQuote = quote => ({
   authorDied: quote.died
 });
 
-router.get('/random', async (req, res) => {
+router.post('/random', async (req, res) => {
+  const topicIDs = req.body?.topicIDs;
+  let body = {};
+
+  if (topicIDs?.length) {
+    body = JSON.stringify({ topicIDs: topicIDs.map(id => Number(id)) });
+  }
+
   try {
-    const response = await axios.post(`${API_HOST}/quotes/random`, {}, { headers });
+    const response = await axios.post(`${API_HOST}/quotes/random`, body, { headers });
 
     res.json(prepareQuote(response.data));
   } catch (error) {

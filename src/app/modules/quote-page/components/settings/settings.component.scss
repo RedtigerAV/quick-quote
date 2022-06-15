@@ -12,20 +12,14 @@
   position: relative;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
+  padding-bottom: rhythm(12);
 }
 
 .info {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: rhythm(2);
-  margin-bottom: rhythm(5);
-  @include qq-font-text-xl;
-  text-align: center;
-  width: 100%;
-  border: 1px solid var(--qq-color-element-brand);
-  border-radius: var(--qq-border-radius);
+  &__action {
+    margin-top: rhythm(2);
+  }
 }
 
 .menu {
@@ -44,23 +38,14 @@
 
   &__header {
     padding: 0 rhythm(1);
+    z-index: 1;
   }
 
   &__body {
+    overflow: hidden;
     padding: rhythm(2) rhythm(1);
-    display: grid;
-    grid-gap: rhythm(2);
+    z-index: 0;
     border-bottom: 1.5px solid var(--qq-color-element-brand-secondary-darken);
-
-    &__view {
-      &--2 {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      &--3 {
-        grid-template-columns: 1fr 1fr 1fr;
-      }
-    }
   }
 }
 
@@ -103,6 +88,23 @@
   }
 }
 
+.body {
+  &__grid {
+    display: grid;
+    grid-gap: rhythm(2);
+
+    &__view {
+      &--2 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      &--3 {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  }
+}
+
 .chip {
   display: flex;
   align-items: center;
@@ -128,6 +130,7 @@
 
 .save {
   position: absolute;
-  bottom: 0;
-  width: 100%;
+  bottom: rhythm(5);
+  width: calc(100% - 2 * #{rhythm(5)});
+  z-index: 2;
 }

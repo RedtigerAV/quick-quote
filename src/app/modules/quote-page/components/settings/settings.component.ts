@@ -8,6 +8,10 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { SlideshowService } from '../../services/slideshow.service';
 import { ISettingsData } from './settings.interfaces';
 import isEqual from 'lodash-es/isEqual';
+import { QuoteTopicsFacade } from '@core/redux/quote-topics/quote-topics.facade';
+import { IQuoteTopic } from '@core/models/quote-topic.model';
+import { RequestStatusEnum } from '@core/types/request-status.type';
+import { AppRoutePath } from 'src/app/app.route-path';
 
 enum SettingsMenuItemsEnum {
   SLIDESHOW,
@@ -26,20 +30,29 @@ enum SettingsMenuItemsEnum {
 export class SettingsComponent implements OnInit {
   public readonly slideshowTimes = SlideshowService.availableTimes;
   public readonly itemsEnum = SettingsMenuItemsEnum;
+  public readonly statusEnum = RequestStatusEnum;
+  public readonly routePath = AppRoutePath;
   public readonly htmlToImageExtensions = Object.values(HtmlToImageExtensionEnum);
   public readonly expandedItem$: Observable<Nullable<SettingsMenuItemsEnum>>;
   public readonly _expandedItem$ = new BehaviorSubject<Nullable<SettingsMenuItemsEnum>>(null);
   public readonly result$: Observable<ISettingsData>;
+  public readonly selectedQuoteTopics$: Observable<Array<IQuoteTopic>>;
   public readonly isSaveButtonVisible$: Observable<boolean>;
   private readonly _result$: BehaviorSubject<ISettingsData>;
 
   constructor(
     public readonly sidebarRef: SidebarRef,
+    public readonly quoteTopicsFacade: QuoteTopicsFacade,
     private readonly cdr: ChangeDetectorRef,
     @Inject(SIDEBAR_DATA) private readonly data: ISettingsData
   ) {
     this._result$ = new BehaviorSubject<ISettingsData>(data);
     this.result$ = this._result$.asObservable();
+    this.selectedQuoteTopics$ = this.result$.pipe(
+      map(({ selectedQuoteTopicsIDs: selectedTopicsIDs }) => selectedTopicsIDs),
+      // TODO: distinctUntilChanged
+      map(topicIDs => this.quoteTopicsFacade.topics.filter(({ id }) => topicIDs.includes(id)))
+    );
     this.isSaveButtonVisible$ = this.result$.pipe(map(result => !isEqual(result, data)));
     this.expandedItem$ = this._expandedItem$.asObservable();
   }
@@ -58,11 +71,44 @@ export class SettingsComponent implements OnInit {
     return expanded === item ? CollapsibleAnimationStateEnum.Expanded : CollapsibleAnimationStateEnum.Collapsed;
   }
 
-  public toggle(item: SettingsMenuItemsEnum): void {
+  public getQuoteTopicsLabel(selectedTopics: Array<IQuoteTopic>): string {
+    if (!selectedTopics.length) {
+      return 'Random';
+    }
+
+    return this.compressNames(selectedTopics.map(({ name }) => name));
+  }
+
+  public isQuoteTopicSelected([topicID, selectedTopics]: [string, Array<IQuoteTopic>]): boolean {
+    return selectedTopics.map(({ id }) => id).includes(topicID);
+  }
+
+  public loadQuoteTopics(): void {
+    this.quoteTopicsFacade.loadTopics();
+  }
+
+  public toggleMenuItem(item: SettingsMenuItemsEnum): void {
     const expanded = this._expandedItem$.value;
 
     this._expandedItem$.next(item === expanded ? null : item);
     this.cdr.detectChanges();
+  }
+
+  public toggleQuoteTopic(topicID: string): void {
+    const topic = this.quoteTopicsFacade.topics.find(({ id }) => id === topicID);
+    const isTopicSelected = this.result.selectedQuoteTopicsIDs.includes(topicID);
+
+    if (isTopicSelected) {
+      this._result$.next({
+        ...this.result,
+        selectedQuoteTopicsIDs: this.result.selectedQuoteTopicsIDs.filter(id => id !== topicID)
+      });
+    } else {
+      this._result$.next({
+        ...this.result,
+        selectedQuoteTopicsIDs: [...this.result.selectedQuoteTopicsIDs, topicID]
+      });
+    }
   }
 
   public selectSlideshowTime(time: number): void {
@@ -76,4 +122,12 @@ export class SettingsComponent implements OnInit {
   }
 
   public save(): void {}
+
+  private compressNames(names: Array<string>): string {
+    if (names.length === 1) {
+      return names[0];
+    }
+
+    return `${names[0]}, +${names.length - 1}`;
+  }
 }
