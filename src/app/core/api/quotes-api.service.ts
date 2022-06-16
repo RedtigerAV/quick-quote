@@ -1,4 +1,3 @@
-import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,7 +10,7 @@ export interface V1QuoteRandomReadRequestParams {
 
 @Injectable({ providedIn: 'root' })
 export class QuotesApiService {
-  private basePath = `${environment.serverUrl}/api`;
+  private basePath = '/api';
 
   constructor(private readonly httpClient: HttpClient) {}
 

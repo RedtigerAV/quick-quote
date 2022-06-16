@@ -95,7 +95,6 @@ export class SettingsComponent implements OnInit {
   }
 
   public toggleQuoteTopic(topicID: string): void {
-    const topic = this.quoteTopicsFacade.topics.find(({ id }) => id === topicID);
     const isTopicSelected = this.result.selectedQuoteTopicsIDs.includes(topicID);
 
     if (isTopicSelected) {

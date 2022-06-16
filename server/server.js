@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -8,7 +7,6 @@ const environment = process.env.NODE_ENV;
 app.use(express.json());
 
 if (environment === 'development') {
-  app.use(cors());
   app.use(morgan('combined'));
 }
 
