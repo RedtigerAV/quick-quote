@@ -1,18 +1,10 @@
 const express = require('express');
-const path = require('path');
+const { API_HOST, headers, DEFAULT_TOPICS } = require('./config');
 const axios = require('axios');
 const router = express.Router();
 
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-
-const API_HOST = 'https://quotel-quotes.p.rapidapi.com';
-const headers = {
-  'content-type': 'application/json',
-  'X-RapidAPI-Host': 'quotel-quotes.p.rapidapi.com',
-  'X-RapidAPI-Key': process.env.RAPID_API_KEY
-};
 const errorStatus = error => error.response?.status || 500;
-const errorData = error => error.response?.data || { message: 'Quote API internal error' };
+const errorData = error => error.response?.data || { message: 'Quotel API internal error' };
 const prepareQuote = quote => ({
   id: quote.quoteId.toString(),
   quote: quote.quote,
@@ -24,9 +16,20 @@ const prepareQuote = quote => ({
   authorDied: quote.died
 });
 
-router.get('/random', async (req, res) => {
+router.post('/random', async (req, res) => {
+  const topicIDs = req.body?.topicIDs;
+  let body = {};
+
+  if (topicIDs?.length) {
+    body = JSON.stringify({ topicIDs: topicIDs.map(id => Number(id)) });
+  } else {
+    const defaultTopics = DEFAULT_TOPICS.split(',');
+
+    body = JSON.stringify({ topicIDs: defaultTopics.map(id => Number(id)) });
+  }
+
   try {
-    const response = await axios.post(`${API_HOST}/quotes/random`, {}, { headers });
+    const response = await axios.post(`${API_HOST}/quotes/random`, body, { headers });
 
     res.json(prepareQuote(response.data));
   } catch (error) {

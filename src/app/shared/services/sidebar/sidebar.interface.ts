@@ -1,8 +1,8 @@
 import { TemplateRef, Type } from '@angular/core';
 
-export interface ISidebarConfig<T = any> {
+export interface ISidebarConfig<T = any, D = any> {
   content: Type<T> | TemplateRef<T>;
-  data?: Object;
+  data?: D;
   hasBackdrop?: boolean;
   backdropClass?: string;
   panelClass?: string;

@@ -4,9 +4,9 @@ import { SidebarContainerRef } from './sidebar-container/sidebar-container.refer
 import { SidebarHelper } from './sidebar.helper';
 import { ISidebarConfig, SidebarPositionEnum, SidebarWidthEnum } from './sidebar.interface';
 
-export class SidebarRef<T = any> implements ISidebarConfig<T> {
+export class SidebarRef<T = any, D = any> implements ISidebarConfig<T, D> {
   public readonly content!: Type<T> & TemplateRef<T>;
-  public readonly data?: Object;
+  public readonly data?: D;
   public readonly hasBackdrop?: boolean;
   public readonly backdropClass?: string;
   public readonly panelClass?: string;

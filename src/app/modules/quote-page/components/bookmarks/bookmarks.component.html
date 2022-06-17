@@ -7,7 +7,10 @@
 
   <app-sidebar-content-body *ngIf="{ bookmarks: bookmarks$ | async, status: status$ | async } as data">
     <!-- Empty bookmarks -->
-    <div class="info info--empty" *ngIf="data.status === statusEnum.SUCCESS && !data.bookmarks?.length">
+    <div
+      class="info info-panel info-panel--common"
+      *ngIf="data.status === statusEnum.SUCCESS && !data.bookmarks?.length"
+    >
       <div class="info__description">
         You can save your favorite quotes and reread them again. To&nbsp;do&nbsp;this, click on&nbsp;the&nbsp;<span
           class="info__text-icon"
@@ -17,13 +20,13 @@
       </div>
     </div>
     <!-- Bookmarks loading -->
-    <div class="info info--loading loading-panel" *ngIf="data.status === statusEnum.LOADING">
+    <div class="info info-panel info-panel--loading loading-panel" *ngIf="data.status === statusEnum.LOADING">
       <div class="info__description">
         We&nbsp;are loading your favorite quotes. This may take some time. Please wait.
       </div>
     </div>
     <!-- Something went wrong -->
-    <div class="info info--error" *ngIf="data.status === statusEnum.ERROR">
+    <div class="info info-panel info-panel--error" *ngIf="data.status === statusEnum.ERROR">
       <div class="info__description">
         Something went wrong when loading bookmarks. Please click on&nbsp;the button below to&nbsp;try again.
         If&nbsp;the problem could not be&nbsp;fixed, please contact&nbsp;us&nbsp;<a [routerLink]="routePath.CONTACT"

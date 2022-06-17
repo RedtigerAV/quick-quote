@@ -1,0 +1,33 @@
+.info-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: rhythm(2);
+  @include qq-font-text-xl;
+  text-align: center;
+  width: 100%;
+  border-radius: var(--qq-border-radius);
+
+  &--small {
+    padding: rhythm(1);
+    @include qq-font-text-m;
+  }
+
+  &--common {
+    border: 1px solid var(--qq-color-element-brand);
+  }
+
+  &--disabled {
+    border: unset;
+    color: var(--qq-color-text-disabled);
+  }
+
+  &--loading {
+    background-color: var(--qq-color-element-brand-darken);
+  }
+
+  &--error {
+    background-color: var(--qq-color-element-danger-secondary);
+  }
+}

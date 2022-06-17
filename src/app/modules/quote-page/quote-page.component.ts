@@ -13,35 +13,26 @@ import { Platform } from '@angular/cdk/platform';
 import { BookmarksFacade } from '@core/redux/bookmarks/bookmarks.facade';
 import { AnimationProcessService } from '@core/services/animations/animation-process.service';
 import { AnimationNameEnum } from '@core/services/animations/animations';
-import { DownloadImageService } from './services/dowload-image.service';
+import { DownloadPhotoService } from './services/dowload-photo.service';
 import { BookmarksService } from './services/bookmarks.service';
 import { ActionsStateEnum, ActionsStateType } from './quote-page.interfaces';
 import { SlideshowService, SlidwshowStateEnum } from './services/slideshow.service';
 import { QuotesMediator, QuotesMediatorEvents } from './services/quotes.mediator';
 import { AnimationEvent } from '@angular/animations';
+import { SettingsService } from './services/settings.service';
 import isNumber from 'lodash-es/isNumber';
 
 @UntilDestroy()
 @Component({
   templateUrl: './quote-page.component.html',
   styleUrls: ['./quote-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    QuotesMediator,
-    NextQuoteService,
-    PreviousQuoteService,
-    QuotesLoaderService,
-    DownloadImageService,
-    BookmarksService,
-    SlideshowService
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuotePageComponent implements OnInit {
   public readonly isPreviousButtonDisabled$: Observable<boolean>;
   public readonly isNextButtonDisabled$: Observable<boolean>;
   public readonly actionsState$: Observable<ActionsStateType>;
   public readonly inSlideshowMode$: Observable<boolean>;
-  public readonly quotesMediatorNotify = QuotesMediator.notify;
   public readonly skipHtmlToImageClass = HtmlToImageService.skipHtmlToImageClass;
   public readonly actionsStateEnum = ActionsStateEnum;
   public readonly quotesEventsEnum = QuotesMediatorEvents;
@@ -57,12 +48,13 @@ export class QuotePageComponent implements OnInit {
     public readonly quotesFacade: QuotesFacade,
     public readonly slideshowService: SlideshowService,
     public readonly quotesMediator: QuotesMediator,
+    public readonly settingsService: SettingsService,
     private readonly animationProcess: AnimationProcessService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly quotesLoaderService: QuotesLoaderService,
-    private readonly htmlToImage: HtmlToImageService,
-    private readonly downloadImage: DownloadImageService
+    private readonly htmlToImageService: HtmlToImageService,
+    private readonly downloadPhotoService: DownloadPhotoService
   ) {
     this.quotesMediator.hostComponent = this;
 
@@ -76,6 +68,7 @@ export class QuotePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    // TODO: сервисы были перенесены в модуль. Избавиться от UntilDestroy в них
     this.quotesLoaderService.init();
     this.listenQuoteChanges();
   }
@@ -99,38 +92,26 @@ export class QuotePageComponent implements OnInit {
   }
 
   public setNextButtonDisabledState(disabled: boolean): void {
-    disabled ? lock(this, this.onSwipeNext) : unlock(this, this.onSwipeNext);
-    disabled ? lock(this, this.onArrowRight) : unlock(this, this.onArrowRight);
+    disabled ? lock(this, this.toNextQuote) : unlock(this, this.toNextQuote);
 
     this._isNextButtonDisabled$.next(disabled);
   }
 
   public setPreviousButtonDisabledState(disabled: boolean): void {
-    disabled ? lock(this, this.onSwipePrevious) : unlock(this, this.onSwipePrevious);
-    disabled ? lock(this, this.onArrowLeft) : unlock(this, this.onArrowLeft);
+    disabled ? lock(this, this.toPreviousQuote) : unlock(this, this.toPreviousQuote);
 
     this._isPreviousButtonDisabled$.next(disabled);
   }
 
   @locker()
-  public onSwipeNext(): void {
-    QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
-  }
-
-  @locker()
-  public onSwipePrevious(): void {
-    QuotesMediator.notify(QuotesMediatorEvents.TO_PREVIOUS_QUOTE);
-  }
-
-  @locker()
   @HostListener('document:keyup.arrowright')
-  public onArrowRight(): void {
+  public toNextQuote(): void {
     QuotesMediator.notify(QuotesMediatorEvents.TO_NEXT_QUOTE);
   }
 
   @locker()
   @HostListener('document:keyup.arrowleft')
-  public onArrowLeft(): void {
+  public toPreviousQuote(): void {
     QuotesMediator.notify(QuotesMediatorEvents.TO_PREVIOUS_QUOTE);
   }
 
@@ -140,9 +121,9 @@ export class QuotePageComponent implements OnInit {
     const imageName = `[Quick Quote] ${this.quotesFacade.selectedQuote?.authorName}`;
 
     // https://help.unsplash.com/en/articles/2511258-guideline-triggering-a-download
-    this.downloadImage.triggerDownload();
+    this.downloadPhotoService.triggerDownload();
 
-    this.htmlToImage
+    this.htmlToImageService
       .saveImage(imageName)
       .pipe(
         // TODO: Обработать ошибку
