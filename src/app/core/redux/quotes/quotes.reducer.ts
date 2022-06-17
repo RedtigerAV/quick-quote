@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { IQuotesState } from './quotes.state';
 import * as quotesActions from './quotes.actions';
+import { calculateCurrentPosition } from '../redux.helpers';
 
 const initialState: IQuotesState = {
   quotes: [],
@@ -30,15 +31,3 @@ export const quotesReducer = createReducer(
     })
   )
 );
-
-function calculateCurrentPosition(current: number, removeStart: number, removeFinish: number): number {
-  if (current < removeStart) {
-    return current;
-  }
-
-  if (current > removeStart && current < removeFinish) {
-    return Math.max(0, removeStart - 1);
-  }
-
-  return current - (removeFinish - removeStart);
-}

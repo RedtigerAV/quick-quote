@@ -70,4 +70,11 @@ export class PhotosFacade {
   public selectPhoto(position: number): void {
     this.store.dispatch(photosActions.selectPhoto({ position }));
   }
+
+  public removePhotos(start: number, finish: number): void {
+    const startPosition = Math.max(start, 0);
+    const finishPosition = Math.min(finish, this.photos.length);
+
+    this.store.dispatch(photosActions.removePhotos({ startPosition, finishPosition }));
+  }
 }

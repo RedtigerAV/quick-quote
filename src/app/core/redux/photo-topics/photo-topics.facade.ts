@@ -47,4 +47,8 @@ export class PhotoTopicsFacade {
   public loadTopics(): void {
     this.store.dispatch(photoTopicsActions.loadPhotoTopics());
   }
+
+  public selectTopics(topicIDs: string[]): void {
+    this.store.dispatch(photoTopicsActions.selectPhotoTopics({ topicsIDsForSelection: topicIDs }));
+  }
 }

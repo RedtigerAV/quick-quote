@@ -9,8 +9,9 @@ import { SettingsComponent } from '../components/settings/settings.component';
 import { ISettingsData } from '../components/settings/settings.interfaces';
 import { QuotesMediator, QuotesMediatorEvents } from './quotes.mediator';
 import { SlideshowService } from './slideshow.service';
-import intersection from 'lodash-es/intersection';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
+import { PhotosFacade } from '@core/redux/photos/photos.facade';
+import intersection from 'lodash-es/intersection';
 
 @UntilDestroy()
 @Injectable()
@@ -21,7 +22,8 @@ export class SettingsService {
     private readonly htmlToImageService: HtmlToImageService,
     private readonly quoteTopicsFacade: QuoteTopicsFacade,
     private readonly photoTopicsFacade: PhotoTopicsFacade,
-    private readonly quotesFacade: QuotesFacade
+    private readonly quotesFacade: QuotesFacade,
+    private readonly photosFacade: PhotosFacade
   ) {}
 
   public openSettings(): void {
@@ -57,8 +59,7 @@ export class SettingsService {
         }
 
         this.handleQuoteTopicsChange(selectedQuoteTopicsIDs, result.selectedQuoteTopicsIDs);
-
-        // Если нет пересечений в selectedPhotoTopics
+        this.handlePhotoTopicsChange(selectedPhotoTopicsIDs, result.selectedPhotoTopicsIDs);
       });
 
     sidebarRef
@@ -78,6 +79,20 @@ export class SettingsService {
 
       this.quotesFacade.removeQuotes(currentPosition + 1, total);
       this.quotesFacade.loadQuote();
+    }
+  }
+
+  private handlePhotoTopicsChange(previous: string[], next: string[]): void {
+    this.photoTopicsFacade.selectTopics(next);
+
+    const intersectionLength = intersection(previous, next).length;
+
+    if (previous.length !== next.length || intersectionLength !== previous.length) {
+      const currentPosition = this.photosFacade.selectedPhotoPosition;
+      const total = this.photosFacade.photos.length;
+
+      this.photosFacade.removePhotos(currentPosition + 1, total);
+      this.photosFacade.loadPhotos();
     }
   }
 }
