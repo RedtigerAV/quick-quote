@@ -1,5 +1,5 @@
 const express = require('express');
-const { API_HOST, headers } = require('./config');
+const { API_HOST, headers, DEFAULT_TOPICS } = require('./config');
 const axios = require('axios');
 const router = express.Router();
 
@@ -22,6 +22,10 @@ router.post('/random', async (req, res) => {
 
   if (topicIDs?.length) {
     body = JSON.stringify({ topicIDs: topicIDs.map(id => Number(id)) });
+  } else {
+    const defaultTopics = DEFAULT_TOPICS.split(',');
+
+    body = JSON.stringify({ topicIDs: defaultTopics.map(id => Number(id)) });
   }
 
   try {

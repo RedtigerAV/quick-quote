@@ -12,6 +12,8 @@ import { QuoteTopicsFacade } from '@core/redux/quote-topics/quote-topics.facade'
 import { IQuoteTopic } from '@core/models/quote-topic.model';
 import { RequestStatusEnum } from '@core/types/request-status.type';
 import { AppRoutePath } from 'src/app/app.route-path';
+import { IPhotoTopic } from '@core/models/photo-topic.model';
+import { PhotoTopicsFacade } from '@core/redux/photo-topics/photo-topics.facade';
 
 enum SettingsMenuItemsEnum {
   SLIDESHOW,
@@ -37,12 +39,14 @@ export class SettingsComponent implements OnInit {
   public readonly _expandedItem$ = new BehaviorSubject<Nullable<SettingsMenuItemsEnum>>(null);
   public readonly result$: Observable<ISettingsData>;
   public readonly selectedQuoteTopics$: Observable<Array<IQuoteTopic>>;
+  public readonly selectedPhotoTopics$: Observable<Array<IPhotoTopic>>;
   public readonly isSaveButtonVisible$: Observable<boolean>;
   private readonly _result$: BehaviorSubject<ISettingsData>;
 
   constructor(
     public readonly sidebarRef: SidebarRef,
     public readonly quoteTopicsFacade: QuoteTopicsFacade,
+    public readonly photoTopicsFacade: PhotoTopicsFacade,
     private readonly cdr: ChangeDetectorRef,
     @Inject(SIDEBAR_DATA) private readonly data: ISettingsData
   ) {
@@ -52,6 +56,11 @@ export class SettingsComponent implements OnInit {
       map(({ selectedQuoteTopicsIDs: selectedTopicsIDs }) => selectedTopicsIDs),
       // TODO: distinctUntilChanged
       map(topicIDs => this.quoteTopicsFacade.topics.filter(({ id }) => topicIDs.includes(id)))
+    );
+    this.selectedPhotoTopics$ = this.result$.pipe(
+      map(({ selectedPhotoTopicsIDs: selectedTopicsIDs }) => selectedTopicsIDs),
+      // TODO: distinctUntilChanged
+      map(topicIDs => this.photoTopicsFacade.topics.filter(({ id }) => topicIDs.includes(id)))
     );
     this.isSaveButtonVisible$ = this.result$.pipe(map(result => !isEqual(result, data)));
     this.expandedItem$ = this._expandedItem$.asObservable();
@@ -71,7 +80,7 @@ export class SettingsComponent implements OnInit {
     return expanded === item ? CollapsibleAnimationStateEnum.Expanded : CollapsibleAnimationStateEnum.Collapsed;
   }
 
-  public getQuoteTopicsLabel(selectedTopics: Array<IQuoteTopic>): string {
+  public getTopicsLabel(selectedTopics: Array<IQuoteTopic> | Array<IPhotoTopic>): string {
     if (!selectedTopics.length) {
       return 'Random';
     }
@@ -79,12 +88,16 @@ export class SettingsComponent implements OnInit {
     return this.compressNames(selectedTopics.map(({ name }) => name));
   }
 
-  public isQuoteTopicSelected([topicID, selectedTopics]: [string, Array<IQuoteTopic>]): boolean {
+  public isTopicSelected([topicID, selectedTopics]: [string, Array<IQuoteTopic> | Array<IPhotoTopic>]): boolean {
     return selectedTopics.map(({ id }) => id).includes(topicID);
   }
 
   public loadQuoteTopics(): void {
     this.quoteTopicsFacade.loadTopics();
+  }
+
+  public loadPhotoTopics(): void {
+    this.photoTopicsFacade.loadTopics();
   }
 
   public toggleMenuItem(item: SettingsMenuItemsEnum): void {
@@ -106,6 +119,22 @@ export class SettingsComponent implements OnInit {
       this._result$.next({
         ...this.result,
         selectedQuoteTopicsIDs: [...this.result.selectedQuoteTopicsIDs, topicID]
+      });
+    }
+  }
+
+  public togglePhotoTopic(topicID: string): void {
+    const isTopicSelected = this.result.selectedPhotoTopicsIDs.includes(topicID);
+
+    if (isTopicSelected) {
+      this._result$.next({
+        ...this.result,
+        selectedPhotoTopicsIDs: this.result.selectedPhotoTopicsIDs.filter(id => id !== topicID)
+      });
+    } else {
+      this._result$.next({
+        ...this.result,
+        selectedPhotoTopicsIDs: [...this.result.selectedPhotoTopicsIDs, topicID]
       });
     }
   }

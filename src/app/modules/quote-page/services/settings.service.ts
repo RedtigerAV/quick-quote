@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PhotoTopicsFacade } from '@core/redux/photo-topics/photo-topics.facade';
 import { QuoteTopicsFacade } from '@core/redux/quote-topics/quote-topics.facade';
 import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -16,7 +17,8 @@ export class SettingsService {
     private readonly sidebar: SidebarService,
     private readonly slideshowService: SlideshowService,
     private readonly htmlToImageService: HtmlToImageService,
-    private readonly quoteTopicsFacade: QuoteTopicsFacade
+    private readonly quoteTopicsFacade: QuoteTopicsFacade,
+    private readonly photoTopicsFacade: PhotoTopicsFacade
   ) {}
 
   public openSettings(): void {
@@ -27,7 +29,8 @@ export class SettingsService {
       data: {
         slideshowTime: this.slideshowService.time,
         snapshotExtension: this.htmlToImageService.getStrategy().extension,
-        selectedQuoteTopicsIDs: this.quoteTopicsFacade.selectedTopicsIDs
+        selectedQuoteTopicsIDs: this.quoteTopicsFacade.selectedTopicsIDs,
+        selectedPhotoTopicsIDs: this.photoTopicsFacade.selectedTopicsIDs
       }
     });
 

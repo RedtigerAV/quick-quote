@@ -1,5 +1,6 @@
 @import 'styles/core/typography';
 @import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/text-crop.mixin';
 @import 'styles/mixins/media-query.mixin';
 
 :host {
@@ -78,6 +79,10 @@
     font-size: 20px !important;
   }
 
+  &__name {
+    margin-right: rhythm(2);
+  }
+
   &__value {
     margin-left: auto;
     @include qq-font-text-m;
@@ -106,16 +111,17 @@
 }
 
 .chip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   height: rhythm(8);
+  text-align: center;
+  line-height: 20px;
   border-radius: rhythm(2);
   padding: rhythm(1);
   box-sizing: border-box;
   border: 2px solid;
   transition: border-color 0.1s ease-in;
   border-color: var(--qq-color-element-brand-secondary);
+  @include textCrop(1);
 
   &:hover {
     border-color: var(--qq-color-element-brand-secondary-light);
@@ -133,4 +139,8 @@
   bottom: rhythm(5);
   width: calc(100% - 2 * #{rhythm(5)});
   z-index: 2;
+}
+
+.mrgn-bottom {
+  margin-bottom: rhythm(2);
 }

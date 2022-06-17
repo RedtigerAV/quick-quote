@@ -11,5 +11,7 @@ module.exports = {
     'content-type': 'application/json',
     'Accept-Version': 'v1',
     Authorization: `Client-ID ${process.env.UNSPLASH_API_KEY}`
-  }
+  },
+  DEFAULT_TOPIC: process.env.PHOTOS_DEFAULT_TOPIC_KEY,
+  IGNORED_TOPICS_SLUG: process.env.PHOTOS_IGNORED_TOPICS_SLUG
 };

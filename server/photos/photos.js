@@ -1,12 +1,11 @@
 const axios = require('axios');
 const express = require('express');
 const router = express.Router();
-const { API_HOST, headers } = require('./config');
+const { API_HOST, headers, DEFAULT_TOPIC } = require('./config');
 const { readPhotosCache } = require('./helpers');
 const use_cache = process.env.USE_CACHE;
 
 // CONSTANTS
-const SEARCH_QUERY = 'nature';
 const IMAGES_COUNT = 30;
 const DEFAULT_ORIENTATION = 'landscape';
 
@@ -33,12 +32,15 @@ const prepareImage = image => ({
 });
 
 // ENPOINTS
-router.get('/random', async (req, res) => {
-  const orientation = req.query?.orientation || DEFAULT_ORIENTATION;
+router.post('/random', async (req, res) => {
+  const orientation = req.body?.orientation || DEFAULT_ORIENTATION;
+  const rawTopics = req.body?.topics?.length ? req.body?.topics : [DEFAULT_TOPIC];
+  const topics = rawTopics.toString();
+
   const params = {
     orientation,
     count: IMAGES_COUNT,
-    query: SEARCH_QUERY
+    topics: topics
   };
 
   if (use_cache === 'true') {

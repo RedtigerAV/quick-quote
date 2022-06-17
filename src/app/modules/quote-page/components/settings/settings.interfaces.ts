@@ -4,4 +4,5 @@ export interface ISettingsData {
   slideshowTime: number;
   snapshotExtension: HtmlToImageExtensionEnum;
   selectedQuoteTopicsIDs: Array<string>;
+  selectedPhotoTopicsIDs: Array<string>;
 }

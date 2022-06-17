@@ -11,5 +11,6 @@ module.exports = {
     'content-type': 'application/json',
     'X-RapidAPI-Host': 'quotel-quotes.p.rapidapi.com',
     'X-RapidAPI-Key': process.env.RAPID_API_KEY
-  }
+  },
+  DEFAULT_TOPICS: process.env.QUOTES_DEFAULT_TOPIC_KEY
 };
