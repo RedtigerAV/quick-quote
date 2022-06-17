@@ -8,14 +8,14 @@ export class PreviousQuoteService {
 
   public toPreviousQuote(): void {
     const quotePosition = this.quotesFacade.currentPosition;
-    const prevPhoto = this.photosFacade.prevPhoto;
+    const photoPosition = this.photosFacade.selectedPhotoPosition;
 
     if (!!quotePosition) {
       this.quotesFacade.selectQuote(quotePosition - 1);
     }
 
-    if (!!prevPhoto) {
-      this.photosFacade.selectPhotos(prevPhoto.id);
+    if (!!photoPosition) {
+      this.photosFacade.selectPhoto(photoPosition - 1);
     }
   }
 }

@@ -4,7 +4,7 @@ import * as photosActions from './photos.actions';
 
 const initialState: IPhotosState = {
   photos: [],
-  selectedPhotoID: null
+  currentPosition: 0
 };
 
 export const photosReducer = createReducer(
@@ -13,5 +13,5 @@ export const photosReducer = createReducer(
     photosActions.loadPhotosSuccess,
     (state, { photos }): IPhotosState => ({ ...state, photos: [...state.photos, ...photos] })
   ),
-  on(photosActions.selectPhoto, (state, { id }): IPhotosState => ({ ...state, selectedPhotoID: id }))
+  on(photosActions.selectPhoto, (state, { position }): IPhotosState => ({ ...state, currentPosition: position }))
 );

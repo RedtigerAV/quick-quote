@@ -15,7 +15,7 @@ export class PhotosFacade {
   public readonly photoIDs$: Observable<Array<string>>;
   public readonly selectedPhotoID$: Observable<Nullable<string>>;
   public readonly selectedPhoto$: Observable<Nullable<IPhoto>>;
-  public readonly selectedPhotoPosition$: Observable<Nullable<number>>;
+  public readonly selectedPhotoPosition$: Observable<number>;
   public readonly nextPhoto$: Observable<Nullable<IPhoto>>;
   public readonly prevPhoto$: Observable<Nullable<IPhoto>>;
 
@@ -51,7 +51,7 @@ export class PhotosFacade {
     return getObservableSnapshot(this.selectedPhoto$);
   }
 
-  public get selectedPhotoPosition(): Nullable<number> {
+  public get selectedPhotoPosition(): number {
     return getObservableSnapshot(this.selectedPhotoPosition$);
   }
 
@@ -67,11 +67,7 @@ export class PhotosFacade {
     this.store.dispatch(photosActions.loadPhotos());
   }
 
-  public selectPhotos(id: string): void {
-    if (!id || !this.photoIDs.includes(id)) {
-      throw new Error(`Uknown photo id: ${id}`);
-    }
-
-    this.store.dispatch(photosActions.selectPhoto({ id }));
+  public selectPhoto(position: number): void {
+    this.store.dispatch(photosActions.selectPhoto({ position }));
   }
 }

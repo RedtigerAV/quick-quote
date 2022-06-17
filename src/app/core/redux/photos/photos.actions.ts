@@ -7,4 +7,4 @@ export const loadPhotosSuccess = createAction(
   props<{ photos: Array<IPhoto> }>()
 );
 export const loadPhotosFailure = createAction('[photos] [Query] Load photos -> Failure');
-export const selectPhoto = createAction('[photos] [Command] Select photo', props<{ id: string }>());
+export const selectPhoto = createAction('[photos] [Command] Select photo', props<{ position: number }>());

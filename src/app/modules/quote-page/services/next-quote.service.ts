@@ -42,10 +42,11 @@ export class NextQuoteService {
   }
 
   private checkAndHandlePhotoSelection(): void {
-    if (!!this.photosFacade.nextPhoto) {
-      const { id } = this.photosFacade.nextPhoto;
+    const currentPosition = this.photosFacade.selectedPhotoPosition;
+    const total = this.photosFacade.photos?.length;
 
-      this.photosFacade.selectPhotos(id);
+    if (currentPosition < total - 1) {
+      this.photosFacade.selectPhoto(currentPosition + 1);
     } else {
       this.photosFacade.loadPhotos();
     }

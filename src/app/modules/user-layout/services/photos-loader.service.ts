@@ -11,10 +11,11 @@ export class PhotosLoaderService {
   constructor(private readonly photosFacade: PhotosFacade) {}
 
   public init(): void {
-    this.photosFacade.nextPhoto$
+    // Loading next photos after moving to the next
+    this.photosFacade.selectedPhotoPosition$
       .pipe(
         filter(() => !!this.photosFacade.selectedPhotoID),
-        filter(nextQuote => !nextQuote),
+        filter(position => position === this.photosFacade.photos.length - 1),
         waitUntilAnimationDone(AnimationNameEnum.PHOTO_CHANGE, AnimationNameEnum.QUOTE_CHANGE),
         tap(() => this.photosFacade.loadPhotos()),
         untilDestroyed(this)
