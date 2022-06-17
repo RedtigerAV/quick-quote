@@ -4,11 +4,13 @@ import { QuoteTopicsFacade } from '@core/redux/quote-topics/quote-topics.facade'
 import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SidebarService } from '@shared/services/sidebar/sidebar.service';
-import { take } from 'rxjs';
+import { filter, take } from 'rxjs';
 import { SettingsComponent } from '../components/settings/settings.component';
 import { ISettingsData } from '../components/settings/settings.interfaces';
 import { QuotesMediator, QuotesMediatorEvents } from './quotes.mediator';
 import { SlideshowService } from './slideshow.service';
+import intersection from 'lodash-es/intersection';
+import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 
 @UntilDestroy()
 @Injectable()
@@ -18,32 +20,64 @@ export class SettingsService {
     private readonly slideshowService: SlideshowService,
     private readonly htmlToImageService: HtmlToImageService,
     private readonly quoteTopicsFacade: QuoteTopicsFacade,
-    private readonly photoTopicsFacade: PhotoTopicsFacade
+    private readonly photoTopicsFacade: PhotoTopicsFacade,
+    private readonly quotesFacade: QuotesFacade
   ) {}
 
   public openSettings(): void {
     QuotesMediator.notify(QuotesMediatorEvents.SIDEBAR_OPENED);
 
+    const slideshowTime = this.slideshowService.time;
+    const snapshotExtension = this.htmlToImageService.getStrategy().extension;
+    const selectedQuoteTopicsIDs = this.quoteTopicsFacade.selectedTopicsIDs;
+    const selectedPhotoTopicsIDs = this.photoTopicsFacade.selectedTopicsIDs;
+
     const sidebarRef = this.sidebar.open<SettingsComponent, ISettingsData>({
       content: SettingsComponent,
       data: {
-        slideshowTime: this.slideshowService.time,
-        snapshotExtension: this.htmlToImageService.getStrategy().extension,
-        selectedQuoteTopicsIDs: this.quoteTopicsFacade.selectedTopicsIDs,
-        selectedPhotoTopicsIDs: this.photoTopicsFacade.selectedTopicsIDs
+        slideshowTime,
+        snapshotExtension,
+        selectedQuoteTopicsIDs,
+        selectedPhotoTopicsIDs
       }
     });
 
     sidebarRef
-      .afterClosed()
-      .pipe(take(1), untilDestroyed(this))
-      .subscribe(result => {
-        console.log(result);
+      .beforeClosed()
+      .pipe(take(1), filter(Boolean), untilDestroyed(this))
+      .subscribe((result: ISettingsData) => {
+        // TODO: показать попап, что настройки были изменены
+
+        if (slideshowTime !== result.slideshowTime) {
+          this.slideshowService.updateTime(result.slideshowTime);
+        }
+
+        if (snapshotExtension !== result.snapshotExtension) {
+          this.htmlToImageService.setStrategy(result.snapshotExtension);
+        }
+
+        this.handleQuoteTopicsChange(selectedQuoteTopicsIDs, result.selectedQuoteTopicsIDs);
+
+        // Если нет пересечений в selectedPhotoTopics
       });
 
     sidebarRef
       .beforeClosed()
       .pipe(take(1), untilDestroyed(this))
       .subscribe(() => QuotesMediator.notify(QuotesMediatorEvents.SIDEBAR_CLOSED));
+  }
+
+  private handleQuoteTopicsChange(previous: string[], next: string[]): void {
+    this.quoteTopicsFacade.selectTopics(next);
+
+    const intersectionLength = intersection(previous, next).length;
+
+    if (intersectionLength === 0 || intersectionLength !== previous.length) {
+      const currentPosition = this.quotesFacade.currentPosition;
+      const total = this.quotesFacade.quotesTotal;
+
+      this.quotesFacade.removeQuotes(currentPosition + 1, total);
+      this.quotesFacade.loadQuote();
+    }
   }
 }

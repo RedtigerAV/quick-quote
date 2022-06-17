@@ -47,4 +47,8 @@ export class QuoteTopicsFacade {
   public loadTopics(): void {
     this.store.dispatch(quoteTopicsActions.loadQuoteTopics());
   }
+
+  public selectTopics(ids: string[]): void {
+    this.store.dispatch(quoteTopicsActions.selectQuoteTopics({ topicsIDsForSelection: ids }));
+  }
 }

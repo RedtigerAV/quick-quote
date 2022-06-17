@@ -20,5 +20,25 @@ export const quotesReducer = createReducer(
       ...state,
       quotes: [...state.quotes.slice(0, position), quote, ...state.quotes.slice(position)]
     })
+  ),
+  on(
+    quotesActions.removeQuotes,
+    (state, { startPosition, finishPosition }): IQuotesState => ({
+      ...state,
+      currentPosition: calculateCurrentPosition(state.currentPosition, startPosition, finishPosition),
+      quotes: state.quotes.filter((_, index) => index < startPosition || index >= finishPosition)
+    })
   )
 );
+
+function calculateCurrentPosition(current: number, removeStart: number, removeFinish: number): number {
+  if (current < removeStart) {
+    return current;
+  }
+
+  if (current > removeStart && current < removeFinish) {
+    return Math.max(0, removeStart - 1);
+  }
+
+  return current - (removeFinish - removeStart);
+}

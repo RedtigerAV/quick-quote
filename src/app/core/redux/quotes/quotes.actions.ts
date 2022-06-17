@@ -8,4 +8,8 @@ export const loadQuoteFailure = createAction('[quotes] [Query] Load quote -> Fai
 export const selectQuote = createAction('[quotes] [Command] Select quote', props<{ position: number }>());
 export const addQuote = createAction('[quotes] [Command] Add quote', props<{ quote: IQuote; position: number }>());
 
-// removeQuotes props(startPos, endPos)
+// finish position not included
+export const removeQuotes = createAction(
+  '[quote] [Command] Remove quotes',
+  props<{ startPosition: number; finishPosition: number }>()
+);

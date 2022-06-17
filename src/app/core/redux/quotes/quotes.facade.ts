@@ -89,4 +89,11 @@ export class QuotesFacade {
   public addQuote(quote: IQuote, position: number): void {
     this.store.dispatch(quotesActions.addQuote({ quote, position }));
   }
+
+  public removeQuotes(start: number, finish: number): void {
+    const startPosition = Math.max(start, 0);
+    const finishPosition = Math.min(finish, this.quotes.length);
+
+    this.store.dispatch(quotesActions.removeQuotes({ startPosition, finishPosition }));
+  }
 }

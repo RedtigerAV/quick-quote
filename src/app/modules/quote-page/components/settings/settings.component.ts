@@ -149,7 +149,9 @@ export class SettingsComponent implements OnInit {
     this._expandedItem$.next(null);
   }
 
-  public save(): void {}
+  public save(): void {
+    this.sidebarRef.close(this.result);
+  }
 
   private compressNames(names: Array<string>): string {
     if (names.length === 1) {
