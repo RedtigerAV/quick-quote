@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { BookmarksEffects } from './bookmarks/bookmarks.effects';
 import { PhotoTopicsEffects } from './photo-topics/photo-topics.effects';
-import { PhotosEffects } from './photo/photos.effects';
+import { PhotosEffects } from './photos/photos.effects';
 import { QuoteTopicsEffects } from './quote-topics/quote-topics.effects';
 import { QuotesEffects } from './quotes/quotes.effects';
 

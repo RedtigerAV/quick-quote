@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PhotosFacade } from '@core/redux/photo/photos.facade';
+import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 
 @Injectable()

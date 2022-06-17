@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PhotosFacade } from '@core/redux/photo/photos.facade';
+import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import { waitUntilAnimationDone } from '@core/rxjs-operators/animation-process.operator';
 import { AnimationNameEnum } from '@core/services/animations/animations';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';

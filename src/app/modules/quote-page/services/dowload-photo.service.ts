@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PhotosApiService } from '@core/api/photos-api.service';
-import { PhotosFacade } from '@core/redux/photo/photos.facade';
+import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import { take } from 'rxjs';
 
 @Injectable()

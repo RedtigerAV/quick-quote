@@ -1,7 +1,7 @@
 import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IPhoto } from '@core/models/photo.model';
-import { PhotosFacade } from '@core/redux/photo/photos.facade';
+import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import { SetupPhotosService } from './services/setup-photos.service';
 import { PhotosLoaderService } from './services/photos-loader.service';
 import { BrightnessLevelEnum, ColorsHelper } from '@shared/helpers/colors.helper';

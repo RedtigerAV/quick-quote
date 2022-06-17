@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { PhotosApiService } from '@core/api/photos-api.service';
 import { Actions, createEffect, ofType, concatLatestFrom } from '@ngrx/effects';
 import * as photoTopicsActions from './photo-topics.actions';
-import { loadPhotos } from '../photo/photos.actions';
+import { loadPhotos } from '../photos/photos.actions';
 import { PhotoTopicsFacade } from './photo-topics.facade';
 import { catchError, filter, map, of, switchMap } from 'rxjs';
 import { RequestStatusEnum } from '@core/types/request-status.type';

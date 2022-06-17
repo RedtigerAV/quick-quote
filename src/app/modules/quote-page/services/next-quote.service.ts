@@ -1,7 +1,7 @@
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { Injectable } from '@angular/core';
 import { map, merge, take, tap } from 'rxjs';
-import { PhotosFacade } from '@core/redux/photo/photos.facade';
+import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { QuotesMediator, QuotesMediatorEvents } from './quotes.mediator';
 
