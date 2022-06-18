@@ -71,6 +71,7 @@
     position: absolute;
     bottom: rhythm(1);
     color: var(--qq-color-text-secondary);
+    white-space: nowrap;
     @include qq-font-heading-4;
 
     @include mediaQuery(lg, xl) {

@@ -13,6 +13,12 @@ $path-width: 2px;
     border-radius: var(--qq-border-radius);
     animation: clipPoligon $anime-time linear infinite;
   }
+
+  &--contrast {
+    &::before {
+      box-shadow: inset 0 0 0 $path-width var(--qq-color-text-contrast);
+    }
+  }
 }
 
 @keyframes clipPoligon {
