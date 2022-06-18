@@ -20,10 +20,12 @@ import { QuotesLoaderService } from './services/quotes-loader.service';
 import { QuotesMediator } from './services/quotes.mediator';
 import { SettingsService } from './services/settings.service';
 import { SlideshowService } from './services/slideshow.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     TrackByPipeModule,
     QuoteListModule,
     BottomBarModule,

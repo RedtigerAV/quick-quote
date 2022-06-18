@@ -1,6 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Inject, TemplateRef, Type } from '@angular/core';
+import { Nullable } from '@core/types/nullable.type';
+import { ToastRef } from '@shared/services/toaster/toaster.reference';
 import { TOAST_DATA } from '@shared/services/toaster/toaster.token';
-import { IBasicToastData } from './basic-toast.interface';
+import { BasicToastTypeEnum, IBasicToastData } from './basic-toast.interface';
+
+enum ContentTypeEnum {
+  TEXT,
+  COMPONENT,
+  TEMPLATE
+}
 
 @Component({
   selector: 'app-basic-toast',
@@ -9,7 +17,26 @@ import { IBasicToastData } from './basic-toast.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasicToastComponent implements OnInit {
-  constructor(@Inject(TOAST_DATA) public readonly data: IBasicToastData) {}
+  public toastTypeEnum = BasicToastTypeEnum;
+  public contentTypeEnum = ContentTypeEnum;
+
+  constructor(@Inject(TOAST_DATA) public readonly data: IBasicToastData, public readonly toast: ToastRef) {}
 
   ngOnInit(): void {}
+
+  public get content(): any {
+    return this.data.content;
+  }
+
+  public get contentType(): ContentTypeEnum {
+    if (this.data.content instanceof Type) {
+      return ContentTypeEnum.COMPONENT;
+    } else if (this.data.content instanceof TemplateRef) {
+      return ContentTypeEnum.TEMPLATE;
+    } else if (typeof this.data.content === 'string') {
+      return ContentTypeEnum.TEXT;
+    }
+
+    throw new Error('Basic toast: Invalid content');
+  }
 }

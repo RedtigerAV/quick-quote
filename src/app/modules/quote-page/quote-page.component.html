@@ -43,7 +43,7 @@
         <button
           *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
           appBarItem
-          [disabled]="platform.SAFARI || (convertToImage | locked: this | async)"
+          [disabled]="convertToImage | locked: this | async"
           (click)="convertToImage()"
         >
           <app-bar-item-content>
@@ -164,3 +164,10 @@
     </app-bottom-bar>
   </ng-container>
 </div>
+
+<ng-template #errorMessage>
+  Check your internet connection or&nbsp;reload the page. If&nbsp;the error persists, write to&nbsp;us&nbsp;<a
+    [routerLink]="appRoutePath.CONTACT"
+    >here</a
+  >.
+</ng-template>

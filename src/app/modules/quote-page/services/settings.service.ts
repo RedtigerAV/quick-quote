@@ -12,6 +12,8 @@ import { SlideshowService } from './slideshow.service';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import intersection from 'lodash-es/intersection';
+import { ToasterService } from '@shared/services/toaster/toaster.service';
+import { BasicToastSuccess } from '@shared/components/basic-toast/basic-toast';
 
 @UntilDestroy()
 @Injectable()
@@ -23,7 +25,8 @@ export class SettingsService {
     private readonly quoteTopicsFacade: QuoteTopicsFacade,
     private readonly photoTopicsFacade: PhotoTopicsFacade,
     private readonly quotesFacade: QuotesFacade,
-    private readonly photosFacade: PhotosFacade
+    private readonly photosFacade: PhotosFacade,
+    private readonly toaster: ToasterService
   ) {}
 
   public openSettings(): void {
@@ -48,8 +51,6 @@ export class SettingsService {
       .beforeClosed()
       .pipe(take(1), filter(Boolean), untilDestroyed(this))
       .subscribe((result: ISettingsData) => {
-        // TODO: показать попап, что настройки были изменены
-
         if (slideshowTime !== result.slideshowTime) {
           this.slideshowService.updateTime(result.slideshowTime);
         }
@@ -66,6 +67,18 @@ export class SettingsService {
       .beforeClosed()
       .pipe(take(1), untilDestroyed(this))
       .subscribe(() => QuotesMediator.notify(QuotesMediatorEvents.SIDEBAR_CLOSED));
+
+    sidebarRef
+      .afterClosed()
+      .pipe(take(1), filter(Boolean), untilDestroyed(this))
+      .subscribe(() =>
+        this.toaster.open(
+          new BasicToastSuccess({
+            title: 'Well done!',
+            content: 'Settings saved successfully'
+          })
+        )
+      );
   }
 
   private handleQuoteTopicsChange(previous: string[], next: string[]): void {

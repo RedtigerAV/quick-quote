@@ -20,7 +20,7 @@
 .toasts-panel {
   position: absolute;
   display: grid;
-  grid-gap: rhythm(1);
+  grid-gap: rhythm(2);
 
   @include mediaQuery(xs, sm) {
     grid-gap: rhythm(2);
@@ -87,10 +87,8 @@
 .toast {
   overflow: hidden;
   width: rhythm(75);
-  padding: rhythm(3);
   border-radius: var(--qq-border-radius);
   background-color: var(--qq-color-bg-additional);
-  box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand-secondary-darken);
   pointer-events: auto;
 
   @include mediaQuery(xs, sm) {

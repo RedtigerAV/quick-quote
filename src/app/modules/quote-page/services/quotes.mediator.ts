@@ -63,7 +63,6 @@ export class QuotesMediator implements OnDestroy {
     if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
       this.slideshowService.resetTimer();
     }
-    // hostComponent.lockSwipeLeft();
   }
 
   private onToNextQuoteFinish(): void {
@@ -72,19 +71,15 @@ export class QuotesMediator implements OnDestroy {
     if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
       this.slideshowService.playTimer();
     }
-
-    // hostComponent.unlockSwipeLeft();
   }
 
   private onToNextQuoteError(): void {
     this.hostComponent.setNextButtonDisabledState(false);
+    this.hostComponent.showError('Quote loading error');
 
     if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
       this.slideshowService.stop();
     }
-
-    // hostComponent.unlockSwipeLeft();
-    // show error (another service?)
   }
 
   private onToPreviousQuote(): void {
@@ -94,8 +89,6 @@ export class QuotesMediator implements OnDestroy {
     if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
       this.slideshowService.resetTimer();
     }
-
-    // hostComponent.lockSwipeRight();
   }
 
   private onToPreviousQuoteFinish(): void {
@@ -103,7 +96,6 @@ export class QuotesMediator implements OnDestroy {
     if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
       this.slideshowService.playTimer();
     }
-    // gesturesService.unlockSwipeRight();
   }
 
   private onSidebarOpened(): void {
