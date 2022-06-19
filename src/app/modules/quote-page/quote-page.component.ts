@@ -1,11 +1,9 @@
-import { BehaviorSubject, catchError, combineLatest, filter, finalize, map, Observable, of, take, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, finalize, map, Observable, take, tap } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ChangeDetectionStrategy, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { NextQuoteService } from './services/next-quote.service';
 import { QuotesLoaderService } from './services/quotes-loader.service';
-import { PreviousQuoteService } from './services/previous-quote.service';
 import { ViewportService } from '@core/services/viewport/viewport.service';
 import { lock, locker, unlock } from '@shared/decorators/locker.decorator';
 import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.service';
@@ -21,6 +19,9 @@ import { QuotesMediator, QuotesMediatorEvents } from './services/quotes.mediator
 import { AnimationEvent } from '@angular/animations';
 import { SettingsService } from './services/settings.service';
 import isNumber from 'lodash-es/isNumber';
+import { ToasterService } from '@shared/services/toaster/toaster.service';
+import { BasicToastError, BasicToastInfo } from '@shared/components/basic-toast/basic-toast';
+import { AppRoutePath } from 'src/app/app.route-path';
 
 @UntilDestroy()
 @Component({
@@ -29,6 +30,7 @@ import isNumber from 'lodash-es/isNumber';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuotePageComponent implements OnInit {
+  @ViewChild('errorMessage', { static: true }) errorMessage!: TemplateRef<any>;
   public readonly isPreviousButtonDisabled$: Observable<boolean>;
   public readonly isNextButtonDisabled$: Observable<boolean>;
   public readonly actionsState$: Observable<ActionsStateType>;
@@ -36,6 +38,7 @@ export class QuotePageComponent implements OnInit {
   public readonly skipHtmlToImageClass = HtmlToImageService.skipHtmlToImageClass;
   public readonly actionsStateEnum = ActionsStateEnum;
   public readonly quotesEventsEnum = QuotesMediatorEvents;
+  public readonly appRoutePath = AppRoutePath;
   private readonly _actionsState$ = new BehaviorSubject<ActionsStateType>(ActionsStateEnum.MAIN);
   private readonly _isPreviousButtonDisabled$ = new BehaviorSubject<boolean>(false);
   private readonly _isNextButtonDisabled$ = new BehaviorSubject<boolean>(false);
@@ -54,7 +57,8 @@ export class QuotePageComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly quotesLoaderService: QuotesLoaderService,
     private readonly htmlToImageService: HtmlToImageService,
-    private readonly downloadPhotoService: DownloadPhotoService
+    private readonly downloadPhotoService: DownloadPhotoService,
+    private readonly toaster: ToasterService
   ) {
     this.quotesMediator.hostComponent = this;
 
@@ -117,6 +121,21 @@ export class QuotePageComponent implements OnInit {
 
   @locker()
   public convertToImage(): void {
+    if (this.platform.SAFARI) {
+      this.toaster.open(
+        new BasicToastInfo(
+          {
+            title: 'We are sorry :(',
+            content:
+              'This feature is not available in Safari browser. Try to open the app in another browser to enjoy creating beautiful pictures with your favorite quotes'
+          },
+          false
+        )
+      );
+
+      return;
+    }
+
     lock(this, this.convertToImage);
     const imageName = `[Quick Quote] ${this.quotesFacade.selectedQuote?.authorName}`;
 
@@ -126,17 +145,26 @@ export class QuotePageComponent implements OnInit {
     this.htmlToImageService
       .saveImage(imageName)
       .pipe(
-        // TODO: Обработать ошибку
-        catchError(error => of(null)),
         take(1),
         finalize(() => unlock(this, this.convertToImage)),
         untilDestroyed(this)
       )
-      .subscribe();
+      .subscribe({
+        error: () => this.showError('Snapshot error')
+      });
   }
 
   public switchBottomBarState(state: ActionsStateType): void {
     this._actionsState$.next(state);
+  }
+
+  public showError(title: string): void {
+    this.toaster.open(
+      new BasicToastError({
+        title,
+        content: this.errorMessage
+      })
+    );
   }
 
   private listenQuoteChanges(): void {

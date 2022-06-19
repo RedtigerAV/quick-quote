@@ -11,6 +11,7 @@
 @import 'styles/components/sidebar-panel.scss';
 @import 'styles/components/loading-panel.scss';
 @import 'app/shared/components/bar-item/bar-item.directive.scss';
+@import 'app/shared/components/basic-toast/basic-toast-wrapper.scss';
 @import 'styles/components/info-panel.scss';
 
 // HELPERS
@@ -29,6 +30,30 @@ body {
 
 .without-animation {
   animation: unset;
+}
+
+.root-loader {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  width: 136px;
+  border-radius: var(--qq-border-radius);
+  color: var(--qq-color-element-brand-darken);
+  background-color: var(--qq-color-element-brand);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+
+  svg {
+    height: 80px;
+  }
+
+  path:first-child {
+    color: var(--qq-color-bg-secondary);
+  }
 }
 
 @keyframes backgroundAnimation {

@@ -30,7 +30,6 @@ const routes: Routes = [
       {
         path: AppRoutePath.OOPS,
         pathMatch: 'full',
-        // TODO: integrate guard to check internal navigation
         canActivate: [],
         canLoad: [],
         loadChildren: () => import('./modules/error-page/error-page.module').then(m => m.ErrorPageModule)

@@ -1,3 +1,5 @@
+import { TemplateRef, Type } from '@angular/core';
+
 export enum BasicToastTypeEnum {
   SUCCESS = 'success',
   INFO = 'info',
@@ -7,6 +9,7 @@ export enum BasicToastTypeEnum {
 export type BasicToastType = BasicToastTypeEnum.SUCCESS | BasicToastTypeEnum.INFO | BasicToastTypeEnum.ERROR;
 
 export interface IBasicToastData {
-  text: string;
-  type: BasicToastTypeEnum;
+  title: string;
+  content: string | TemplateRef<any> | Type<any>;
+  type?: BasicToastTypeEnum;
 }
