@@ -4,14 +4,11 @@ import {
   combineLatest,
   delay,
   distinctUntilChanged,
-  EMPTY,
   filter,
   map,
   Observable,
   of,
-  switchMap,
-  take,
-  tap
+  switchMap
 } from 'rxjs';
 import { AnimationNameEnum, AnimationNameType } from './animations';
 
