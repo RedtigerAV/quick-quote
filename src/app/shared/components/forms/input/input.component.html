@@ -1,0 +1,20 @@
+<div class="input qq-primitive-text-control">
+  <input
+    #primitiveTextElement
+    class="input__element qq-primitive-text-control__element"
+    [name]="name"
+    [title]="name"
+    [id]="id"
+    [type]="type"
+    [placeholder]="placeholder"
+    [attr.tabindex]="0"
+    [attr.inputmode]="inputMode"
+    [autocomplete]="autocomplete"
+    [ngModel]="value"
+    (ngModelChange)="updateValue($event)"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut()"
+  />
+
+  <label *ngIf="hasLabel" [for]="name" class="qq-primitive-text-control__label">{{ label }}</label>
+</div>

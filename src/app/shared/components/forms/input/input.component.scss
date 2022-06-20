@@ -1,0 +1,27 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
+
+:host {
+  display: block;
+
+  &.has-label {
+    .input__element {
+      transform: unset;
+      top: rhythm(4);
+    }
+  }
+}
+
+.input {
+  position: relative;
+  height: rhythm(12);
+
+  &__element {
+    position: absolute;
+    height: rhythm(6);
+    top: 50%;
+    transform: translateY(-50%);
+    @include qq-font-text-l;
+  }
+}

@@ -1,0 +1,66 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
+
+$offset: var(--qq-border-radius);
+$border-width: 2px;
+
+@function control-transition($property) {
+  @return $property 150ms ease-in-out;
+}
+
+.qq-primitive-text-control {
+  position: relative;
+  width: 100%;
+  border-radius: var(--qq-border-radius);
+  background-color: var(--qq-color-text-main);
+  border: $border-width solid;
+  border-color: var(--qq-color-element-brand-darken);
+  transition: control-transition(border-color);
+  cursor: text;
+
+  &:hover {
+    border-color: var(--qq-color-element-brand);
+  }
+
+  &__element {
+    position: absolute;
+    left: $offset;
+    width: calc(100% - 2 * $offset);
+    color: var(--qq-color-text-contrast);
+    background-color: transparent;
+    outline: none;
+    border: 0;
+
+    &:-webkit-autofill {
+      -webkit-background-clip: text;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: calc(#{rhythm(6)} - #{$border-width});
+    left: $offset;
+    transform: translateY(-50%);
+    @include qq-font-text-xl;
+    @include qq-font-family-text(medium);
+    color: var(--qq-color-element-brand-darken);
+    z-index: 1;
+    transition: control-transition(top), control-transition(font-size);
+    margin-bottom: 0;
+  }
+}
+
+.focused {
+  .qq-primitive-text-control {
+    border-color: var(--qq-color-text-contrast);
+  }
+}
+
+.has-value,
+.focused {
+  .qq-primitive-text-control__label {
+    top: rhythm(2);
+    @include qq-font-text-s;
+  }
+}

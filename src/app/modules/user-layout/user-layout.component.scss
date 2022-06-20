@@ -21,6 +21,7 @@
     left: 50%;
     transform: translateX(-50%);
     padding: 0 rhythm(2);
+    z-index: 100;
     box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand-darken);
     background-color: rgba(var(--qq-color-element-brand-rgb), 0.8);
     border-radius: var(--qq-border-radius);

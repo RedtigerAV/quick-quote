@@ -1,0 +1,26 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
+
+:host {
+  display: block;
+
+  &.has-label {
+    .textarea__element {
+      top: rhythm(5);
+    }
+  }
+}
+
+.textarea {
+  position: relative;
+  height: rhythm(40);
+
+  &__element {
+    position: absolute;
+    height: rhythm(34);
+    top: rhythm(3);
+    @include qq-font-text-m;
+    resize: none;
+  }
+}
