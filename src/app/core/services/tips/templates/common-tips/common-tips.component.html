@@ -1,0 +1,71 @@
+<ng-container [ngSwitch]="tipsStep">
+  <ng-container *ngSwitchCase="tipsStepsEnum.QUOTES_NAVIGATION">
+    <p>
+      To switch quotes, click on the Next <span><svg-icon key="next"></svg-icon></span> icon or Previous
+      <span><svg-icon key="previous"></svg-icon></span> icon, or
+      <ng-container *ngIf="device.isTouchDevice">just swipe the quote.</ng-container>
+      <ng-container *ngIf="!device.isTouchDevice">use arrows on your keyboard.</ng-container>
+    </p>
+
+    <p>
+      If&nbsp;you don&rsquo;t want to&nbsp;switch quotes manually, you can start the slideshow mode.
+      To&nbsp;do&nbsp;this, click the <span><svg-icon key="play"></svg-icon></span> icon.
+    </p>
+
+    <button class="qq-button qq-button__view-1" (click)="toNextStep(tipsStepsEnum.PERSONALIZATION)">
+      Next tips (2 / 4)
+    </button>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="tipsStepsEnum.PERSONALIZATION">
+    <p>
+      To&nbsp;personalize quotes on&nbsp;topics that interest you,
+      <ng-container *ngIf="viewport.isMobileViewport$ | async">
+        <ng-container *ngTemplateOutlet="goToMore"></ng-container>
+      </ng-container>
+      go&nbsp;to&nbsp;the settings <span><svg-icon key="settings"></svg-icon></span> section.
+    </p>
+    <p>
+      Also in&nbsp;the settings section, you can customize the entire site for yourself so&nbsp;that the use of&nbsp;the
+      application is&nbsp;as&nbsp;comfortable as&nbsp;possible.
+    </p>
+    <button class="qq-button qq-button__view-1" (click)="toNextStep(tipsStepsEnum.BOOKMARKS)">Next tips (3 / 4)</button>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="tipsStepsEnum.BOOKMARKS">
+    <p>
+      To bookmark a quote, click the <span><svg-icon key="bookmark"></svg-icon></span> icon.
+    </p>
+    <p>
+      To view a list of your favorite quotes,
+      <ng-container *ngIf="viewport.isMobileViewport$ | async">
+        <ng-container *ngTemplateOutlet="goToMore"></ng-container>
+      </ng-container>
+      click the <span><svg-icon key="bookmarks-collection"></svg-icon></span> icon.
+    </p>
+
+    <button class="qq-button qq-button__view-1" (click)="toNextStep(tipsStepsEnum.SHARE)">Next tips (4 / 4)</button>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="tipsStepsEnum.SHARE">
+    <p>
+      To share quotes, click the <span><svg-icon key="share"></svg-icon></span> icon, and select a social network.
+    </p>
+
+    <!-- TODO: добавить подсказку о копировании -->
+
+    <p *ngIf="!platform.SAFARI">
+      To&nbsp;take a&nbsp;wonderful snapshot of&nbsp;a&nbsp;quote that can be&nbsp;shared on&nbsp;social networks,
+      <ng-container *ngIf="viewport.isMobileViewport$ | async">
+        <ng-container *ngTemplateOutlet="goToMore"></ng-container>
+      </ng-container>
+      click on&nbsp;the <span><svg-icon key="camera"></svg-icon></span>&nbsp;icon.
+    </p>
+
+    <button class="qq-button qq-button__view-1" (click)="close()">Got it!</button>
+  </ng-container>
+</ng-container>
+
+<ng-template #goToMore>
+  click on icon <span><svg-icon key="more"></svg-icon></span>, and then
+</ng-template>

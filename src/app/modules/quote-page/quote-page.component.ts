@@ -22,6 +22,8 @@ import isNumber from 'lodash-es/isNumber';
 import { ToasterService } from '@shared/services/toaster/toaster.service';
 import { BasicToastError, BasicToastInfo } from '@shared/components/basic-toast/basic-toast';
 import { AppRoutePath } from 'src/app/app.route-path';
+import { TipsService } from '@core/services/tips/tips.service';
+import { TipsEventsEnum } from '@core/services/tips/tips-events.enum';
 
 @UntilDestroy()
 @Component({
@@ -58,7 +60,8 @@ export class QuotePageComponent implements OnInit {
     private readonly quotesLoaderService: QuotesLoaderService,
     private readonly htmlToImageService: HtmlToImageService,
     private readonly downloadPhotoService: DownloadPhotoService,
-    private readonly toaster: ToasterService
+    private readonly toaster: ToasterService,
+    private readonly tipsService: TipsService
   ) {
     this.quotesMediator.hostComponent = this;
 
@@ -73,6 +76,7 @@ export class QuotePageComponent implements OnInit {
 
   public ngOnInit(): void {
     // TODO: сервисы были перенесены в модуль. Избавиться от UntilDestroy в них
+    this.tipsService.notify(TipsEventsEnum.QUOTE_PAGE_VISIT);
     this.quotesLoaderService.init();
     this.listenQuoteChanges();
   }

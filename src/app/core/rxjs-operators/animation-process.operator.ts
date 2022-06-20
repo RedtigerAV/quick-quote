@@ -1,14 +1,14 @@
-import { map, MonoTypeOperatorFunction, Observable, of, pipe, switchMap, zip } from 'rxjs';
+import { map, MonoTypeOperatorFunction, Observable, of, pipe, switchMap, take, zip } from 'rxjs';
 import { AnimationProcessService } from '../services/animations/animation-process.service';
 import { AnimationNameType } from '../services/animations/animations';
 
-export function animationDone$(...animations: AnimationNameType[]): Observable<unknown> {
-  return AnimationProcessService.instance.animationsDone$(...animations);
+export function animationsDone$(...animations: AnimationNameType[]): Observable<unknown> {
+  return AnimationProcessService.instance.animationsDone$(...animations).pipe(take(1));
 }
 
 export function waitUntilAnimationDone<T = any>(...animations: AnimationNameType[]): MonoTypeOperatorFunction<T> {
   return pipe(
-    switchMap(entity => zip([of(entity), AnimationProcessService.instance.animationsDone$(...animations)])),
+    switchMap(entity => zip([of(entity), animationsDone$(...animations)])),
     map(([entity]) => entity)
   );
 }

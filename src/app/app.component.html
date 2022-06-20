@@ -1,3 +1,3 @@
-<div class="wrapper" [@fadeIn]="routerAnimationState">
+<div class="wrapper" [@fadeIn]="routerAnimationState" (@fadeIn.done)="onAnimationDone($event)">
   <router-outlet (activate)="routeActivated()"></router-outlet>
 </div>
