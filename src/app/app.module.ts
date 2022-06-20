@@ -18,6 +18,7 @@ import { ViewportModule } from '@core/services/viewport/viewport.module';
 import { ToasterModule } from '@shared/services/toaster/toaster.module';
 import { HammerGestureProvider } from '@core/configuration/hammer.configuration';
 import { BasicToastModule } from '@shared/components/basic-toast/basic-toast.module';
+import { TipsModule } from '@core/services/tips/tips.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -35,6 +36,7 @@ import { BasicToastModule } from '@shared/components/basic-toast/basic-toast.mod
     QuotePageModule,
     IconsModule,
     BasicToastModule,
+    TipsModule,
     ViewportModule.forRoot({
       breakpoints: {
         xs: 0,

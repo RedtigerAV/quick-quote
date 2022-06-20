@@ -18,7 +18,7 @@
     <div class="content__body">
       <ng-container [ngSwitch]="contentType">
         <ng-container *ngSwitchCase="contentTypeEnum.COMPONENT">
-          <ng-container *ngComponentOutlet="content"></ng-container>
+          <ng-container *ngComponentOutlet="content; injector: contentInjector"></ng-container>
         </ng-container>
 
         <ng-container *ngSwitchCase="contentTypeEnum.TEMPLATE">

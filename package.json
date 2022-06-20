@@ -42,6 +42,7 @@
     "@angular/cli": "~13.2.3",
     "@angular/compiler-cli": "~13.2.0",
     "@commitlint/cli": "^16.2.4",
+    "@ng-web-apis/common": "^2.0.0",
     "@ngneat/svg-generator": "^4.0.0",
     "@ngneat/until-destroy": "^9.2.0",
     "@ngrx/effects": "^13.2.0",

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Inject, TemplateRef, Type } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Inject, TemplateRef, Type, Injector } from '@angular/core';
 import { Nullable } from '@core/types/nullable.type';
 import { ToastRef } from '@shared/services/toaster/toaster.reference';
 import { TOAST_DATA } from '@shared/services/toaster/toaster.token';
@@ -19,8 +19,23 @@ enum ContentTypeEnum {
 export class BasicToastComponent implements OnInit {
   public toastTypeEnum = BasicToastTypeEnum;
   public contentTypeEnum = ContentTypeEnum;
+  public contentInjector!: Injector;
 
-  constructor(@Inject(TOAST_DATA) public readonly data: IBasicToastData, public readonly toast: ToastRef) {}
+  constructor(
+    @Inject(TOAST_DATA) public readonly data: IBasicToastData,
+    public readonly toast: ToastRef,
+    injector: Injector
+  ) {
+    this.contentInjector = Injector.create({
+      providers: [
+        {
+          provide: ToastRef,
+          useValue: toast
+        }
+      ],
+      parent: injector
+    });
+  }
 
   ngOnInit(): void {}
 

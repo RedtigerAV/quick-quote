@@ -37,7 +37,6 @@
       <button class="info__action qq-button qq-button__view-1" (click)="loadBookmarks()">Try again</button>
     </div>
 
-    <!--TODO: make fade before and after quotes-->
     <div class="bookmarks">
       <ng-container *ngFor="let bookmark of data.bookmarks; trackBy: 'id' | trackBy">
         <div class="bookmark" [@fadeOut]>

@@ -65,8 +65,6 @@ export class AnimationProcessService {
           filter(states => states.every(state => state === AnimationProcessStateEnum.PENDING))
         )
       )
-      // TODO: проверить, что в нужных местах есть take(1)
-      // take(1)
     );
   }
 
