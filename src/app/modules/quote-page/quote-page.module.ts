@@ -12,13 +12,8 @@ import { BarItemModule } from '@shared/components/bar-item/bar-item.module';
 import { BookmarksModule } from './components/bookmarks/bookmarks.module';
 import { TimerModule } from '@shared/components/timer/timer.module';
 import { SettingsModule } from './components/settings/settings.module';
-import { BookmarksService } from './services/bookmarks.service';
 import { DownloadPhotoService } from './services/dowload-photo.service';
-import { NextQuoteService } from './services/next-quote.service';
 import { PreviousQuoteService } from './services/previous-quote.service';
-import { QuotesLoaderService } from './services/quotes-loader.service';
-import { QuotesMediator } from './services/quotes.mediator';
-import { SettingsService } from './services/settings.service';
 import { SlideshowService } from './services/slideshow.service';
 import { RouterModule } from '@angular/router';
 
@@ -39,15 +34,6 @@ import { RouterModule } from '@angular/router';
   ],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
-  providers: [
-    QuotesMediator,
-    NextQuoteService,
-    PreviousQuoteService,
-    QuotesLoaderService,
-    DownloadPhotoService,
-    BookmarksService,
-    SlideshowService,
-    SettingsService
-  ]
+  providers: [PreviousQuoteService, DownloadPhotoService, SlideshowService]
 })
 export class QuotePageModule {}

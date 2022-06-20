@@ -23,6 +23,6 @@
 
   &:hover,
   &--opened {
-    height: rhythm(17);
+    height: var(--qq-bottom-bar-height);
   }
 }

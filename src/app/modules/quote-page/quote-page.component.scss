@@ -11,18 +11,13 @@
 .container {
   position: relative;
   display: flex;
-  align-items: center;
   width: 100%;
   height: 100%;
 }
 
 .quotes {
   width: 100%;
-  height: calc(100% - rhythm(35));
-
-  @include mediaQuery(xs, md) {
-    height: calc(100% - rhythm(50));
-  }
+  height: calc(100% - var(--qq-bottom-bar-height));
 }
 
 .bottom-bar {
