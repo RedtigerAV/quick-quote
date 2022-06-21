@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IQuote } from '@core/models/quote.model';
 import { IQuoteTopic } from '@core/models/quote-topic.model';
 
-export interface V1QuoteRandomReadRequestParams {
+export interface V1QuoteRandomReadRequestBody {
   topicIDs?: Array<string>;
 }
 
@@ -14,11 +14,11 @@ export class QuotesApiService {
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  public v1QuoteRandomRead(requestParams?: V1QuoteRandomReadRequestParams): Observable<IQuote> {
+  public v1QuoteRandomRead(requestBody?: V1QuoteRandomReadRequestBody): Observable<IQuote> {
     let body = {};
 
-    if (requestParams?.topicIDs && requestParams?.topicIDs?.length) {
-      body = { topicIDs: requestParams.topicIDs };
+    if (requestBody?.topicIDs && requestBody?.topicIDs?.length) {
+      body = { topicIDs: requestBody.topicIDs };
     }
 
     return this.httpClient.post<IQuote>(`${this.basePath}/v1/quotes/random`, body);

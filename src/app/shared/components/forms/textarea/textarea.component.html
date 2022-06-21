@@ -1,0 +1,20 @@
+<div class="textarea qq-primitive-text-control">
+  <textarea
+    #primitiveTextElement
+    cols="30"
+    rows="10"
+    class="textarea__element qq-primitive-text-control__element"
+    [id]="id"
+    [name]="name"
+    [title]="name"
+    [placeholder]="placeholder"
+    [attr.tabindex]="0"
+    autocomplete="off"
+    [ngModel]="value"
+    (ngModelChange)="updateValue($event)"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut()"
+  ></textarea>
+
+  <label *ngIf="hasLabel" [for]="name" class="qq-primitive-text-control__label">{{ label }}</label>
+</div>

@@ -24,12 +24,14 @@ import { BasicToastError, BasicToastInfo } from '@shared/components/basic-toast/
 import { AppRoutePath } from 'src/app/app.route-path';
 import { TipsService } from '@core/services/tips/tips.service';
 import { TipsEventsEnum } from '@core/services/tips/tips-events.enum';
+import { NextQuoteService } from './services/next-quote.service';
 
 @UntilDestroy()
 @Component({
   templateUrl: './quote-page.component.html',
   styleUrls: ['./quote-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [QuotesMediator, SettingsService, BookmarksService, NextQuoteService, QuotesLoaderService]
 })
 export class QuotePageComponent implements OnInit {
   @ViewChild('errorMessage', { static: true }) errorMessage!: TemplateRef<any>;
@@ -75,7 +77,6 @@ export class QuotePageComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // TODO: сервисы были перенесены в модуль. Избавиться от UntilDestroy в них
     this.tipsService.notify(TipsEventsEnum.QUOTE_PAGE_VISIT);
     this.quotesLoaderService.init();
     this.listenQuoteChanges();

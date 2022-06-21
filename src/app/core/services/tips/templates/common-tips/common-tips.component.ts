@@ -13,7 +13,7 @@ enum CommonTipsSteps {
 
 @Component({
   templateUrl: 'common-tips.component.html',
-  styles: [' span { display: inline-block } svg-icon { font-size: 16px!important } ']
+  styles: [' span { display: inline-block } svg-icon { font-size: 16px!important; transform: translateY(25%) } ']
 })
 export class CommonTipsComponent {
   public tipsStep = CommonTipsSteps.QUOTES_NAVIGATION;

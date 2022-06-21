@@ -67,7 +67,6 @@ export class UserLayoutComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    // TODO: проверить что при смене компонента подписки не пересоздаются
     this.photosFacade.loadPhotos();
     this.photosLoaderService.init();
     this.setupBackgroundAnimation();

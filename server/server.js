@@ -12,6 +12,7 @@ if (environment === 'development') {
 
 app.use('/api/v1/quotes', require('./quotes/index'));
 app.use('/api/v1/photos', require('./photos/index'));
+app.use('/api/v1/mail-delivery', require('./mail-delivery/index'));
 
 app.use((err, req, res, next) => {
   res.status(500).send('Internal error');

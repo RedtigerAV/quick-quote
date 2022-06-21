@@ -10,21 +10,18 @@
 }
 
 .header {
-  position: absolute;
+  position: relative;
   width: 100%;
-  height: rhythm(15);
+  height: var(--qq-header-height);
   z-index: 1;
-
-  @include mediaQuery(xs, md) {
-    height: rhythm(25);
-  }
 
   &__logo {
     position: absolute;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 50%);
+    transform: translateX(-50%);
     padding: 0 rhythm(2);
+    z-index: 100;
     box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand-darken);
     background-color: rgba(var(--qq-color-element-brand-rgb), 0.8);
     border-radius: var(--qq-border-radius);
@@ -38,13 +35,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100%;
+    height: calc(100% - rhythm(10));
     width: 100%;
-    padding: rhythm(5);
-
-    @include mediaQuery(xs, md) {
-      padding: rhythm(2);
-    }
   }
 }
 
@@ -130,9 +122,16 @@
   display: block;
   width: 100%;
   height: 100%;
+  padding: 0 rhythm(5);
+
+  @include mediaQuery(xs, md) {
+    padding: 0 rhythm(2);
+  }
 
   &__photos {
     position: absolute;
+    top: 0;
+    left: 0;
     display: block;
     height: 100%;
     width: 100%;
@@ -143,12 +142,12 @@
   &__content {
     position: relative;
     display: block;
-    height: 100%;
+    height: calc(100% - #{var(--qq-header-height)});
     width: 100%;
-    padding: rhythm(5);
+    padding: rhythm(5) 0;
 
     @include mediaQuery(xs, md) {
-      padding: rhythm(2);
+      padding: rhythm(2) 0;
     }
   }
 }

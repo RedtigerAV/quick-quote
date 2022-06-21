@@ -1,1 +1,54 @@
-<p>contact-page works!</p>
+<app-page-wrapper>
+  <app-page-wrapper-title> Contact us </app-page-wrapper-title>
+
+  <app-page-wrapper-description>
+    We&nbsp;hope you like the app and it&nbsp;benefits you! We&nbsp;are constantly updating it&nbsp;to&nbsp;make
+    it&nbsp;even better and more useful. If&nbsp;you have any questions, suggestions or&nbsp;if&nbsp;you just want
+    to&nbsp;thank&nbsp;us, write about it&nbsp;in&nbsp;the form below.
+  </app-page-wrapper-description>
+
+  <p class="info">We will never share your email with anyone else</p>
+
+  <form [formGroup]="form" class="contact-form" (ngSubmit)="onSubmit()">
+    <div class="contact-form__items-group">
+      <app-input
+        formControlName="name"
+        label="Name"
+        name="name"
+        class="contact-form__control"
+        placeholder="Enter your name..."
+        autocomplete="name"
+      ></app-input>
+
+      <app-input
+        formControlName="email"
+        label="Email"
+        name="email"
+        class="contact-form__control"
+        placeholder="Enter your email..."
+        [type]="inputType.EMAIL"
+        [inputMode]="inputModeEnum.EMAIL"
+        autocomplete="email"
+      ></app-input>
+    </div>
+
+    <app-input
+      formControlName="subject"
+      label="Subject"
+      name="subject"
+      class="contact-form__control"
+      placeholder="Enter subject..."
+      autocomplete="subject"
+    ></app-input>
+
+    <app-textarea
+      formControlName="message"
+      label="Message"
+      name="message"
+      class="contact-form__control"
+      placeholder="Enter your message..."
+    ></app-textarea>
+
+    <button type="submit" class="qq-button qq-button__view-2 action">Send</button>
+  </form>
+</app-page-wrapper>

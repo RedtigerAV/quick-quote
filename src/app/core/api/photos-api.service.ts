@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { IPhoto } from '@core/models/photo.model';
 import { IPhotoTopic } from '@core/models/photo-topic.model';
 
-export interface V1PhotosReadRequestParams {
+export interface V1PhotosReadRequestBody {
   /**
    * @default landscape
    */
@@ -12,7 +12,7 @@ export interface V1PhotosReadRequestParams {
   topics?: Array<string>;
 }
 
-export interface V1PhotosDownloadRequestParams {
+export interface V1PhotosDownloadRequestBody {
   download_location: string;
 }
 
@@ -22,15 +22,15 @@ export class PhotosApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public v1PhotosRandomRead(requestParams?: V1PhotosReadRequestParams): Observable<Array<IPhoto>> {
-    const orientation = requestParams?.orientation || 'landscape';
-    const topics = requestParams?.topics || [];
+  public v1PhotosRandomRead(requestBody?: V1PhotosReadRequestBody): Observable<Array<IPhoto>> {
+    const orientation = requestBody?.orientation || 'landscape';
+    const topics = requestBody?.topics || [];
     const body = { orientation, topics };
 
     return this.httpClient.post<Array<IPhoto>>(`${this.basePath}/v1/photos/random`, body);
   }
 
-  public v1PhotosDownload({ download_location }: V1PhotosDownloadRequestParams): Observable<void> {
+  public v1PhotosDownload({ download_location }: V1PhotosDownloadRequestBody): Observable<void> {
     return this.httpClient.post<void>(`${this.basePath}/v1/photos/download`, { download_location });
   }
 
