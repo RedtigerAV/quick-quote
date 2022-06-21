@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container empty-scrollbar">
   <div class="content">
     <h1 class="content__item title">Contact us</h1>
     <p class="content__item description">
@@ -7,7 +7,9 @@
       to&nbsp;thank&nbsp;us, write about it&nbsp;in&nbsp;the form below.
     </p>
 
-    <form [formGroup]="form" class="content__item contact-form">
+    <p class="info">We will never share your email with anyone else</p>
+
+    <form [formGroup]="form" class="content__item contact-form" (ngSubmit)="onSubmit()">
       <div class="contact-form__items-group">
         <app-input
           formControlName="name"
@@ -44,10 +46,10 @@
         label="Message"
         name="message"
         class="contact-form__control"
-        placeholder="Message..."
+        placeholder="Enter your message..."
       ></app-textarea>
 
-      <button [disabled]="form.invalid" class="qq-button qq-button__view-2 action">Send</button>
+      <button type="submit" class="qq-button qq-button__view-2 action">Send</button>
     </form>
   </div>
 </div>

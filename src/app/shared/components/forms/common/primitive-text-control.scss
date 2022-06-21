@@ -33,6 +33,7 @@ $border-width: 2px;
     border: 0;
 
     &:-webkit-autofill {
+      background-clip: text;
       -webkit-background-clip: text;
     }
   }

@@ -53,6 +53,7 @@ export abstract class PrimitiveTextControl extends ControlValueAccessorBase impl
   public onFocusOut(): void {
     this.focused = false;
     this.updatePlaceholderVisibility();
+    this.onTouched();
   }
 
   protected updatePlaceholderVisibility(): void {

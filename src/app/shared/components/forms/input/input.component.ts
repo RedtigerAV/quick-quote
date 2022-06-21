@@ -36,6 +36,5 @@ export class InputComponent extends PrimitiveTextControl implements AfterViewIni
   public updateValue(value: string) {
     this.value = value;
     this.onChange(value);
-    this.onTouched();
   }
 }

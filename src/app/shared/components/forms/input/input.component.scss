@@ -11,6 +11,12 @@
       top: rhythm(4);
     }
   }
+
+  &.ng-invalid.ng-touched {
+    .input {
+      border-color: var(--qq-color-element-danger);
+    }
+  }
 }
 
 .input {

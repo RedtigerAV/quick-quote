@@ -10,6 +10,12 @@
       top: rhythm(5);
     }
   }
+
+  &.ng-invalid.ng-touched {
+    .textarea {
+      border-color: var(--qq-color-element-danger);
+    }
+  }
 }
 
 .textarea {
