@@ -68,7 +68,7 @@
   background-color: var(--qq-color-element-brand-secondary-light);
   transition: background-color 150ms ease-in-out;
   border-radius: var(--qq-border-radius);
-  margin-bottom: rhythm(5);
+  margin-bottom: rhythm(3);
 
   @include mediaQuery(sm) {
     position: absolute;

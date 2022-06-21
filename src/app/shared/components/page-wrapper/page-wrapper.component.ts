@@ -9,6 +9,7 @@ import { AppRoutePath } from 'src/app/app.route-path';
 })
 export class PageWrapperComponent implements OnInit {
   @Input() public centerContent = false;
+  @Input() public showQuotesLink = true;
 
   public readonly appRoutePath = AppRoutePath;
 
