@@ -1,0 +1,21 @@
+<div class="page-wrapper empty-scrollbar" [class.page-wrapper--centered]="centerContent">
+  <a class="back-button" routerLink="/">
+    <svg-icon key="previous" fontSize="20px"></svg-icon>
+    <span>Go to quotes</span>
+  </a>
+  <div class="content">
+    <h1 class="content__item title">
+      <ng-content select="app-page-wrapper-title, appPageWrapperTitle, [appPageWrapperTitle]"></ng-content>
+    </h1>
+
+    <span class="content__item description">
+      <ng-content
+        select="app-page-wrapper-description, appPageWrapperDescription, [appPageWrapperDescription]"
+      ></ng-content>
+    </span>
+
+    <div class="content__item">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
