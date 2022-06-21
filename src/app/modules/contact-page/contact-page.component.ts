@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BasicToastError } from '@shared/components/basic-toast/basic-toast';
+import { MailDeliveryApiService } from '@core/api/mail-delivery-api.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { BasicToastError, BasicToastSuccess } from '@shared/components/basic-toast/basic-toast';
 import { InputModeEnum, InputType } from '@shared/components/forms/input/input.enums';
 import { ToasterService } from '@shared/services/toaster/toaster.service';
 
+@UntilDestroy()
 @Component({
   selector: 'app-contact-page',
   templateUrl: './contact-page.component.html',
@@ -15,12 +18,16 @@ export class ContactPageComponent implements OnInit {
   public readonly inputModeEnum = InputModeEnum;
   public readonly inputType = InputType;
 
-  constructor(formBuilder: FormBuilder, private readonly toaster: ToasterService) {
+  constructor(
+    formBuilder: FormBuilder,
+    private readonly toaster: ToasterService,
+    private readonly mailDeliveryApi: MailDeliveryApiService
+  ) {
     this.form = formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       subject: ['', Validators.required],
-      message: ['', Validators.required]
+      message: ['', [Validators.required, Validators.maxLength(5000)]]
     });
   }
 
@@ -36,6 +43,32 @@ export class ContactPageComponent implements OnInit {
           content: 'Please make sure that you have filled in all the fields and entered your email correctly'
         })
       );
+
+      return;
     }
+
+    this.mailDeliveryApi
+      .v1SendMail(this.form.value)
+      .pipe(untilDestroyed(this))
+      .subscribe({
+        next: () => {
+          this.toaster.open(
+            new BasicToastSuccess({
+              title: 'The email has been sent',
+              content: 'We will contact you soon! Stay in touch'
+            })
+          );
+
+          this.form.reset();
+        },
+        error: () => {
+          this.toaster.open(
+            new BasicToastError({
+              title: 'Oh no! Something went wrong',
+              content: 'Try to contact us later'
+            })
+          );
+        }
+      });
   }
 }

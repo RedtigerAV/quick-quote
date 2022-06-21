@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, ChangeDetectionStrategy, AfterViewInit, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PrimitiveTextControl } from '../common/primitive-text-control.base';
 
@@ -20,8 +20,8 @@ export class TextareaComponent extends PrimitiveTextControl implements AfterView
 
   public readonly id = `qq-textarea-element-${TextareaComponent.nextId++}`;
 
-  constructor(renderer: Renderer2) {
-    super(renderer);
+  constructor(renderer: Renderer2, cdr: ChangeDetectorRef) {
+    super(renderer, cdr);
   }
 
   ngAfterViewInit(): void {

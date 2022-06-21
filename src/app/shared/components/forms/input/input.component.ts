@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Renderer2, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { PrimitiveTextControl } from '../common/primitive-text-control.base';
 import { InputModeEnum, InputType } from './input.enums';
@@ -25,8 +25,8 @@ export class InputComponent extends PrimitiveTextControl implements AfterViewIni
 
   public readonly id = `qq-input-element-${InputComponent.nextId++}`;
 
-  constructor(renderer: Renderer2) {
-    super(renderer);
+  constructor(renderer: Renderer2, cdr: ChangeDetectorRef) {
+    super(renderer, cdr);
   }
 
   ngAfterViewInit(): void {

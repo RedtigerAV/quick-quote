@@ -1,4 +1,13 @@
-import { Directive, ElementRef, HostBinding, HostListener, Input, Renderer2, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  HostBinding,
+  HostListener,
+  Input,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import { ControlValueAccessorBase } from './control-value-accessor.base';
 import { IFocusableElement } from './focusable-element.interface';
 
@@ -13,7 +22,7 @@ export abstract class PrimitiveTextControl extends ControlValueAccessorBase impl
   public override value!: string;
   protected _focused!: boolean;
 
-  constructor(protected readonly renderer: Renderer2) {
+  constructor(protected readonly renderer: Renderer2, protected readonly cdr: ChangeDetectorRef) {
     super();
   }
 
@@ -54,6 +63,10 @@ export abstract class PrimitiveTextControl extends ControlValueAccessorBase impl
     this.focused = false;
     this.updatePlaceholderVisibility();
     this.onTouched();
+  }
+
+  protected detectChanges(): void {
+    this.cdr.markForCheck();
   }
 
   protected updatePlaceholderVisibility(): void {

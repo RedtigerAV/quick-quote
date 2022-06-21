@@ -1,12 +1,15 @@
 import { ControlValueAccessor } from '@angular/forms';
 
-export class ControlValueAccessorBase implements ControlValueAccessor {
+export abstract class ControlValueAccessorBase implements ControlValueAccessor {
   public value: any;
   protected onChange = (value: any) => {};
   protected onTouched = () => {};
 
+  protected abstract detectChanges(): void;
+
   public writeValue(value: any): void {
     this.value = value;
+    this.detectChanges();
   }
 
   public registerOnChange(fn: any): void {
