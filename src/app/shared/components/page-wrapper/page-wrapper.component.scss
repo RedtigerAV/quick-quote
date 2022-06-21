@@ -22,7 +22,9 @@
   padding: rhythm(5);
 
   &--centered {
-    justify-content: center;
+    @include mediaQuery(md) {
+      justify-content: center;
+    }
 
     .content {
       height: auto;
@@ -64,12 +66,17 @@
   padding: rhythm(1) rhythm(2);
   color: var(--qq-color-text-main);
   background-color: var(--qq-color-element-brand-secondary-light);
+  transition: background-color 150ms ease-in-out;
   border-radius: var(--qq-border-radius);
-  margin-bottom: rhythm(5);
+  margin-bottom: rhythm(3);
 
   @include mediaQuery(sm) {
     position: absolute;
     top: rhythm(5);
     left: rhythm(5);
+  }
+
+  &:hover {
+    background-color: var(--qq-color-element-brand-secondary);
   }
 }

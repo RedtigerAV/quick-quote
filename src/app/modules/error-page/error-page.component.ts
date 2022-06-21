@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-error-page',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./error-page.component.scss']
 })
 export class ErrorPageComponent implements OnInit {
-  constructor() {}
+  constructor(private readonly router: Router) {}
 
   ngOnInit(): void {}
+
+  public toQuotes(): void {
+    this.router.navigate(['/']);
+  }
 }

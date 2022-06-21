@@ -1,5 +1,5 @@
 <div class="page-wrapper empty-scrollbar" [class.page-wrapper--centered]="centerContent">
-  <a class="back-button" routerLink="/">
+  <a *ngIf="showQuotesLink" class="back-button" routerLink="/">
     <svg-icon key="previous" fontSize="20px"></svg-icon>
     <span>Go to quotes</span>
   </a>

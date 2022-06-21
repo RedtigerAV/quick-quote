@@ -1,1 +1,10 @@
-<p>error-page works!</p>
+<app-page-wrapper [centerContent]="true" [showQuotesLink]="false">
+  <app-page-wrapper-title> Page not found </app-page-wrapper-title>
+
+  <app-page-wrapper-description>
+    There is&nbsp;no&nbsp;such page. But it&rsquo;s okay, maybe you were looking for a&nbsp;page with a&nbsp;million
+    quotes from great people and endless inspiration. To&nbsp;go&nbsp;to&nbsp;it, click on&nbsp;the button below.
+  </app-page-wrapper-description>
+
+  <button class="qq-button qq-button__view-2" (click)="toQuotes()">Get inspired</button>
+</app-page-wrapper>
