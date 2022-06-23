@@ -20,18 +20,28 @@ import { AnimationEvent } from '@angular/animations';
 import { SettingsService } from './services/settings.service';
 import isNumber from 'lodash-es/isNumber';
 import { ToasterService } from '@shared/services/toaster/toaster.service';
-import { BasicToastError, BasicToastInfo } from '@shared/components/basic-toast/basic-toast';
+import { BasicToastError, BasicToastInfo, BasicToastSuccess } from '@shared/components/basic-toast/basic-toast';
 import { AppRoutePath } from 'src/app/app.route-path';
 import { TipsService } from '@core/services/tips/tips.service';
 import { TipsEventsEnum } from '@core/services/tips/tips-events.enum';
 import { NextQuoteService } from './services/next-quote.service';
+import { IQuote } from '@core/models/quote.model';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { QuoteHelper } from './helpers/quote.helper';
 
 @UntilDestroy()
 @Component({
   templateUrl: './quote-page.component.html',
   styleUrls: ['./quote-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [QuotesMediator, SettingsService, BookmarksService, NextQuoteService, QuotesLoaderService]
+  providers: [
+    QuotesMediator,
+    SettingsService,
+    BookmarksService,
+    NextQuoteService,
+    QuotesLoaderService,
+    SlideshowService
+  ]
 })
 export class QuotePageComponent implements OnInit {
   @ViewChild('errorMessage', { static: true }) errorMessage!: TemplateRef<any>;
@@ -63,7 +73,8 @@ export class QuotePageComponent implements OnInit {
     private readonly htmlToImageService: HtmlToImageService,
     private readonly downloadPhotoService: DownloadPhotoService,
     private readonly toaster: ToasterService,
-    private readonly tipsService: TipsService
+    private readonly tipsService: TipsService,
+    private readonly clipboard: Clipboard
   ) {
     this.quotesMediator.hostComponent = this;
 
@@ -157,6 +168,19 @@ export class QuotePageComponent implements OnInit {
       .subscribe({
         error: () => this.showError('Snapshot error')
       });
+  }
+
+  public onCopyQuote(quote: IQuote): void {
+    const quoteToCopy = `${quote.quote}\n${QuoteHelper.getAuthoInfo(quote)}`;
+
+    this.clipboard.copy(quoteToCopy);
+
+    this.toaster.open(
+      new BasicToastSuccess({
+        title: 'Quote copied!',
+        content: 'Feel free to share quotes with friends and family'
+      })
+    );
   }
 
   public switchBottomBarState(state: ActionsStateType): void {

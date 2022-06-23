@@ -7,6 +7,7 @@ import { qqBookmarksCollectionIcon } from './icons/bookmarks-collection';
 import { qqCameraIcon } from './icons/camera';
 import { qqCancelIcon } from './icons/cancel';
 import { qqContactIcon } from './icons/contact';
+import { qqCopyIcon } from './icons/copy';
 import { qqDoneIcon } from './icons/done';
 import { qqErrorIcon } from './icons/error';
 import { qqFacebookIcon } from './icons/facebook';
@@ -54,7 +55,8 @@ import { qqWhatsappIcon } from './icons/whatsapp';
         qqImageIcon,
         qqDoneIcon,
         qqTipsIcon,
-        qqErrorIcon
+        qqErrorIcon,
+        qqCopyIcon
       ]
     })
   ],

@@ -54,12 +54,10 @@ export class SettingsComponent implements OnInit {
     this.result$ = this._result$.asObservable();
     this.selectedQuoteTopics$ = this.result$.pipe(
       map(({ selectedQuoteTopicsIDs: selectedTopicsIDs }) => selectedTopicsIDs),
-      // TODO: distinctUntilChanged
       map(topicIDs => this.quoteTopicsFacade.topics.filter(({ id }) => topicIDs.includes(id)))
     );
     this.selectedPhotoTopics$ = this.result$.pipe(
       map(({ selectedPhotoTopicsIDs: selectedTopicsIDs }) => selectedTopicsIDs),
-      // TODO: distinctUntilChanged
       map(topicIDs => this.photoTopicsFacade.topics.filter(({ id }) => topicIDs.includes(id)))
     );
     this.isSaveButtonVisible$ = this.result$.pipe(map(result => !isEqual(result, data)));

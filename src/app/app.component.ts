@@ -8,6 +8,9 @@ import { ViewportService } from '@core/services/viewport/viewport.service';
 import { ToastPositionEnum } from '@shared/services/toaster/toaster.interface';
 import { ToasterService } from '@shared/services/toaster/toaster.service';
 import { AnimationEvent } from '@angular/animations';
+import { ConnectionStatusEnum, NetworkConnectionService } from '@core/services/network-connection.service';
+import { filter, pairwise } from 'rxjs';
+import { BasicToastError, BasicToastSuccess } from '@shared/components/basic-toast/basic-toast';
 
 enum RootRouterAnimationStateEnum {
   ACTIVATED = 'activated',
@@ -33,6 +36,7 @@ export class AppComponent implements OnInit {
   public routerAnimationState = RootRouterAnimationStateEnum.PENDING;
 
   constructor(
+    private readonly networkConnectionService: NetworkConnectionService,
     private readonly animationProcess: AnimationProcessService,
     private readonly toaster: ToasterService,
     private readonly viewport: ViewportService,
@@ -42,11 +46,37 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.animationProcess.init();
+
     this.viewport.isMobileViewport$.subscribe(isMobile =>
       this.toaster.updateDefaultConfig({
         position: isMobile ? ToastPositionEnum.TOP_CENTER : ToastPositionEnum.BOTTOM_LEFT
       })
     );
+
+    this.networkConnectionService.connectionStatus$
+      .pipe(filter(value => value === ConnectionStatusEnum.Offline))
+      .subscribe(() => {
+        this.toaster.open(
+          new BasicToastError({
+            title: 'It looks like you are offline',
+            content: 'You can continue to use the application, but new quotes will not be downloaded'
+          })
+        );
+      });
+
+    this.networkConnectionService.connectionStatus$
+      .pipe(
+        pairwise(),
+        filter(([prev, current]) => prev === ConnectionStatusEnum.Offline && current === ConnectionStatusEnum.Online)
+      )
+      .subscribe(() => {
+        this.toaster.open(
+          new BasicToastSuccess({
+            title: 'Connection restored!',
+            content: 'We are glad that you are with us again'
+          })
+        );
+      });
   }
 
   public routeActivated(): void {

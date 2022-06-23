@@ -13,7 +13,7 @@ export interface V1PhotosReadRequestBody {
 }
 
 export interface V1PhotosDownloadRequestBody {
-  download_location: string;
+  ixid: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -30,8 +30,8 @@ export class PhotosApiService {
     return this.httpClient.post<Array<IPhoto>>(`${this.basePath}/v1/photos/random`, body);
   }
 
-  public v1PhotosDownload({ download_location }: V1PhotosDownloadRequestBody): Observable<void> {
-    return this.httpClient.post<void>(`${this.basePath}/v1/photos/download`, { download_location });
+  public v1PhotosDownload(id: string, { ixid }: V1PhotosDownloadRequestBody): Observable<void> {
+    return this.httpClient.post<void>(`${this.basePath}/v1/photos/${id}/download`, { ixid });
   }
 
   public v1PhotoTopicsRead(): Observable<Array<IPhotoTopic>> {
