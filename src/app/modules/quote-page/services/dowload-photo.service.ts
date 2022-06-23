@@ -12,8 +12,8 @@ export class DownloadPhotoService {
       return;
     }
 
-    const { download_location } = this.photosFacade.selectedPhoto;
+    const { id, ixid } = this.photosFacade.selectedPhoto;
 
-    this.photosApi.v1PhotosDownload({ download_location }).pipe(take(1)).subscribe();
+    this.photosApi.v1PhotosDownload(id, { ixid }).pipe(take(1)).subscribe();
   }
 }

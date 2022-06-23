@@ -14,8 +14,8 @@ import { TimerModule } from '@shared/components/timer/timer.module';
 import { SettingsModule } from './components/settings/settings.module';
 import { DownloadPhotoService } from './services/dowload-photo.service';
 import { PreviousQuoteService } from './services/previous-quote.service';
-import { SlideshowService } from './services/slideshow.service';
 import { RouterModule } from '@angular/router';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   imports: [
@@ -30,10 +30,11 @@ import { RouterModule } from '@angular/router';
     BarItemModule,
     BookmarksModule,
     SettingsModule,
-    TimerModule
+    TimerModule,
+    ClipboardModule
   ],
   exports: [QuotePageComponent],
   declarations: [QuotePageComponent],
-  providers: [PreviousQuoteService, DownloadPhotoService, SlideshowService]
+  providers: [PreviousQuoteService, DownloadPhotoService]
 })
 export class QuotePageModule {}

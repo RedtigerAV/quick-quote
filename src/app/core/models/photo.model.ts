@@ -14,5 +14,5 @@ export interface IPhoto {
     name: string;
     link: string;
   };
-  download_location: string;
+  ixid: string;
 }

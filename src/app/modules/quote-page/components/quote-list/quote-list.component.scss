@@ -84,22 +84,43 @@
     }
   }
 
-  &__bookmark {
+  &__icon {
     position: absolute;
-    right: 0;
-    top: 0;
-    color: var(--qq-color-element-brand);
-    height: rhythm(12);
 
-    svg-icon {
-      font-size: rhythm(12) !important;
+    &__bookmark {
+      right: 0;
+      top: 0;
+      color: var(--qq-color-element-brand);
+      height: rhythm(12);
+
+      svg-icon {
+        font-size: rhythm(12) !important;
+      }
+
+      @include mediaQuery(xs, lg) {
+        height: rhythm(10);
+
+        svg-icon {
+          font-size: rhythm(10) !important;
+        }
+      }
     }
 
-    @include mediaQuery(xs, lg) {
+    &__copy {
+      right: rhythm(1);
+      bottom: rhythm(1);
       height: rhythm(10);
 
       svg-icon {
         font-size: rhythm(10) !important;
+      }
+
+      @include mediaQuery(xs, lg) {
+        height: rhythm(8);
+
+        svg-icon {
+          font-size: rhythm(8) !important;
+        }
       }
     }
   }

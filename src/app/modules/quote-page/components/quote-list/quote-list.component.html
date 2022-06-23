@@ -18,7 +18,7 @@
 
         <button
           *ngIf="!isSelectedBookmark; else bookmarkBtn"
-          class="qq-button qq-button__icon quote__bookmark"
+          class="qq-button qq-button__icon quote__icon quote__icon__bookmark"
           [ngClass]="[skipHtmlToImage]"
           (click)="likeQuote.emit(quote)"
         >
@@ -26,13 +26,21 @@
         </button>
         <ng-template #bookmarkBtn>
           <button
-            class="qq-button qq-button__icon quote__bookmark"
+            class="qq-button qq-button__icon quote__icon quote__icon__bookmark"
             [ngClass]="[skipHtmlToImage]"
             (click)="dislikeQuote.emit(quote.id)"
           >
             <svg-icon key="bookmark-filled"></svg-icon>
           </button>
         </ng-template>
+
+        <button
+          class="qq-button qq-button__icon quote__icon quote__icon__copy"
+          [ngClass]="[skipHtmlToImage]"
+          (click)="copyQuote.emit(quote)"
+        >
+          <svg-icon key="copy"></svg-icon>
+        </button>
       </div>
     </div>
   </ng-container>

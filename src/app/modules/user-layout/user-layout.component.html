@@ -6,14 +6,14 @@
       isMobile: viewport.isMobileViewport$ | async
     } as data"
   >
-    <div class="header" [ngClass]="[skipHtmlToImage]">
-      <div class="header__logo" routerLink="/">
+    <div class="header">
+      <div class="header__logo" [ngClass]="[skipHtmlToImage]" routerLink="/">
         <div class="logo">
           <app-logo></app-logo>
         </div>
       </div>
 
-      <div class="header__menu">
+      <div class="header__menu" [ngClass]="[skipHtmlToImage]">
         <span
           class="menu__author"
           *ngIf="data.selectedPhoto as photo"

@@ -12,6 +12,12 @@ const DEFAULT_ORIENTATION = 'landscape';
 // FUNCTIONS
 const errorStatus = error => error.response?.status || 500;
 const errorData = error => error.response?.data?.errors || { message: 'Unsplash API internal error' };
+const getIxidParam = download_location => {
+  const paramsString = download_location.split('?')[1];
+  const searchParams = new URLSearchParams(paramsString);
+
+  return searchParams.get('ixid');
+};
 const prepareImage = image => ({
   id: image.id,
   color: image.color,
@@ -28,7 +34,7 @@ const prepareImage = image => ({
     name: image.user.name,
     link: image.user.links.html
   },
-  download_location: image.links.download_location
+  ixid: getIxidParam(image.links.download_location)
 });
 
 // ENPOINTS
@@ -61,18 +67,18 @@ router.post('/random', async (req, res) => {
   }
 });
 
-router.post('/download', async (req, res) => {
-  const { download_location } = req.body;
+router.post('/:id/download', async (req, res) => {
+  const { ixid } = req.body;
+  const { id } = req.params;
 
-  if (!download_location) {
-    res.status(500).json({ message: 'API should include download_location' });
+  if (!ixid || !id) {
+    res.status(500).json({ message: 'API body should include ixid parameter' });
 
     return;
   }
 
   try {
-    // TODO: Несекрьюрно, можно подсунуть липовый download_location, и тем самым узнать что в headers
-    const response = await axios.get(download_location, { headers });
+    const response = await axios.get(`${API_HOST}/photos/${id}/download`, { headers, params: { ixid } });
 
     res.status(200).json(response.data);
   } catch (error) {

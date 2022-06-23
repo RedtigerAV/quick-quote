@@ -29,6 +29,7 @@ export class QuoteListComponent implements OnInit {
   @Output() public swipePrevious = new EventEmitter<void>();
   @Output() public animationStart = new EventEmitter<AnimationEvent>();
   @Output() public animationDone = new EventEmitter<AnimationEvent>();
+  @Output() public copyQuote = new EventEmitter<IQuote>();
 
   public readonly skipHtmlToImage = HtmlToImageService.skipHtmlToImageClass;
 
