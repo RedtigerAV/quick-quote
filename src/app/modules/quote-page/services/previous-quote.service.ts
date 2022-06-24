@@ -6,6 +6,10 @@ import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 export class PreviousQuoteService {
   constructor(private readonly quotesFacade: QuotesFacade, private readonly photosFacade: PhotosFacade) {}
 
+  public get hasPreviousQuote(): boolean {
+    return !!this.quotesFacade.currentPosition;
+  }
+
   public toPreviousQuote(): void {
     const quotePosition = this.quotesFacade.currentPosition;
     const photoPosition = this.photosFacade.selectedPhotoPosition;
