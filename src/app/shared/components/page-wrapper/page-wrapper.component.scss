@@ -57,7 +57,7 @@
 
 .back-button {
   position: relative;
-  align-self: start;
+  align-self: flex-end;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -73,7 +73,15 @@
   @include mediaQuery(sm) {
     position: absolute;
     top: rhythm(5);
-    left: rhythm(5);
+    right: rhythm(5);
+  }
+
+  svg-icon {
+    margin-left: rhythm(1);
+  }
+
+  span {
+    transform: translateY(-2px);
   }
 
   &:hover {

@@ -69,6 +69,10 @@
     height: rhythm(8);
     border-radius: 50%;
 
+    @include mediaQuery(xs, lg) {
+      height: rhythm(10);
+    }
+
     &:hover {
       color: var(--qq-color-text-secondary);
       transform: scale(1.1);
