@@ -9,38 +9,42 @@
   <ng-container *ngFor="let quote of quotes; let idx = index">
     <div *ngIf="idx === currentPosition" class="quotes__item">
       <div class="quote" (doubletap)="onDoubleTap()">
-        <h1 class="quote__content">
-          {{ quote.quote }}
-        </h1>
-        <span class="quote__author" *ngIf="quote | cache: getAuthorInfo:this as authoInfo">
-          {{ authoInfo }}
-        </span>
+        <div class="content quote__content empty-scrollbar">
+          <h1 class="content__text">
+            {{ quote.quote }}
+          </h1>
+          <span class="content__author" *ngIf="quote | cache: getAuthorInfo:this as authoInfo">
+            {{ authoInfo }}
+          </span>
+        </div>
 
-        <button
-          *ngIf="!isSelectedBookmark; else bookmarkBtn"
-          class="qq-button qq-button__icon quote__icon quote__icon__bookmark"
-          [ngClass]="[skipHtmlToImage]"
-          (click)="likeQuote.emit(quote)"
-        >
-          <svg-icon key="bookmark"></svg-icon>
-        </button>
-        <ng-template #bookmarkBtn>
+        <div class="actions quote__actions">
           <button
-            class="qq-button qq-button__icon quote__icon quote__icon__bookmark"
+            *ngIf="!isSelectedBookmark; else bookmarkBtn"
+            class="qq-button qq-button__icon actions__item actions__item__bookmark"
             [ngClass]="[skipHtmlToImage]"
-            (click)="dislikeQuote.emit(quote.id)"
+            (click)="likeQuote.emit(quote)"
           >
-            <svg-icon key="bookmark-filled"></svg-icon>
+            <svg-icon key="bookmark"></svg-icon>
           </button>
-        </ng-template>
+          <ng-template #bookmarkBtn>
+            <button
+              class="qq-button qq-button__icon actions__item actions__item__bookmark"
+              [ngClass]="[skipHtmlToImage]"
+              (click)="dislikeQuote.emit(quote.id)"
+            >
+              <svg-icon key="bookmark-filled"></svg-icon>
+            </button>
+          </ng-template>
 
-        <button
-          class="qq-button qq-button__icon quote__icon quote__icon__copy"
-          [ngClass]="[skipHtmlToImage]"
-          (click)="copyQuote.emit(quote)"
-        >
-          <svg-icon key="copy"></svg-icon>
-        </button>
+          <button
+            class="qq-button qq-button__icon actions__item actions__item__copy"
+            [ngClass]="[skipHtmlToImage]"
+            (click)="copyQuote.emit(quote)"
+          >
+            <svg-icon key="copy"></svg-icon>
+          </button>
+        </div>
       </div>
     </div>
   </ng-container>
