@@ -24,6 +24,7 @@ export class PhotoTopicsEffects {
       ofType(photoTopicsActions.loadPhotoTopics),
       switchMap(() =>
         this.photosAPI.v1PhotoTopicsRead().pipe(
+          map(topics => topics.sort((a, b) => a.name.localeCompare(b.name))),
           map(topics => photoTopicsActions.loadPhotoTopicsSuccess({ topics })),
           catchError(() => of(photoTopicsActions.loadPhotoTopicsFailure()))
         )

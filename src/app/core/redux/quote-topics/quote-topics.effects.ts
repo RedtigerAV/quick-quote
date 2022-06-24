@@ -24,6 +24,7 @@ export class QuoteTopicsEffects {
       ofType(quoteTopicsActions.loadQuoteTopics),
       switchMap(() =>
         this.quotesAPI.v1QuoteTopicsRead().pipe(
+          map(topics => topics.sort((a, b) => a.name.localeCompare(b.name))),
           map(topics => quoteTopicsActions.loadQuoteTopicsSuccess({ topics })),
           catchError(() => of(quoteTopicsActions.loadQuoteTopicsFailure()))
         )
