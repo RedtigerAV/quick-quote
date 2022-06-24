@@ -21,11 +21,15 @@
       isSlideshowMode: inSlideshowMode$ | async
     } as data"
   >
-    <app-bottom-bar class="bottom-bar" [ngClass]="[skipHtmlToImageClass]" [opened]="data.isMobile">
+    <app-bottom-bar
+      class="bottom-bar"
+      [ngClass]="[skipHtmlToImageClass]"
+      [opened]="data.isMobile || device.isTouchDevice"
+    >
       <app-bar-item-list
         *ngIf="data.state !== actionsStateEnum.SOCIAL; else socialNetworksState"
         [ngClass]="'bottom-bar__list--' + data.state"
-        [opened]="data.isMobile"
+        [opened]="data.isMobile || device.isTouchDevice"
       >
         <!--Share-->
         <button

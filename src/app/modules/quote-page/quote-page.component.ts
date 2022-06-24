@@ -28,6 +28,7 @@ import { NextQuoteService } from './services/next-quote.service';
 import { IQuote } from '@core/models/quote.model';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { QuoteHelper } from './helpers/quote.helper';
+import { DeviceService } from '@core/services/device.service';
 
 @UntilDestroy()
 @Component({
@@ -58,6 +59,7 @@ export class QuotePageComponent implements OnInit {
   private readonly _isNextButtonDisabled$ = new BehaviorSubject<boolean>(false);
 
   constructor(
+    public readonly device: DeviceService,
     public readonly platform: Platform,
     public readonly viewport: ViewportService,
     public readonly bookmarksFacade: BookmarksFacade,
