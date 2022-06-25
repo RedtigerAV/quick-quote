@@ -83,6 +83,10 @@ export class QuotesMediator implements OnDestroy {
   }
 
   private onToPreviousQuote(): void {
+    if (!this.previousQuoteService.hasPreviousQuote) {
+      return;
+    }
+
     this.previousQuoteService.toPreviousQuote();
     this.hostComponent.setPreviousButtonDisabledState(true);
 
