@@ -139,13 +139,15 @@ export class QuotePageComponent implements OnInit {
 
   @locker()
   public convertToImage(): void {
-    if (this.platform.SAFARI) {
+    if (this.platform.SAFARI || this.platform.IOS) {
       this.toaster.open(
         new BasicToastInfo(
           {
             title: 'We are sorry :(',
             content:
-              'This feature is not available in Safari browser. Try to open the app in another browser to enjoy creating beautiful pictures with your favorite quotes'
+              'This feature is not available on iOS or Safari according to their security policy.' +
+              'We are doing our best to find a way to launch it as soon as possible!' +
+              'To try it, use any browser on your computer, except Safari. Or use an Android device.'
           },
           false
         )
