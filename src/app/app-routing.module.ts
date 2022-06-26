@@ -5,6 +5,7 @@ import { UserLayoutComponent } from './modules/user-layout/user-layout.component
 import { QuotePageComponent } from './modules/quote-page/quote-page.component';
 import { QuotePageGuard } from './modules/quote-page/guards/quote-page.guard';
 import { BookmarksGuard } from './modules/quote-page/guards/bookmarks.guard';
+import { ErrorPageComponent } from './modules/error-page/error-page.component';
 
 const routes: Routes = [
   {
@@ -30,19 +31,13 @@ const routes: Routes = [
       {
         path: AppRoutePath.OOPS,
         pathMatch: 'full',
-        canActivate: [],
-        canLoad: [],
-        loadChildren: () => import('./modules/error-page/error-page.module').then(m => m.ErrorPageModule)
+        component: ErrorPageComponent
       },
       {
         path: '**',
         redirectTo: ''
       }
     ]
-  },
-  {
-    path: 'error-page',
-    loadChildren: () => import('./modules/error-page/error-page.module').then(m => m.ErrorPageModule)
   }
 ];
 

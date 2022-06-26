@@ -19,6 +19,8 @@ import { ToasterModule } from '@shared/services/toaster/toaster.module';
 import { HammerGestureProvider } from '@core/configuration/hammer.configuration';
 import { BasicToastModule } from '@shared/components/basic-toast/basic-toast.module';
 import { TipsModule } from '@core/services/tips/tips.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { ErrorPageModule } from './modules/error-page/error-page.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,6 +35,7 @@ import { TipsModule } from '@core/services/tips/tips.module';
     }),
     AppRoutingModule,
     UserLayoutModule,
+    ErrorPageModule,
     QuotePageModule,
     IconsModule,
     BasicToastModule,
@@ -50,7 +53,13 @@ import { TipsModule } from '@core/services/tips/tips.module';
       autoClose: true,
       duration: 5000
     }),
-    HammerModule
+    HammerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [HammerGestureProvider],
   bootstrap: [AppComponent]

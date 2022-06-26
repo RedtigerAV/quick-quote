@@ -13,6 +13,8 @@ import { qqErrorIcon } from './icons/error';
 import { qqFacebookIcon } from './icons/facebook';
 import { qqImageIcon } from './icons/image';
 import { qqInfoIcon } from './icons/info';
+import { qqIosAddIcon } from './icons/ios-add';
+import { qqIosShareIcon } from './icons/ios-share';
 import { qqLogoIcon } from './icons/logo';
 import { qqMoreIcon } from './icons/more';
 import { qqNextIcon } from './icons/next';
@@ -56,7 +58,9 @@ import { qqWhatsappIcon } from './icons/whatsapp';
         qqDoneIcon,
         qqTipsIcon,
         qqErrorIcon,
-        qqCopyIcon
+        qqCopyIcon,
+        qqIosAddIcon,
+        qqIosShareIcon
       ]
     })
   ],
