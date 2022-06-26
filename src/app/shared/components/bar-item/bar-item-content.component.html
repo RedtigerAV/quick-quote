@@ -1,0 +1,8 @@
+<div class="bar-item__content">
+  <div class="bar-item__icon">
+    <ng-content select="app-bar-item-icon, [app-bar-item-icon], [appBarItemIcon]"></ng-content>
+  </div>
+  <div class="bar-item__text" [@openClose]="animationState$ | async">
+    <ng-content select="app-bar-item-text, [app-bar-item-text], [appBarItemText]"></ng-content>
+  </div>
+</div>

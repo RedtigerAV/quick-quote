@@ -1,0 +1,37 @@
+<ng-container [ngSwitch]="pwaService.addToHomeScreenPlatform">
+  <ng-container *ngSwitchCase="addToHomeScreenPlatformEnum.ANDROID">
+    <div *ngIf="!refusedToInstall">
+      <p>
+        You can install this app on&nbsp;your device so&nbsp;you don&rsquo;t have to&nbsp;look for it&nbsp;every time
+        in&nbsp;your browser!
+      </p>
+
+      <div class="actions">
+        <button class="qq-button qq-button__view-2" (click)="install()">Install</button>
+        <button class="qq-button qq-button__view-1" (click)="refuse()">No, thanks</button>
+      </div>
+    </div>
+
+    <div *ngIf="refusedToInstall">
+      <p>
+        Well, you can install the application later. To&nbsp;do&nbsp;this, open the menu and click &laquo;Install
+        app&raquo;
+      </p>
+
+      <button class="qq-button qq-button__view-1" (click)="install()">Got it!</button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="addToHomeScreenPlatformEnum.IOS_SAFARI">
+    <p>
+      You can install this app on&nbsp;your device so&nbsp;you don&rsquo;t have to&nbsp;look for it&nbsp;every time
+      in&nbsp;your browser!
+    </p>
+
+    <p>
+      To&nbsp;install this application on&nbsp;your device, tap the &laquo;Menu&raquo; button
+      <span><svg-icon key="ios-share"></svg-icon></span> and then &laquo;Add to&nbsp;home screen&raquo; button
+      <span><svg-icon key="ios-add"></svg-icon></span>
+    </p>
+  </ng-container>
+</ng-container>

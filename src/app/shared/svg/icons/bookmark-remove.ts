@@ -1,0 +1,4 @@
+export const qqBookmarkRemoveIcon = {
+  data: `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" x="0" y="0" viewBox="0 0 48 48"><path d="M10 42V8.7q0-1.1.9-2 .9-1 2.1-1h14.5v3H13v28.8l11-4.7 11 4.7V20.7h3V42l-14-6Zm3-33.3h14.5H24Zm29.5 4.6h-12v-3h12Z"/></svg>`,
+  name: 'bookmark-remove'
+};

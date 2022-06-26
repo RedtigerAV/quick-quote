@@ -1,0 +1,51 @@
+<div
+  class="quotes"
+  [@flyInOut]="currentPosition"
+  (@flyInOut.start)="animationStart.emit($event)"
+  (@flyInOut.done)="animationDone.emit($event)"
+  (swiperight)="swipePrevious.emit()"
+  (swipeleft)="swipeNext.emit()"
+>
+  <ng-container *ngFor="let quote of quotes; let idx = index">
+    <div *ngIf="idx === currentPosition" class="quotes__item">
+      <div class="quote" (doubletap)="onDoubleTap()">
+        <div class="content quote__content empty-scrollbar">
+          <h1 class="content__text">
+            {{ quote.quote }}
+          </h1>
+          <span class="content__author" *ngIf="quote | cache: getAuthorInfo:this as authoInfo">
+            {{ authoInfo }}
+          </span>
+        </div>
+
+        <div class="actions quote__actions">
+          <button
+            *ngIf="!isSelectedBookmark; else bookmarkBtn"
+            class="qq-button qq-button__icon actions__item actions__item__bookmark"
+            [ngClass]="[skipHtmlToImage]"
+            (click)="likeQuote.emit(quote)"
+          >
+            <svg-icon key="bookmark"></svg-icon>
+          </button>
+          <ng-template #bookmarkBtn>
+            <button
+              class="qq-button qq-button__icon actions__item actions__item__bookmark"
+              [ngClass]="[skipHtmlToImage]"
+              (click)="dislikeQuote.emit(quote.id)"
+            >
+              <svg-icon key="bookmark-filled"></svg-icon>
+            </button>
+          </ng-template>
+
+          <button
+            class="qq-button qq-button__icon actions__item actions__item__copy"
+            [ngClass]="[skipHtmlToImage]"
+            (click)="copyQuote.emit(quote)"
+          >
+            <svg-icon key="copy"></svg-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

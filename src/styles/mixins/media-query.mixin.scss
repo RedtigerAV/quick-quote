@@ -1,0 +1,53 @@
+@import 'styles/core/variables';
+
+@mixin mediaMin($point) {
+  @media (min-width: $point) {
+    @content;
+  }
+}
+
+@mixin mediaMax($point) {
+  @media (max-width: $point) {
+    @content;
+  }
+}
+
+@mixin mediaMinMax($point-min, $point-max) {
+  @media (min-width: $point-min) and (max-width: $point-max) {
+    @content;
+  }
+}
+
+@mixin mediaQuery($breakpoint, $breakpoint-additional: false) {
+  @if $breakpoint and $breakpoint-additional == false {
+    @each $key, $value in $breakpoints {
+      @if $key == $breakpoint {
+        @include mediaMin($value) {
+          @content;
+        }
+      }
+    }
+  }
+
+  @if $breakpoint and $breakpoint-additional {
+    @each $key, $value in $breakpoints {
+      @each $keySec, $valueSec in $breakpoints {
+        @if $key == $breakpoint and $keySec == $breakpoint-additional {
+          @include mediaMinMax($value, $valueSec) {
+            @content;
+          }
+        }
+      }
+    }
+  }
+
+  @if $breakpoint and $breakpoint-additional == false {
+    @each $key, $value in $breakpoints {
+      @if $key + -max == $breakpoint {
+        @include mediaMax($value) {
+          @content;
+        }
+      }
+    }
+  }
+}

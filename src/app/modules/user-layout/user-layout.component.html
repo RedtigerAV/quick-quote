@@ -1,0 +1,63 @@
+<div class="layout">
+  <ng-container
+    *ngIf="{
+      selectedPhoto: selectedPhoto$ | async,
+      currentPhotoPosition: currentPhotoPosition$ | async,
+      isMobile: viewport.isMobileViewport$ | async
+    } as data"
+  >
+    <div class="header">
+      <div class="header__logo" [ngClass]="[skipHtmlToImage]" routerLink="/">
+        <div class="logo">
+          <app-logo></app-logo>
+        </div>
+      </div>
+
+      <div class="header__menu" [ngClass]="[skipHtmlToImage]">
+        <span
+          class="menu__author"
+          *ngIf="data.selectedPhoto as photo"
+          [ngStyle]="{ color: photo | cache: getMenuTextColor:this }"
+        >
+          Photo by
+          <a [href]="photo | cache: getPhotoAuthorLink:this" target="_blank">{{ photo.user.name }}</a>
+          on
+          <a [href]="unsplashLink" target="_blank">Unsplash</a>
+        </span>
+        <div class="menu__actions" [ngStyle]="{ color: data.selectedPhoto | cache: getMenuTextColor:this }">
+          <a [routerLink]="appRoutePathEnum.ABOUT" class="action__item">
+            <svg-icon key="info" fontSize="32px" *ngIf="data.isMobile"></svg-icon>
+            <span *ngIf="!data.isMobile">About</span>
+          </a>
+          <a [routerLink]="appRoutePathEnum.CONTACT" class="action__item">
+            <svg-icon key="contact" fontSize="32px" *ngIf="data.isMobile"></svg-icon>
+            <span *ngIf="!data.isMobile">Contact us</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout__photos" [ngStyle]="{ 'background-color': data.selectedPhoto?.color }">
+      <ng-container *ngFor="let photo of photos$ | async; trackBy: 'id' | trackBy; let i = index">
+        <div
+          class="photo"
+          [@fade]="photo.id === data.selectedPhoto?.id ? 'active' : 'inactive'"
+          (@fade.start)="animationStart($event)"
+          (@fade.done)="animationDone($event)"
+          [class.photo--active]="photo.id === data.selectedPhoto?.id"
+          [class.photo--previous]="i < (data.currentPhotoPosition || 0)"
+          [class.photo--next]="i + 1 > (data.currentPhotoPosition || 0) + 1"
+          [ngClass]="{ 'qq-skip-html-to-image': photo.id !== data.selectedPhoto?.id }"
+          [ngStyle]="{
+            'background-image': 'url(' + photo.urls.regular + ')',
+            'box-shadow': 'inset 0px 40px 70px 10px' + photo.color
+          }"
+        ></div>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <div class="layout__content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

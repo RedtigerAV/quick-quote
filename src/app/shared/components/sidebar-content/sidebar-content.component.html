@@ -1,0 +1,19 @@
+<div class="content">
+  <div class="content__header">
+    <span class="header header__title">
+      <ng-content
+        select="app-sidebar-content-title, [app-sidebar-content-title], [appSidebarContentTitle]"
+      ></ng-content>
+    </span>
+
+    <div class="header header__close">
+      <ng-content
+        select="app-sidebar-content-close, [app-sidebar-content-close], [appSidebarContentClose]"
+      ></ng-content>
+    </div>
+  </div>
+
+  <div class="content__body empty-scrollbar">
+    <ng-content select="app-sidebar-content-body, [app-sidebar-content-body], [appSidebarContentBody]"></ng-content>
+  </div>
+</div>

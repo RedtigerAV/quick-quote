@@ -1,0 +1,97 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/mixins/z-index.mixin';
+
+:host {
+  display: block;
+}
+
+.toasts-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+
+  @include z-index(toaster);
+}
+
+.toasts-panel {
+  position: absolute;
+  display: grid;
+  grid-gap: rhythm(2);
+
+  @include mediaQuery(xs, sm) {
+    grid-gap: rhythm(2);
+    width: 100%;
+    max-width: fit-content;
+  }
+
+  &.top-left {
+    top: rhythm(5);
+    left: rhythm(5);
+  }
+
+  &.top-center {
+    top: rhythm(5);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.top-right {
+    top: rhythm(5);
+    right: rhythm(5);
+  }
+
+  &.bottom-left {
+    bottom: rhythm(5);
+    left: rhythm(5);
+  }
+
+  &.bottom-center {
+    bottom: rhythm(5);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.bottom-right {
+    right: rhythm(5);
+    bottom: rhythm(5);
+  }
+
+  &.top,
+  &.bottom {
+    @include mediaQuery(xs, sm) {
+      right: rhythm(2);
+      left: rhythm(2);
+      width: calc(100% - #{rhythm(4)});
+      max-width: unset;
+      transform: initial;
+    }
+  }
+
+  &.top {
+    @include mediaQuery(xs, sm) {
+      top: rhythm(2);
+    }
+  }
+
+  &.bottom {
+    @include mediaQuery(xs, sm) {
+      bottom: rhythm(2);
+    }
+  }
+}
+
+.toast {
+  overflow: hidden;
+  width: rhythm(90);
+  border-radius: var(--qq-border-radius);
+  background-color: var(--qq-color-bg-additional);
+  pointer-events: auto;
+
+  @include mediaQuery(xs, sm) {
+    width: 100%;
+  }
+}

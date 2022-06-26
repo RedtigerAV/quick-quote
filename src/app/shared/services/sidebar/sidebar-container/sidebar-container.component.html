@@ -1,0 +1,29 @@
+<div class="sidebar-container" [style.top.px]="sidebarRef?.top || 0" [style.bottom.px]="sidebarRef?.bottom || 0">
+  <div
+    cdkScrollable
+    class="sidebar-container__panel"
+    [@panelFade]="panelFadeInAnimation"
+    (@panelFade.done)="leaveAnimationDone($event)"
+    [class.sidebar-container__panel--right]="sidebarRef?.position === sidebarPositionEnum.RIGHT"
+    [style.width]="panelWidth"
+    [ngClass]="sidebarRef?.panelClass || ''"
+  >
+    <ng-container *ngIf="sidebarRef?.content" [ngSwitch]="contentType">
+      <ng-container *ngSwitchCase="contentTypeEnum.TEMPLATE">
+        <ng-container *ngTemplateOutlet="sidebarRef.content; context: { $implicit: sidebarRef }"></ng-container>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="contentTypeEnum.COMPONENT">
+        <ng-container *ngComponentOutlet="sidebarRef.content; injector: injector"></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <div
+    *ngIf="sidebarRef?.hasBackdrop"
+    class="sidebar-container__backdrop"
+    [@backdropFade]="animationState"
+    [ngClass]="sidebarRef?.backdropClass || ''"
+    (click)="onBackdropClick($event)"
+  ></div>
+</div>

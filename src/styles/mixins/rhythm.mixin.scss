@@ -1,0 +1,9 @@
+$rhythm-step: 4px;
+
+// example: padding: 0 rhythm(6) rhythm(5) || width: rhythm(100);
+
+@function rhythm($val) {
+  $result: $rhythm-step * $val;
+
+  @return $result;
+}

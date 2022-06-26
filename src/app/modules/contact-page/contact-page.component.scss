@@ -1,0 +1,45 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
+
+:host {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+
+  &__control {
+    width: 100%;
+    margin-bottom: rhythm(3);
+  }
+
+  &__items-group {
+    @include mediaQuery(sm) {
+      display: flex;
+
+      .contact-form__control {
+        flex: 1;
+      }
+
+      .contact-form__control + .contact-form__control {
+        margin-left: rhythm(3);
+      }
+    }
+  }
+}
+
+.action {
+  margin-bottom: rhythm(5);
+
+  @include mediaQuery(xs, sm) {
+    width: 100% !important;
+  }
+}
+
+.info {
+  color: var(--qq-color-text-secondary);
+}

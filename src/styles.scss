@@ -1,1 +1,79 @@
-/* You can add global styles to this file, and also import other style files */
+// CORE
+@import 'styles/core/normalize.scss';
+@import 'styles/core/reset.scss';
+@import 'styles/core/variables.scss';
+@import 'styles/core/theme.scss';
+@import 'styles/core/typography.scss';
+
+// COMPONENTS
+@import 'styles/components/svg-icon.scss';
+@import 'styles/components/button.scss';
+@import 'styles/components/sidebar-panel.scss';
+@import 'styles/components/loading-panel.scss';
+@import 'app/shared/components/bar-item/bar-item.directive.scss';
+@import 'app/shared/components/basic-toast/basic-toast-wrapper.scss';
+@import 'styles/components/info-panel.scss';
+@import 'app/shared/components/forms/common/primitive-text-control.scss';
+
+// HELPERS
+@import 'styles/helpers/empty-scrollbar.scss';
+
+body {
+  width: 100%;
+  position: relative;
+  min-height: 100%;
+}
+
+html,
+body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  background-color: var(--qq-color-bg-main);
+  background: linear-gradient(150deg, var(--qq-color-bg-main), var(--qq-color-bg-secondary));
+  background-size: 400% 400%;
+  animation: backgroundAnimation 15s ease infinite;
+  color: var(--qq-color-text-main);
+  font-family: 'Dosis', sans-serif;
+  font-weight: 400;
+}
+
+.without-animation {
+  animation: unset;
+}
+
+.root-loader {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  width: 136px;
+  border-radius: var(--qq-border-radius);
+  color: var(--qq-color-element-brand-darken);
+  background-color: var(--qq-color-element-brand);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+
+  svg {
+    height: 80px;
+  }
+
+  path:first-child {
+    color: var(--qq-color-bg-secondary);
+  }
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

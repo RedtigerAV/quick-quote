@@ -1,0 +1,37 @@
+<div class="basic-toast">
+  <ng-container [ngSwitch]="data.type">
+    <div class="basic-toast__icon basic-toast__icon--success" *ngSwitchCase="toastTypeEnum.SUCCESS">
+      <svg-icon key="done"></svg-icon>
+    </div>
+
+    <div class="basic-toast__icon basic-toast__icon--info" *ngSwitchCase="toastTypeEnum.INFO">
+      <svg-icon key="tips"></svg-icon>
+    </div>
+
+    <div class="basic-toast__icon basic-toast__icon--error" *ngSwitchCase="toastTypeEnum.ERROR">
+      <svg-icon key="error"></svg-icon>
+    </div>
+  </ng-container>
+
+  <div class="basic-toast__content">
+    <div class="content__title">{{ data.title }}</div>
+    <div class="content__body">
+      <ng-container [ngSwitch]="contentType">
+        <ng-container *ngSwitchCase="contentTypeEnum.COMPONENT">
+          <ng-container *ngComponentOutlet="content; injector: contentInjector"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="contentTypeEnum.TEMPLATE">
+          <ng-container *ngTemplateOutlet="content"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="contentTypeEnum.TEXT">
+          {{ content }}
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <button class="basic-toast__close" (click)="toast.close()">
+    <svg-icon key="cancel"></svg-icon>
+  </button>
+</div>

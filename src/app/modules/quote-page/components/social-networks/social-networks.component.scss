@@ -1,0 +1,21 @@
+@import 'styles/mixins/media-query.mixin';
+
+:host {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  transition: color 0s;
+  flex: 1.66;
+
+  &:first-child,
+  &:last-child {
+    flex: 1;
+  }
+
+  @include mediaQuery(xs, sm) {
+    flex: 1;
+  }
+}

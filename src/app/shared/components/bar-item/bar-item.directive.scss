@@ -1,0 +1,26 @@
+.bar-item__list {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 100%;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--qq-color-text-contrast);
+  transition: color 0.2s ease-in-out;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: unset;
+    color: var(--qq-color-text-disabled);
+  }
+}

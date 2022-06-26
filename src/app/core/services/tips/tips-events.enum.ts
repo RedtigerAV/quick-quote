@@ -1,0 +1,7 @@
+export enum TipsEventsEnum {
+  APP_LOAD,
+  SHOW_COMMON_TIPS,
+  QUOTE_PAGE_VISIT,
+  ADD_TO_HOME_SCREEN,
+  NEXT_QUOTE_SHOWED
+}

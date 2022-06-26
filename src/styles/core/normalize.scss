@@ -1,0 +1,25 @@
+body {
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--qq-color-text-secondary);
+  text-decoration-line: underline;
+
+  &:visited {
+    color: var(--qq-color-element-brand);
+  }
+}
+
+::-moz-selection {
+  color: var(--qq-color-text-main-secondary);
+  background: rgba(var(--qq-color-element-brand-rgb), 0.8);
+}
+
+::selection {
+  color: var(--qq-color-text-main-secondary);
+  background: rgba(var(--qq-color-element-brand-rgb), 0.8);
+}

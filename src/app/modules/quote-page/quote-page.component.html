@@ -1,0 +1,177 @@
+<div class="container">
+  <app-quote-list
+    class="quotes"
+    [selectedQuote]="quotesFacade.selectedQuote$ | async"
+    [quotes]="quotesFacade.quotes$ | async"
+    [currentPosition]="quotesFacade.currentPosition$ | async"
+    [isSelectedBookmark]="bookmarksService.isSelectedQuoteBookmark$ | async"
+    (swipeNext)="toNextQuote()"
+    (swipePrevious)="toPreviousQuote()"
+    (likeQuote)="bookmarksFacade.addBookmark($event)"
+    (dislikeQuote)="bookmarksFacade.removeBookmark($event)"
+    (animationStart)="animationStart()"
+    (animationDone)="animationDone($event)"
+    (copyQuote)="onCopyQuote($event)"
+  ></app-quote-list>
+
+  <ng-container
+    *ngIf="{
+      isMobile: viewport.isMobileViewport$ | async,
+      state: actionsState$ | async,
+      isSlideshowMode: inSlideshowMode$ | async
+    } as data"
+  >
+    <app-bottom-bar
+      class="bottom-bar"
+      [ngClass]="[skipHtmlToImageClass]"
+      [opened]="data.isMobile || device.isTouchDevice"
+    >
+      <app-bar-item-list
+        *ngIf="data.state !== actionsStateEnum.SOCIAL; else socialNetworksState"
+        [ngClass]="'bottom-bar__list--' + data.state"
+        [opened]="data.isMobile || device.isTouchDevice"
+      >
+        <!--Share-->
+        <button
+          *ngIf="data.state === actionsStateEnum.MAIN"
+          appBarItem
+          (click)="switchBottomBarState(actionsStateEnum.SOCIAL)"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="share"></svg-icon>
+            <span appBarItemText>Share</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Snapshot-->
+        <button
+          *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
+          appBarItem
+          [disabled]="convertToImage | locked: this | async"
+          (click)="convertToImage()"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="camera"></svg-icon>
+            <span appBarItemText>Snapshot</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Previous-->
+        <button
+          *ngIf="data.state === actionsStateEnum.MAIN"
+          appBarItem
+          [disabled]="isPreviousButtonDisabled$ | async"
+          (click)="toPreviousQuote()"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="previous"></svg-icon>
+            <span appBarItemText>Previous</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Play-->
+        <button
+          *ngIf="data.state === actionsStateEnum.MAIN && !data.isSlideshowMode"
+          appBarItem
+          (click)="slideshowService.start()"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="play"></svg-icon>
+            <span appBarItemText>Play</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Pause-->
+        <button
+          *ngIf="data.state === actionsStateEnum.MAIN && data.isSlideshowMode"
+          appBarItem
+          (click)="slideshowService.stop()"
+        >
+          <app-bar-item-content>
+            <app-timer appBarItemIcon [size]="28" [timer]="slideshowService.timer">
+              <svg-icon class="svg svg--small" appBarItemIcon key="pause"></svg-icon>
+            </app-timer>
+
+            <span appBarItemText>Pause</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Next-->
+        <button
+          *ngIf="data.state === actionsStateEnum.MAIN"
+          appBarItem
+          [disabled]="isNextButtonDisabled$ | async"
+          (click)="toNextQuote()"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="next"></svg-icon>
+            <span appBarItemText>Next</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Bookmarks-->
+        <button
+          *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
+          appBarItem
+          (click)="bookmarksService.openBookmarks()"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="bookmarks-collection"></svg-icon>
+            <span appBarItemText>Bookmarks</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Settings-->
+        <button
+          *ngIf="!data.isMobile || data.state === actionsStateEnum.ADDITIONAL"
+          appBarItem
+          (click)="settingsService.openSettings()"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="settings"></svg-icon>
+            <span appBarItemText>Settings</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--More-->
+        <button
+          *ngIf="data.isMobile && data.state === actionsStateEnum.MAIN"
+          appBarItem
+          (click)="switchBottomBarState(actionsStateEnum.ADDITIONAL)"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="more"></svg-icon>
+            <span appBarItemText>More</span>
+          </app-bar-item-content>
+        </button>
+
+        <!--Close additional-->
+        <button
+          *ngIf="data.state === actionsStateEnum.ADDITIONAL"
+          appBarItem
+          (click)="switchBottomBarState(actionsStateEnum.MAIN)"
+        >
+          <app-bar-item-content>
+            <svg-icon class="svg" appBarItemIcon key="cancel"></svg-icon>
+            <span appBarItemText>Cancel</span>
+          </app-bar-item-content>
+        </button>
+      </app-bar-item-list>
+
+      <ng-template #socialNetworksState>
+        <app-social-networks
+          [quote]="quotesFacade.selectedQuote$ | async"
+          [opened]="data.isMobile"
+          (collapse)="switchBottomBarState(actionsStateEnum.MAIN)"
+        ></app-social-networks>
+      </ng-template>
+    </app-bottom-bar>
+  </ng-container>
+</div>
+
+<ng-template #errorMessage>
+  Check your internet connection or&nbsp;reload the page. If&nbsp;the error persists, write to&nbsp;us&nbsp;<a
+    [routerLink]="appRoutePath.CONTACT"
+    >here</a
+  >.
+</ng-template>

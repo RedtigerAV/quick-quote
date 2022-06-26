@@ -1,0 +1,55 @@
+<app-sidebar-content>
+  <app-sidebar-content-title> Bookmarks </app-sidebar-content-title>
+
+  <button class="qq-button qq-button__icon" appSidebarContentClose (click)="sidebarRef.close()">
+    <svg-icon key="cancel"></svg-icon>
+  </button>
+
+  <app-sidebar-content-body *ngIf="{ bookmarks: bookmarks$ | async, status: status$ | async } as data">
+    <!-- Empty bookmarks -->
+    <div
+      class="info info-panel info-panel--common"
+      *ngIf="data.status === statusEnum.SUCCESS && !data.bookmarks?.length"
+    >
+      <div class="info__description">
+        You can save your favorite quotes and reread them again. To&nbsp;do&nbsp;this, click on&nbsp;the&nbsp;<span
+          class="info__text-icon"
+          ><svg-icon key="bookmark" fontSize="24px"></svg-icon>
+        </span>
+        icon of&nbsp;the quote you like. The quote will appear in&nbsp;this section.
+      </div>
+    </div>
+    <!-- Bookmarks loading -->
+    <div class="info info-panel info-panel--loading loading-panel" *ngIf="data.status === statusEnum.LOADING">
+      <div class="info__description">
+        We&nbsp;are loading your favorite quotes. This may take some time. Please wait.
+      </div>
+    </div>
+    <!-- Something went wrong -->
+    <div class="info info-panel info-panel--error" *ngIf="data.status === statusEnum.ERROR">
+      <div class="info__description">
+        Something went wrong when loading bookmarks. Please click on&nbsp;the button below to&nbsp;try again.
+        If&nbsp;the problem could not be&nbsp;fixed, please contact&nbsp;us&nbsp;<a [routerLink]="routePath.CONTACT"
+          >here</a
+        >.
+      </div>
+
+      <button class="info__action qq-button qq-button__view-1" (click)="loadBookmarks()">Try again</button>
+    </div>
+
+    <div class="bookmarks">
+      <ng-container *ngFor="let bookmark of data.bookmarks; trackBy: 'id' | trackBy">
+        <div class="bookmark" [@fadeOut]>
+          <div class="quote bookmark__quote" (click)="selectQuote(bookmark)">
+            <span class="quote__content">{{ bookmark.quote }}</span>
+            <span class="quote__author">{{ bookmark | cache: getAuthorInfo }}</span>
+          </div>
+
+          <button class="qq-button qq-button__icon bookmark__remove" (click)="remove(bookmark.id)">
+            <svg-icon key="bookmark-remove"></svg-icon>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </app-sidebar-content-body>
+</app-sidebar-content>

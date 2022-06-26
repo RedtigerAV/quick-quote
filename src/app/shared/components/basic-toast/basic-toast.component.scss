@@ -1,0 +1,72 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/core/typography';
+
+:host {
+  display: block;
+}
+
+.basic-toast {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: rhythm(3);
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    width: rhythm(8);
+    height: rhythm(8);
+
+    svg-icon {
+      font-size: 28px !important;
+    }
+
+    &--success {
+      background-color: var(--qq-color-element-success-secondary);
+    }
+
+    &--info {
+      color: var(--qq-color-element-brand);
+    }
+
+    &--error {
+      background-color: var(--qq-color-element-danger-secondary);
+    }
+  }
+
+  &__content {
+    flex: 1;
+    margin: 0 rhythm(3);
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--qq-color-text-main);
+    width: rhythm(6);
+    height: rhythm(6);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--qq-color-text-secondary);
+      transform: scale(1.1);
+    }
+
+    svg-icon {
+      font-size: 18px !important;
+    }
+  }
+}
+
+.content {
+  &__title {
+    @include qq-font-text-l;
+    margin-bottom: rhythm(1);
+  }
+
+  &__body {
+    @include qq-font-text-m;
+  }
+}

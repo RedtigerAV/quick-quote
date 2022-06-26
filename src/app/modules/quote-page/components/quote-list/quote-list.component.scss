@@ -1,0 +1,150 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
+
+:host {
+  position: relative;
+  display: block;
+}
+
+.quotes {
+  height: 100%;
+  width: 100%;
+
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.quote {
+  position: relative;
+  display: flex;
+  transform: translateY(calc(0.5 * (var(--qq-bottom-bar-height) - var(--qq-header-height))));
+  background-color: var(--qq-color-bg-accent);
+  border-radius: var(--qq-border-radius);
+  box-shadow: var(--qq-box-shadow) var(--qq-color-element-brand);
+  will-change: opacity, transform;
+
+  max-height: 100%;
+  max-width: rhythm(250);
+  min-width: rhythm(100);
+
+  @include mediaQuery(lg, xl) {
+    max-width: rhythm(200);
+  }
+
+  @include mediaQuery(md, lg) {
+    max-width: rhythm(150);
+  }
+
+  @include mediaQuery(xs, md) {
+    max-width: 100%;
+    min-width: unset;
+  }
+
+  &__content {
+    align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    touch-action: pan-y !important;
+
+    padding-top: rhythm(10);
+    padding-left: rhythm(10);
+
+    @include mediaQuery(xs, lg) {
+      padding-left: rhythm(8);
+    }
+  }
+
+  &__actions {
+    position: relative;
+    padding: 2px 0;
+    width: rhythm(10);
+
+    @include mediaQuery(xs, lg) {
+      width: rhythm(8);
+    }
+  }
+}
+
+.content {
+  text-align: center;
+
+  &__text {
+    margin-bottom: rhythm(5);
+
+    @include qq-font-family-heading(bold);
+
+    @include qq-font-heading-3;
+
+    @include mediaQuery(lg, xl) {
+      @include qq-font-heading-4;
+    }
+
+    @include mediaQuery(xs, lg) {
+      @include qq-font-heading-5;
+    }
+  }
+
+  &__author {
+    position: relative;
+    padding: 0 rhythm(4);
+    margin-bottom: rhythm(1);
+    color: var(--qq-color-text-secondary);
+    @include qq-font-heading-4;
+
+    @include mediaQuery(lg, xl) {
+      @include qq-font-heading-5;
+    }
+
+    @include mediaQuery(xs, lg) {
+      @include qq-font-heading-6;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  &__item {
+    &__bookmark {
+      color: var(--qq-color-element-brand);
+      height: rhythm(12);
+
+      svg-icon {
+        font-size: rhythm(12) !important;
+      }
+
+      @include mediaQuery(xs, lg) {
+        height: rhythm(10);
+
+        svg-icon {
+          font-size: rhythm(10) !important;
+        }
+      }
+    }
+
+    &__copy {
+      height: rhythm(10);
+
+      svg-icon {
+        font-size: rhythm(10) !important;
+      }
+
+      @include mediaQuery(xs, lg) {
+        height: rhythm(8);
+
+        svg-icon {
+          font-size: rhythm(8) !important;
+        }
+      }
+    }
+  }
+}

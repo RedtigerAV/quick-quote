@@ -1,0 +1,32 @@
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/core/typography';
+
+:host {
+  display: block;
+
+  &.has-label {
+    .textarea__element {
+      top: rhythm(5);
+    }
+  }
+
+  &.ng-invalid.ng-touched {
+    .textarea {
+      border-color: var(--qq-color-element-danger);
+    }
+  }
+}
+
+.textarea {
+  position: relative;
+  height: rhythm(40);
+
+  &__element {
+    position: absolute;
+    height: rhythm(34);
+    top: rhythm(3);
+    @include qq-font-text-m;
+    resize: none;
+  }
+}

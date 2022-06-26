@@ -1,0 +1,214 @@
+<app-sidebar-content>
+  <app-sidebar-content-title> Settings </app-sidebar-content-title>
+
+  <button class="qq-button qq-button__icon" appSidebarContentClose (click)="sidebarRef.close()">
+    <svg-icon key="cancel"></svg-icon>
+  </button>
+
+  <app-sidebar-content-body>
+    <div class="content empty-scrollbar">
+      <div class="info info-panel info-panel--common">
+        Here you can customize the application for yourself to&nbsp;make it&nbsp;as&nbsp;useful and convenient
+        as&nbsp;possible.
+      </div>
+
+      <div
+        class="menu"
+        *ngIf="{
+          expanded: expandedItem$ | async,
+          result: result$ | async,
+          quoteTopicsStatus: quoteTopicsFacade.status$ | async,
+          quoteTopics: quoteTopicsFacade.topics$ | async,
+          selectedQuoteTopics: selectedQuoteTopics$ | async,
+          photoTopicsStatus: photoTopicsFacade.status$ | async,
+          photoTopics: photoTopicsFacade.topics$ | async,
+          selectedPhotoTopics: selectedPhotoTopics$ | async
+        } as data"
+      >
+        <!-- Slideshow time -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.SLIDESHOW"
+            (click)="toggleMenuItem(itemsEnum.SLIDESHOW)"
+          >
+            <svg-icon class="header__icon" key="play"></svg-icon>
+            <span class="header__name">Slideshow time</span>
+            <span class="header__value chip chip--selected">{{ data.result?.slideshowTime }}s</span>
+          </div>
+
+          <div [@collapsible]="[itemsEnum.SLIDESHOW, data.expanded] | cache: getExpandedState:this" class="item__body">
+            <div class="body__grid body__grid__view--3">
+              <ng-container *ngFor="let time of slideshowTimes">
+                <div
+                  class="chip"
+                  [class.chip--selected]="time === data.result?.slideshowTime"
+                  (click)="selectSlideshowTime(time)"
+                >
+                  {{ time }}s
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Snapshot extension -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.SNAPSHOT"
+            (click)="toggleMenuItem(itemsEnum.SNAPSHOT)"
+          >
+            <svg-icon class="header__icon" key="camera"></svg-icon>
+            <span class="header__name">Snapshot extension</span>
+            <span class="header__value chip chip--selected">{{
+              data.result?.snapshotExtension | cache: toUpperCase:this
+            }}</span>
+          </div>
+
+          <div [@collapsible]="[itemsEnum.SNAPSHOT, data.expanded] | cache: getExpandedState:this" class="item__body">
+            <div class="body__grid body__grid__view--2">
+              <ng-container *ngFor="let extension of htmlToImageExtensions">
+                <div
+                  class="chip"
+                  [class.chip--selected]="extension === data.result?.snapshotExtension"
+                  (click)="selectSnapshotExtension(extension)"
+                >
+                  {{ extension | cache: toUpperCase:this }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quote topics -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.QUOTE_TOPICS"
+            (click)="toggleMenuItem(itemsEnum.QUOTE_TOPICS)"
+          >
+            <svg-icon class="header__icon" key="quote"></svg-icon>
+            <span class="header__name">Quote topics</span>
+            <span class="header__value chip chip--selected">{{
+              data.selectedQuoteTopics | cache: getTopicsLabel:this
+            }}</span>
+          </div>
+
+          <div
+            [@collapsible]="[itemsEnum.QUOTE_TOPICS, data.expanded] | cache: getExpandedState:this"
+            class="item__body"
+          >
+            <div
+              class="mrgn-bottom info-panel info-panel--small info-panel--disabled"
+              *ngIf="data.quoteTopicsStatus === statusEnum.SUCCESS"
+            >
+              <ng-container *ngTemplateOutlet="topicsInfo"></ng-container>
+            </div>
+
+            <div
+              class="info-panel info-panel--small info-panel--loading loading-panel"
+              *ngIf="data.quoteTopicsStatus === statusEnum.LOADING"
+            >
+              We&nbsp;are loading available quote topics. This may take some time. Please wait.
+            </div>
+
+            <div
+              class="info-panel info-panel--small info-panel--error"
+              *ngIf="data.quoteTopicsStatus === statusEnum.ERROR"
+            >
+              <span>
+                Something went wrong when loading quote topics. Please click on&nbsp;the button below to&nbsp;try again.
+                If&nbsp;the problem could not be&nbsp;fixed, please contact&nbsp;us&nbsp;<a
+                  [routerLink]="routePath.CONTACT"
+                  >here</a
+                >.
+              </span>
+
+              <button class="info__action qq-button qq-button__view-1" (click)="loadQuoteTopics()">Try again</button>
+            </div>
+
+            <div class="body__grid body__grid__view--2">
+              <ng-container *ngFor="let topic of data?.quoteTopics; trackBy: 'id' | trackBy">
+                <div
+                  class="chip"
+                  [class.chip--selected]="[topic.id, data.selectedQuoteTopics] | cache: isTopicSelected:this"
+                  (click)="toggleQuoteTopic(topic.id)"
+                >
+                  {{ topic.name }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Photo topics -->
+        <div class="item menu__item">
+          <div
+            class="header item__header"
+            [class.header--expanded]="data.expanded === itemsEnum.PHOTO_TOPICS"
+            (click)="toggleMenuItem(itemsEnum.PHOTO_TOPICS)"
+          >
+            <svg-icon class="header__icon" key="image"></svg-icon>
+            <span class="header__name">Background&nbsp;photo</span>
+            <span class="header__value chip chip--selected">{{
+              data.selectedPhotoTopics | cache: getTopicsLabel:this
+            }}</span>
+          </div>
+
+          <div
+            [@collapsible]="[itemsEnum.PHOTO_TOPICS, data.expanded] | cache: getExpandedState:this"
+            class="item__body"
+          >
+            <div
+              class="mrgn-bottom info-panel info-panel--small info-panel--disabled"
+              *ngIf="data.photoTopicsStatus === statusEnum.SUCCESS"
+            >
+              <ng-container *ngTemplateOutlet="topicsInfo"></ng-container>
+            </div>
+
+            <div
+              class="info-panel info-panel--small info-panel--loading loading-panel"
+              *ngIf="data.photoTopicsStatus === statusEnum.LOADING"
+            >
+              We&nbsp;are loading available photo topics. This may take some time. Please wait.
+            </div>
+
+            <div
+              class="info-panel info-panel--small info-panel--error"
+              *ngIf="data.photoTopicsStatus === statusEnum.ERROR"
+            >
+              <span>
+                Something went wrong when loading photo topics. Please click on&nbsp;the button below to&nbsp;try again.
+                If&nbsp;the problem could not be&nbsp;fixed, please contact&nbsp;us&nbsp;<a
+                  [routerLink]="routePath.CONTACT"
+                  >here</a
+                >.
+              </span>
+
+              <button class="info__action qq-button qq-button__view-1" (click)="loadPhotoTopics()">Try again</button>
+            </div>
+
+            <div class="body__grid body__grid__view--2">
+              <ng-container *ngFor="let topic of data?.photoTopics; trackBy: 'id' | trackBy">
+                <div
+                  class="chip"
+                  [class.chip--selected]="[topic.id, data.selectedPhotoTopics] | cache: isTopicSelected:this"
+                  (click)="togglePhotoTopic(topic.id)"
+                >
+                  {{ topic.name }}
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button *ngIf="isSaveButtonVisible$ | async" class="save qq-button qq-button__view-1" (click)="save()">
+      Save changes
+    </button>
+
+    <ng-template #topicsInfo> The changes will take effect from the following&nbsp;quote. </ng-template>
+  </app-sidebar-content-body>
+</app-sidebar-content>

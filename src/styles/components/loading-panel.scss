@@ -1,0 +1,50 @@
+$anime-time: 4s;
+$path-width: 2px;
+
+.loading-panel {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: inset 0 0 0 $path-width var(--qq-color-element-brand);
+    border-radius: var(--qq-border-radius);
+    animation: clipPoligon $anime-time linear infinite;
+  }
+
+  &--contrast {
+    &::before {
+      box-shadow: inset 0 0 0 $path-width var(--qq-color-text-contrast);
+    }
+  }
+}
+
+@keyframes clipPoligon {
+  0%,
+  100% {
+    clip-path: inset(0 0 calc(100% - #{var(--qq-border-radius)} / 2) 0);
+  }
+  12.5% {
+    clip-path: inset(0 0 50% 50%);
+  }
+  25% {
+    clip-path: inset(0 0 0 calc(100% - #{var(--qq-border-radius)} / 2));
+  }
+  37.5% {
+    clip-path: inset(50% 0 0 50%);
+  }
+  50% {
+    clip-path: inset(calc(100% - #{var(--qq-border-radius)} / 2) 0 0 0);
+  }
+  62.5% {
+    clip-path: inset(50% 50% 0 0);
+  }
+  75% {
+    clip-path: inset(0 calc(100% - #{var(--qq-border-radius)} / 2) 0 0);
+  }
+  87.5% {
+    clip-path: inset(0 50% 50% 0);
+  }
+}

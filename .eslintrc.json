@@ -2,7 +2,7 @@
   "root": true,
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": ["*.ts", "*.js"],
       "parserOptions": {
         "project": ["tsconfig.json"],
         "createDefaultProgram": true
@@ -25,11 +25,25 @@
             "style": "kebab-case"
           }
         ],
+        "@angular-eslint/no-empty-lifecycle-method": "off",
+        "@angular-eslint/no-input-rename": "off",
         "padding-line-between-statements": [
           "error",
-          { "blankLine": "always", "prev": "*", "next": "return" },
-          { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
-          { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] }
+          {
+            "blankLine": "always",
+            "prev": "*",
+            "next": "return"
+          },
+          {
+            "blankLine": "always",
+            "prev": ["const", "let", "var"],
+            "next": "*"
+          },
+          {
+            "blankLine": "any",
+            "prev": ["const", "let", "var"],
+            "next": ["const", "let", "var"]
+          }
         ]
       }
     },
@@ -37,6 +51,15 @@
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/recommended"],
       "rules": {}
+    },
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:ngrx/recommended"],
+      "rules": {
+        "ngrx/no-typed-global-store": "off",
+        "ngrx/select-style": ["warn", "operator"],
+        "ngrx/prefer-effect-callback-in-block-statement": "off"
+      }
     }
   ]
 }

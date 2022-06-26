@@ -1,0 +1,89 @@
+@import 'styles/mixins/media-query.mixin';
+@import 'styles/mixins/rhythm.mixin';
+@import 'styles/core/typography';
+
+.qq-button {
+  color: var(--qq-color-text-main);
+  transition: color 0.2s ease-in, transform 0.2s ease-in, background-color 0.2s ease-in;
+  cursor: pointer;
+
+  @include mediaQuery(xs, lg) {
+    height: rhythm(10);
+  }
+
+  &__view {
+    &-1 {
+      height: rhythm(10);
+      border-radius: rhythm(3);
+      width: fit-content;
+      min-width: rhythm(30);
+      background-color: var(--qq-color-element-brand-secondary);
+      @include qq-font-text-m;
+
+      &:hover {
+        background-color: var(--qq-color-element-brand-secondary-light);
+      }
+
+      &:active {
+        background-color: var(--qq-color-element-brand-secondary-darken);
+      }
+
+      &:disabled {
+        border: unset;
+        cursor: unset;
+        color: var(--qq-color-text-disabled);
+        background-color: var(--qq-color-bg-main);
+      }
+    }
+
+    &-2 {
+      height: rhythm(10);
+      border-radius: rhythm(3);
+      width: fit-content;
+      min-width: rhythm(30);
+      color: var(--qq-color-text-contrast);
+      background-color: var(--qq-color-element-brand);
+      border: 1.5px solid var(--qq-color-text-contrast);
+      @include qq-font-text-m;
+
+      &:hover {
+        color: var(--qq-color-text-main);
+        background-color: var(--qq-color-element-brand-darken);
+      }
+
+      &:active {
+        background-color: var(--qq-color-bg-secondary);
+        color: var(--qq-color-text-main);
+      }
+
+      &:disabled {
+        border: unset;
+        cursor: unset;
+        color: var(--qq-color-text-disabled);
+        background-color: var(--qq-color-bg-main);
+      }
+    }
+  }
+
+  &__icon {
+    height: rhythm(8);
+    border-radius: 50%;
+
+    @include mediaQuery(xs, lg) {
+      height: rhythm(10);
+    }
+
+    &:hover {
+      color: var(--qq-color-text-secondary);
+      transform: scale(1.1);
+    }
+
+    svg-icon {
+      font-size: rhythm(8) !important;
+
+      @include mediaQuery(xs, lg) {
+        font-size: rhythm(10) !important;
+      }
+    }
+  }
+}
