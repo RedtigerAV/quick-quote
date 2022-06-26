@@ -20,6 +20,7 @@ import { HammerGestureProvider } from '@core/configuration/hammer.configuration'
 import { BasicToastModule } from '@shared/components/basic-toast/basic-toast.module';
 import { TipsModule } from '@core/services/tips/tips.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ErrorPageModule } from './modules/error-page/error-page.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     }),
     AppRoutingModule,
     UserLayoutModule,
+    ErrorPageModule,
     QuotePageModule,
     IconsModule,
     BasicToastModule,

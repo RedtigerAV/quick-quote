@@ -26,5 +26,29 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "quote-topics",
+      "urls": [
+        "/api/v1/quotes/topics"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxAge": "5d",
+        "maxSize": 1
+      }
+    },
+    {
+      "name": "photo-topics",
+      "urls": [
+        "/api/v1/photos/topics"
+      ],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxAge": "5d",
+        "maxSize": 1
+      }
+    }
   ]
 }
