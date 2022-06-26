@@ -1,13 +1,13 @@
 const express = require('express');
-const http = require('http');
+// const http = require('http');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const environment = process.env.NODE_ENV;
 const app_folder = 'dist/quick-quote';
 
 app.use(express.json());
-app.set('port', port);
+// app.set('port', port);
 
 if (environment === 'development') {
   const morgan = require('morgan');
@@ -29,6 +29,10 @@ app.use((err, req, res, next) => {
   res.status(500).send('Internal error');
 });
 
-http.createServer(app).listen(port, () => {
-  console.log(`...Listening to http://localhost:${port}`);
+app.listen(port, () => {
+  console.log(`...App is listening to port: ${port}`);
 });
+
+// http.createServer(app).listen(port, () => {
+//   console.log(`...Listening to http://localhost:${port}`);
+// });

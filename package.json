@@ -7,11 +7,13 @@
     "start:dev:front": "ng serve --proxy-config ./proxy.local.config.json",
     "start:dev:server": "cross-env NODE_ENV=development USE_CACHE=false PORT=3000 nodemon server/server.js",
     "build": "ng build",
+    "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
     "prepare": "husky install",
-    "generate-icons": "svg-generator"
+    "generate-icons": "svg-generator",
+    "heroku-postbuild": "ng build --configuration production"
   },
   "private": true,
   "dependencies": {
@@ -100,5 +102,9 @@
         "cleanupAttrs"
       ]
     }
+  },
+  "engines": {
+    "node": "16.14.0",
+    "npm": "8.5.0"
   }
 }
