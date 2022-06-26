@@ -11,6 +11,7 @@ import { AnimationEvent } from '@angular/animations';
 import { ConnectionStatusEnum, NetworkConnectionService } from '@core/services/network-connection.service';
 import { filter, pairwise } from 'rxjs';
 import { BasicToastError, BasicToastSuccess } from '@shared/components/basic-toast/basic-toast';
+import { PWAService } from '@core/services/pwa.service';
 
 enum RootRouterAnimationStateEnum {
   ACTIVATED = 'activated',
@@ -41,11 +42,13 @@ export class AppComponent implements OnInit {
     private readonly toaster: ToasterService,
     private readonly viewport: ViewportService,
     private readonly rootLoaderService: RootLoaderService,
-    private readonly tipsService: TipsService
+    private readonly tipsService: TipsService,
+    private readonly pwaService: PWAService
   ) {}
 
   public ngOnInit(): void {
     this.animationProcess.init();
+    this.pwaService.init();
 
     this.viewport.isMobileViewport$.subscribe(isMobile =>
       this.toaster.updateDefaultConfig({

@@ -1,4 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { TipsEventsEnum } from '@core/services/tips/tips-events.enum';
+import { TipsService } from '@core/services/tips/tips.service';
 import { Nullable } from '@core/types/nullable.type';
 import { QuotePageComponent } from '../quote-page.component';
 import { NextQuoteService } from './next-quote.service';
@@ -24,7 +26,8 @@ export class QuotesMediator implements OnDestroy {
   constructor(
     private readonly nextQuoteService: NextQuoteService,
     private readonly previousQuoteService: PreviousQuoteService,
-    private readonly slideshowService: SlideshowService
+    private readonly slideshowService: SlideshowService,
+    private readonly tipsService: TipsService
   ) {
     QuotesMediator._instance = this;
   }
@@ -66,6 +69,7 @@ export class QuotesMediator implements OnDestroy {
   }
 
   private onToNextQuoteFinish(): void {
+    this.tipsService.notify(TipsEventsEnum.NEXT_QUOTE_SHOWED);
     this.hostComponent.setNextButtonDisabledState(false);
 
     if (this.slideshowService.state === SlidwshowStateEnum.STARTED) {
