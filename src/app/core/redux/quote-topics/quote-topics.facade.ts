@@ -8,6 +8,9 @@ import { IState } from '../index.state';
 import * as quoteTopicsSelectors from './quote-topics.selectors';
 import * as quoteTopicsActions from './quote-topics.actions';
 
+/**
+ * Service-facade for a single access to the ngrx state of quote topics
+ */
 @Injectable({ providedIn: 'root' })
 export class QuoteTopicsFacade {
   public readonly topics$: Observable<Array<IQuoteTopic>>;
@@ -44,10 +47,17 @@ export class QuoteTopicsFacade {
     return getObservableSnapshot(this.status$);
   }
 
+  /**
+   * Load all quote topics and save to storage
+   */
   public loadTopics(): void {
     this.store.dispatch(quoteTopicsActions.loadQuoteTopics());
   }
 
+  /**
+   * Select topics for filtration of random quotes
+   * @param ids Topic IDs to select
+   */
   public selectTopics(ids: string[]): void {
     this.store.dispatch(quoteTopicsActions.selectQuoteTopics({ topicsIDsForSelection: ids }));
   }

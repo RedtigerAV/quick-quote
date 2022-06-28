@@ -12,7 +12,6 @@ export class NextQuoteService {
 
   /**
    * Method to change quote and background photo concurrently
-   * @returns result of operation
    */
   public toNextQuote(): void {
     const currentPosition = this.quotesFacade.currentPosition;

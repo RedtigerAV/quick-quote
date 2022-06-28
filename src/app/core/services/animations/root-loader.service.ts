@@ -5,6 +5,10 @@ import { Nullable } from '@core/types/nullable.type';
 const ROOT_LOADER_ANIMATION_TIME = 700;
 const LOADER_ID = 'root-loader';
 
+/**
+ * Service for managing app loader.
+ * Root loader is used during application loading
+ */
 @Injectable({ providedIn: 'root' })
 export class RootLoaderService {
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}

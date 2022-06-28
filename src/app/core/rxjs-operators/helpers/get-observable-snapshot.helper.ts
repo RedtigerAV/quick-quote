@@ -1,5 +1,10 @@
 import { take, Observable } from 'rxjs';
 
+/**
+ * Get value of hot observable immediately (synchronously)
+ * @param source$ Sourse observable
+ * @returns value of observable
+ */
 export function getObservableSnapshot<T>(source$: Observable<T>): T {
   let result: T;
 
@@ -9,6 +14,11 @@ export function getObservableSnapshot<T>(source$: Observable<T>): T {
   return result;
 }
 
+/**
+ * Get error of hot observable immediately (synchronously)
+ * @param source$ Sourse observable
+ * @returns error of observable
+ */
 export function getObservableErrorSnapshot<T>(source$: Observable<T>): Error {
   let error!: Error;
 

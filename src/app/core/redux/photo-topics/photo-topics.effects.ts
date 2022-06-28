@@ -10,6 +10,9 @@ import { PhotoTopicsStorage } from './photo-topics.storage';
 
 @Injectable({ providedIn: 'root' })
 export class PhotoTopicsEffects {
+  /**
+   * Effect for initializing photo topics only when they should be loaded
+   */
   public readonly initializePhotoTopics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadPhotos),
@@ -19,6 +22,9 @@ export class PhotoTopicsEffects {
     )
   );
 
+  /**
+   * Effect for loading photo topics and save them
+   */
   public readonly loadPhotoTopics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(photoTopicsActions.loadPhotoTopics),
@@ -32,6 +38,9 @@ export class PhotoTopicsEffects {
     )
   );
 
+  /**
+   * Effect for loading selected photo topics from LocalStorage
+   */
   public readonly initializeSelectedTopics = createEffect(() =>
     this.actions$.pipe(
       ofType(photoTopicsActions.loadPhotoTopicsSuccess),
@@ -44,6 +53,9 @@ export class PhotoTopicsEffects {
     )
   );
 
+  /**
+   * Effect for setting a new topics for photos
+   */
   public readonly selectTopics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(photoTopicsActions.selectPhotoTopics),

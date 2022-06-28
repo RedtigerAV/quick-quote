@@ -9,6 +9,9 @@ import * as photosActions from './photos.actions';
 import { getObservableSnapshot } from '@core/rxjs-operators/helpers/get-observable-snapshot.helper';
 import { Actions, ofType } from '@ngrx/effects';
 
+/**
+ * Service-facade for a single access to the ngrx state of photos
+ */
 @Injectable({ providedIn: 'root' })
 export class PhotosFacade {
   public readonly photos$: Observable<Array<IPhoto>>;
@@ -63,14 +66,26 @@ export class PhotosFacade {
     return getObservableSnapshot(this.prevPhoto$);
   }
 
+  /**
+   * Load array of photos to display
+   */
   public loadPhotos(): void {
     this.store.dispatch(photosActions.loadPhotos());
   }
 
+  /**
+   * Select photo to display it for user
+   * @param position position of photo to show for user
+   */
   public selectPhoto(position: number): void {
     this.store.dispatch(photosActions.selectPhoto({ position }));
   }
 
+  /**
+   * Remove photos from storage
+   * @param start position from which to remove
+   * @param finish position for which to remove (not included)
+   */
   public removePhotos(start: number, finish: number): void {
     const startPosition = Math.max(start, 0);
     const finishPosition = Math.min(finish, this.photos.length);

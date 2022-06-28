@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 
+/**
+ * Service to navigate user to previous quote
+ */
 @Injectable()
 export class PreviousQuoteService {
   constructor(private readonly quotesFacade: QuotesFacade, private readonly photosFacade: PhotosFacade) {}

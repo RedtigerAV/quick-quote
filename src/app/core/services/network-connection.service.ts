@@ -7,6 +7,9 @@ export enum ConnectionStatusEnum {
   Online
 }
 
+/**
+ * Service for determining the state of the network
+ */
 @Injectable({ providedIn: 'root' })
 export class NetworkConnectionService {
   public connectionStatus$: Observable<ConnectionStatusEnum>;

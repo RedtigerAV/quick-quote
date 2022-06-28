@@ -1,4 +1,4 @@
-import { animate, group, style, transition, trigger } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { IQuote } from '@core/models/quote.model';
 import { BookmarksFacade } from '@core/redux/bookmarks/bookmarks.facade';
