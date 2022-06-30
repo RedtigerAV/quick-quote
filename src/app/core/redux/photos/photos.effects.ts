@@ -9,6 +9,9 @@ import * as photosActions from './photos.actions';
 
 @Injectable({ providedIn: 'root' })
 export class PhotosEffects {
+  /**
+   * Effect for loading photos with selected topics
+   */
   public readonly loadPhotos$ = createEffect(() =>
     this.actions$.pipe(
       ofType(photosActions.loadPhotos),

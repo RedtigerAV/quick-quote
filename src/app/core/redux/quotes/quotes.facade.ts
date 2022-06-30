@@ -9,6 +9,9 @@ import { IQuote } from '@core/models/quote.model';
 import * as quotesActions from './quotes.actions';
 import * as quotesSelectors from './quotes.selectors';
 
+/**
+ * Service-facade for a single access to the ngrx state of quotes
+ */
 @Injectable({ providedIn: 'root' })
 export class QuotesFacade {
   /**
@@ -72,6 +75,11 @@ export class QuotesFacade {
     return this.quotes.length;
   }
 
+  /**
+   * Load random quote or quote by ID
+   * @param id ID of desired quote. If not specified, a random quote will be loaded
+   * @returns
+   */
   public loadQuote(id?: string): void {
     if (!!id) {
       this.store.dispatch(quotesActions.loadQuoteByID({ id }));
@@ -82,14 +90,28 @@ export class QuotesFacade {
     this.store.dispatch(quotesActions.loadRandomQuote());
   }
 
+  /**
+   * Select a quote to display to the user
+   * @param position position of quote to display
+   */
   public selectQuote(position: number): void {
     this.store.dispatch(quotesActions.selectQuote({ position }));
   }
 
+  /**
+   * Add quote to user's feed
+   * @param quote quote to add
+   * @param position position, where to add quote
+   */
   public addQuote(quote: IQuote, position: number): void {
     this.store.dispatch(quotesActions.addQuote({ quote, position }));
   }
 
+  /**
+   * Remove quotes from storage
+   * @param start position from which to remove
+   * @param finish position for which to remove (not included)
+   */
   public removeQuotes(start: number, finish: number): void {
     const startPosition = Math.max(start, 0);
     const finishPosition = Math.min(finish, this.quotes.length);

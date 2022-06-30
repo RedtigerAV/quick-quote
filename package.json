@@ -87,7 +87,7 @@
     "typescript": "~4.5.2"
   },
   "lint-staged": {
-    "*.{js,md,ts,html}": [
+    "*.{js,ts,html}": [
       "prettier --write",
       "eslint"
     ]

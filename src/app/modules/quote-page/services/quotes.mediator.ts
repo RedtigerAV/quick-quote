@@ -17,6 +17,10 @@ export enum QuotesMediatorEvents {
   SIDEBAR_CLOSED
 }
 
+/**
+ * A mediator service that processes application events related to quotes and determines the sequence of actions how to respond to events.
+ * The implementation of handlers is determined by injected services
+ */
 @Injectable()
 export class QuotesMediator implements OnDestroy {
   private static _instance: Nullable<QuotesMediator>;

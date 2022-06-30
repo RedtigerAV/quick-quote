@@ -5,6 +5,9 @@ type TipsStorageType = {
   [key: string]: boolean;
 };
 
+/**
+ * Service for storing information about the display of tips
+ */
 @Injectable()
 export class TipsStorage {
   private readonly tipsStorage: TipsStorageType;

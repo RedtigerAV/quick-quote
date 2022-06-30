@@ -10,6 +10,9 @@ import { QuoteTopicsStorage } from './quote-topics.storage';
 
 @Injectable({ providedIn: 'root' })
 export class QuoteTopicsEffects {
+  /**
+   * Effect for initializing quote topics only when quote should be loaded
+   */
   public readonly initializeQuoteTopics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadRandomQuote),
@@ -19,6 +22,9 @@ export class QuoteTopicsEffects {
     )
   );
 
+  /**
+   * Effect for loading quote topics and save them
+   */
   public readonly loadQuoteTopics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(quoteTopicsActions.loadQuoteTopics),
@@ -32,6 +38,9 @@ export class QuoteTopicsEffects {
     )
   );
 
+  /**
+   * Effect for loading selected quote topics from LocalStorage
+   */
   public readonly initializeSelectedTopics = createEffect(() =>
     this.actions$.pipe(
       ofType(quoteTopicsActions.loadQuoteTopicsSuccess),
@@ -44,6 +53,9 @@ export class QuoteTopicsEffects {
     )
   );
 
+  /**
+   * Effect for setting a new topics for quotes
+   */
   public readonly selectTopics$ = createEffect(() =>
     this.actions$.pipe(
       ofType(quoteTopicsActions.selectQuoteTopics),

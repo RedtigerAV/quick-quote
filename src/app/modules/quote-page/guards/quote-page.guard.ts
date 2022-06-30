@@ -4,6 +4,9 @@ import { ActivatedRouteSnapshot, CanActivate, Router, UrlTree } from '@angular/r
 import { Injectable } from '@angular/core';
 import { QuotesFacade } from '@core/redux/quotes/quotes.facade';
 
+/**
+ * Guard to load first quote. If quote param is specified, load quote by id
+ */
 @Injectable({ providedIn: 'root' })
 export class QuotePageGuard implements CanActivate {
   constructor(private readonly quotesFacade: QuotesFacade, private readonly router: Router) {}

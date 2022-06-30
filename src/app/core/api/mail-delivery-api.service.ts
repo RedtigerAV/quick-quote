@@ -9,6 +9,9 @@ export interface V1SendMailBody {
   message: string;
 }
 
+/**
+ * API service for sending mail
+ */
 @Injectable({ providedIn: 'root' })
 export class MailDeliveryApiService {
   private basePath = '/api';

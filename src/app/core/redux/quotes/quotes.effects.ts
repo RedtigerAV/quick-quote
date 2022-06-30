@@ -9,6 +9,9 @@ import { RequestStatusEnum } from '@core/types/request-status.type';
 
 @Injectable({ providedIn: 'root' })
 export class QuotesEffects {
+  /**
+   * Loading random quote and add to storage
+   */
   public readonly loadQuote$ = createEffect(() =>
     this.actions$.pipe(
       ofType(quotesActions.loadRandomQuote),
@@ -23,6 +26,9 @@ export class QuotesEffects {
     )
   );
 
+  /**
+   * Loading quote by id and add to storage
+   */
   public readonly loadQuoteByID$ = createEffect(() =>
     this.actions$.pipe(
       ofType(quotesActions.loadQuoteByID),

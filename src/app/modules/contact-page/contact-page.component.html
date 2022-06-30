@@ -49,6 +49,8 @@
       placeholder="Enter your message..."
     ></app-textarea>
 
-    <button type="submit" class="qq-button qq-button__view-2 action">Send</button>
+    <button type="submit" class="qq-button qq-button__view-2 action" [disabled]="onSubmit | locked: this | async">
+      Send
+    </button>
   </form>
 </app-page-wrapper>

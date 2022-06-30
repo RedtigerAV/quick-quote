@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { WebStorageService } from '@core/services/webstorage/webstorage.service';
 
+/**
+ * Service for working with bookmark's localStorage
+ */
 @Injectable({ providedIn: 'root' })
 export class BookmarksStorage {
   private key = 'bookmarks';

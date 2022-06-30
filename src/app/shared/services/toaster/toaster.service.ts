@@ -9,6 +9,9 @@ import { TOAST_CONFIG } from './toaster.token';
 
 const TOAST_CONTAINER_CLASS_NAME = 'qq-toast-container';
 
+/**
+ * Service for dynamic rendering of a component or template in the floating toast according to the configuration
+ */
 @Injectable()
 export class ToasterService implements OnDestroy {
   private overlayRef?: OverlayRef;
@@ -21,6 +24,11 @@ export class ToasterService implements OnDestroy {
     this._defaultConfig = config;
   }
 
+  /**
+   * Open floating toast
+   * @param config current configuration
+   * @returns
+   */
   public open(config: IToastConfig): ToastRef {
     const currentConfig = { ...this._config, ...this._defaultConfig, ...config };
 

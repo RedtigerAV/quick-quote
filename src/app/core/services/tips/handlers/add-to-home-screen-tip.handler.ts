@@ -6,6 +6,9 @@ import { TipHandler } from './tip.handler';
 
 const QUOTES_TO_WATCH = 3;
 
+/**
+ * Tip for installing the application on the home screen
+ */
 @Injectable()
 export class AddToHomeScreenTipHandler extends TipHandler {
   public name = 'add-to-homescreen';

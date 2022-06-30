@@ -4,7 +4,9 @@ import { MailDeliveryApiService } from '@core/api/mail-delivery-api.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BasicToastError, BasicToastSuccess } from '@shared/components/basic-toast/basic-toast';
 import { InputModeEnum, InputType } from '@shared/components/forms/input/input.enums';
+import { lock, locker, unlock } from '@shared/decorators/locker.decorator';
 import { ToasterService } from '@shared/services/toaster/toaster.service';
+import { finalize } from 'rxjs';
 
 @UntilDestroy()
 @Component({
@@ -33,6 +35,7 @@ export class ContactPageComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  @locker()
   public onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -47,9 +50,14 @@ export class ContactPageComponent implements OnInit {
       return;
     }
 
+    lock(this, this.onSubmit);
+
     this.mailDeliveryApi
       .v1SendMail(this.form.value)
-      .pipe(untilDestroyed(this))
+      .pipe(
+        untilDestroyed(this),
+        finalize(() => unlock(this, this.onSubmit))
+      )
       .subscribe({
         next: () => {
           this.toaster.open(

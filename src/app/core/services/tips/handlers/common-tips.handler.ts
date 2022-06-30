@@ -4,6 +4,9 @@ import { CommonTipsComponent } from '../templates/common-tips/common-tips.compon
 import { TipsEventsEnum } from '../tips-events.enum';
 import { TipHandler } from './tip.handler';
 
+/**
+ * Tips how to work with application
+ */
 @Injectable()
 export class CommonTipsHandler extends TipHandler {
   public name = 'common-tips';

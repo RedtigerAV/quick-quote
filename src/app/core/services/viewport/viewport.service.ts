@@ -8,6 +8,9 @@ import { getObservableSnapshot } from '@core/rxjs-operators/helpers/get-observab
 
 import { IViewportConfig, VIEWPORT_CONFIG_INJECTION_TOKEN, ViewportSize } from './viewport.config';
 
+/**
+ * Service for listening of viewport changes
+ */
 @Injectable({
   providedIn: 'root'
 })
