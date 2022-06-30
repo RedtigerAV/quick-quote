@@ -11,6 +11,9 @@ export enum SlidwshowStateEnum {
 
 export type SlidwshowStateType = SlidwshowStateEnum.STOPPED | SlidwshowStateEnum.STARTED;
 
+/**
+ * Service to manage slideshow mode
+ */
 @Injectable()
 export class SlideshowService implements OnDestroy {
   public static availableTimes = [5, 10, 15, 30, 45, 60];
@@ -38,6 +41,9 @@ export class SlideshowService implements OnDestroy {
     return this._state$.value;
   }
 
+  /**
+   * Run slideshow mode
+   */
   public start(): void {
     this.checkState(SlidwshowStateEnum.STOPPED);
     this._state$.next(SlidwshowStateEnum.STARTED);
@@ -45,6 +51,9 @@ export class SlideshowService implements OnDestroy {
     this.timer.play();
   }
 
+  /**
+   * Stop slideshow mode
+   */
   public stop(): void {
     this.checkState(SlidwshowStateEnum.STARTED);
     this._state$.next(SlidwshowStateEnum.STOPPED);
@@ -52,16 +61,25 @@ export class SlideshowService implements OnDestroy {
     this.timer.reset();
   }
 
+  /**
+   * Run slideshow timer if in slideshow mode
+   */
   public playTimer(): void {
     this.checkState(SlidwshowStateEnum.STARTED);
     this.timer.play();
   }
 
+  /**
+   * Pause slideshow timer if in slideshow mode
+   */
   public pauseTimer(): void {
     this.checkState(SlidwshowStateEnum.STARTED);
     this.timer.pause();
   }
 
+  /**
+   * Reset slideshow timer if in slideshow mode
+   */
   public resetTimer(): void {
     this.checkState(SlidwshowStateEnum.STARTED);
     this.timer.reset();
@@ -72,6 +90,9 @@ export class SlideshowService implements OnDestroy {
     this.timer.destroy();
   }
 
+  /**
+   * Update timer time
+   */
   public updateTime(time: number): void {
     if (this.state === SlidwshowStateEnum.STARTED) {
       this.stop();

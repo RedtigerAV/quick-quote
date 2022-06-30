@@ -7,6 +7,9 @@ import { combineLatest, filter, map, Observable, take } from 'rxjs';
 import { BookmarksComponent } from '../components/bookmarks/bookmarks.component';
 import { QuotesMediator, QuotesMediatorEvents } from './quotes.mediator';
 
+/**
+ * Service to open bookmarks sidebar and parse the result
+ */
 @UntilDestroy()
 @Injectable()
 export class BookmarksService {

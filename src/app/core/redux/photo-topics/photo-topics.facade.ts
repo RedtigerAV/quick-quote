@@ -8,6 +8,9 @@ import { IState } from '../index.state';
 import * as photoTopicsSelectors from './photo-topics.selectors';
 import * as photoTopicsActions from './photo-topics.actions';
 
+/**
+ * Service-facade for a single access to the ngrx state of photo topics
+ */
 @Injectable({ providedIn: 'root' })
 export class PhotoTopicsFacade {
   public readonly topics$: Observable<Array<IPhotoTopic>>;
@@ -44,10 +47,17 @@ export class PhotoTopicsFacade {
     return getObservableSnapshot(this.status$);
   }
 
+  /**
+   * Load all photo topics from unsplash
+   */
   public loadTopics(): void {
     this.store.dispatch(photoTopicsActions.loadPhotoTopics());
   }
 
+  /**
+   * Select topics for filtration of random photos
+   * @param topicIDs Topic IDs to select
+   */
   public selectTopics(topicIDs: string[]): void {
     this.store.dispatch(photoTopicsActions.selectPhotoTopics({ topicsIDsForSelection: topicIDs }));
   }

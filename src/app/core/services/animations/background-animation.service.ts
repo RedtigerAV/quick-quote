@@ -1,6 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 
+/**
+ * Service for disabling background animations when photos are loaded
+ */
 @Injectable({ providedIn: 'root' })
 export class BackgroundAnimationService {
   constructor(@Inject(DOCUMENT) private readonly document: Document) {}

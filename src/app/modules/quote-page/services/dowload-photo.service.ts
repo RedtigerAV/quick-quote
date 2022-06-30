@@ -3,6 +3,10 @@ import { PhotosApiService } from '@core/api/photos-api.service';
 import { PhotosFacade } from '@core/redux/photos/photos.facade';
 import { take } from 'rxjs';
 
+/**
+ * Service for triggering photo download
+ * @see PhotosApiService.v1PhotosDownload
+ */
 @Injectable()
 export class DownloadPhotoService {
   constructor(private readonly photosFacade: PhotosFacade, private readonly photosApi: PhotosApiService) {}

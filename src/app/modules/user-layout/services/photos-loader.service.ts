@@ -5,6 +5,9 @@ import { AnimationNameEnum } from '@core/services/animations/animations';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { filter, tap } from 'rxjs';
 
+/**
+ * Service to automatically download photos when needed
+ */
 @UntilDestroy()
 @Injectable()
 export class PhotosLoaderService {

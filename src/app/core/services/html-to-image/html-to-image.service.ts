@@ -7,6 +7,9 @@ import { HtmlToPngStrategy } from './html-to-png.strategy';
 import { HtmlToJpegStrategy } from './html-to-jpeg.strategy';
 import * as FileSaver from 'file-saver';
 
+/**
+ * Service for managing approaches to generating images from html
+ */
 @Injectable({ providedIn: 'root' })
 export class HtmlToImageService {
   public static skipHtmlToImageClass = 'qq-skip-html-to-image';

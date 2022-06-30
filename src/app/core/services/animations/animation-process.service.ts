@@ -19,6 +19,9 @@ export enum AnimationProcessStateEnum {
 
 export type AnimationProcessStateType = AnimationProcessStateEnum.PLAYING | AnimationProcessStateEnum.PENDING;
 
+/**
+ * Service for managing the main animations of the application monitoring their state
+ */
 @Injectable({ providedIn: 'root' })
 export class AnimationProcessService {
   private static _instance: AnimationProcessService;
@@ -42,6 +45,11 @@ export class AnimationProcessService {
     AnimationProcessService._instance = this;
   }
 
+  /**
+   * Get animations state (PLAYING or not)
+   * @param animation observed animations
+   * @returns animations state
+   */
   public getAnimationState$(animation: AnimationNameType): Observable<AnimationProcessStateType> {
     this.checkAnimation(animation);
 
@@ -50,6 +58,11 @@ export class AnimationProcessService {
       .pipe(distinctUntilChanged());
   }
 
+  /**
+   * Check if some of animation is playing
+   * @param animations observed animations
+   * @returns {boolean}
+   */
   public animationsPlaying$(...animations: AnimationNameType[]): Observable<boolean> {
     return combineLatest(animations.map(animation => this.getAnimationState$(animation))).pipe(
       map(states => states.some(state => state === AnimationProcessStateEnum.PLAYING)),
@@ -57,6 +70,11 @@ export class AnimationProcessService {
     );
   }
 
+  /**
+   * Check when all observed animations are done
+   * @param animations observed animations
+   * @returns emits when animations finish
+   */
   public animationsDone$(...animations: AnimationNameType[]): Observable<unknown> {
     return of(null).pipe(
       delay(0),
@@ -68,12 +86,20 @@ export class AnimationProcessService {
     );
   }
 
+  /**
+   * Set PLAYING state of animation
+   * @param animation
+   */
   public animationStart(animation: AnimationNameType): void {
     const animationState = this.animationsStateMap.get(animation);
 
     animationState?.next(AnimationProcessStateEnum.PLAYING);
   }
 
+  /**
+   * Set PENDING state of animation
+   * @param animation
+   */
   public animationDone(animation: AnimationNameType): void {
     const animationState = this.animationsStateMap.get(animation);
 

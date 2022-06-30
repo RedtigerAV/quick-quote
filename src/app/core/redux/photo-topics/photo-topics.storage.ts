@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { WebStorageService } from '@core/services/webstorage/webstorage.service';
 
+/**
+ * Service for working with photo topic's localStorage
+ */
 @Injectable({ providedIn: 'root' })
 export class PhotoTopicsStorage {
   private readonly lsKey = 'photo-topics';

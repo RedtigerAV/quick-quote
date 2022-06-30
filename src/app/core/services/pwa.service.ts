@@ -9,6 +9,9 @@ export enum AddToHomeScreenPlatformEnum {
   IOS_SAFARI
 }
 
+/**
+ * Service for enabling PWA features, like "Add to homescreen"
+ */
 @Injectable({ providedIn: 'root' })
 export class PWAService {
   private addToHomeScreenEvent?: any;

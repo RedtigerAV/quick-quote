@@ -13,6 +13,9 @@ export enum BrightnessLevelEnum {
 
 export type BrightnessLevelType = BrightnessLevelEnum.LIGHT | BrightnessLevelEnum.DARK;
 
+/**
+ * Helper class for working with colors inside application
+ */
 export abstract class ColorsHelper {
   public static brightnessDifference = 125;
 

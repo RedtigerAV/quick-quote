@@ -8,6 +8,9 @@ import { RequestStatusType } from '@core/types/request-status.type';
 import * as bookmarksSelectors from './bookmarks.selectors';
 import * as bookmarksActions from './bookmarks.actions';
 
+/**
+ * Service-facade for a single access to the ngrx state of bookmarks
+ */
 @Injectable({ providedIn: 'root' })
 export class BookmarksFacade {
   public readonly bookmarks$: Observable<Array<IQuote>>;
@@ -32,10 +35,16 @@ export class BookmarksFacade {
     return getObservableSnapshot(this.bookmarksStatus$);
   }
 
+  /**
+   * Load bookmarks to the store
+   */
   public loadBookmarks(): void {
     this.store.dispatch(bookmarksActions.loadBookmarks());
   }
 
+  /**
+   * Add new bookmark to store and save it
+   */
   public addBookmark(quote: IQuote): void {
     if (!quote || this.bookmarksIDs.includes(quote.id)) {
       return;
@@ -44,6 +53,9 @@ export class BookmarksFacade {
     this.store.dispatch(bookmarksActions.addBookmark({ quote }));
   }
 
+  /**
+   * Remove existing bookmark from store
+   */
   public removeBookmark(id: string): void {
     if (!this.bookmarksIDs.includes(id)) {
       return;

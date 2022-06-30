@@ -4,6 +4,9 @@ import { FirstVisitTipComponent } from '../templates/first-visit-tip/first-visit
 import { TipsEventsEnum } from '../tips-events.enum';
 import { TipHandler } from './tip.handler';
 
+/**
+ * The tip displayed when you first visit the app
+ */
 @Injectable()
 export class FirstVisitTipHandler extends TipHandler {
   public name = 'first-visit';

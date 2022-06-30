@@ -11,6 +11,9 @@ import { ISidebarConfig } from './sidebar.interface';
 import { SidebarRef } from './sidebar.reference';
 import { SIDEBAR_CONFIG, SIDEBAR_DATA } from './sidebar.token';
 
+/**
+ * Service for dynamic rendering of a component or template in the sidebar according to the configuration
+ */
 @UntilDestroy()
 @Injectable()
 export class SidebarService {
@@ -26,6 +29,11 @@ export class SidebarService {
     private readonly injector: Injector
   ) {}
 
+  /**
+   * Open sidebar with current configuration
+   * @param config current configuration
+   * @returns
+   */
   public open<T = any, D = any>(config: ISidebarConfig<T, D>): SidebarRef<T, D> {
     const currentConfig: ISidebarConfig = { ...this.defaultConfig, ...config };
     const sidebarContainerRef = new SidebarContainerRef();

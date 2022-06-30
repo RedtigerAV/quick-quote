@@ -15,6 +15,9 @@ import intersection from 'lodash-es/intersection';
 import { ToasterService } from '@shared/services/toaster/toaster.service';
 import { BasicToastSuccess } from '@shared/components/basic-toast/basic-toast';
 
+/**
+ * Service to open settings sidebar, transfer data to it and parse the result
+ */
 @UntilDestroy()
 @Injectable()
 export class SettingsService {

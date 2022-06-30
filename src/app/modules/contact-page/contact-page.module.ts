@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputModule } from '@shared/components/forms/input/input.module';
 import { TextareaModule } from '@shared/components/forms/textarea/textarea.module';
 import { PageWrapperModule } from '@shared/components/page-wrapper/page-wrapper.module';
+import { LockedPipeModule } from '@shared/pipes/locked/locked-pipe.module';
 
 @NgModule({
   declarations: [ContactPageComponent],
@@ -17,7 +18,8 @@ import { PageWrapperModule } from '@shared/components/page-wrapper/page-wrapper.
     ReactiveFormsModule,
     InputModule,
     TextareaModule,
-    PageWrapperModule
+    PageWrapperModule,
+    LockedPipeModule
   ]
 })
 export class ContactPageModule {}

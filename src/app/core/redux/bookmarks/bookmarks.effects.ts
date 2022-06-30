@@ -19,6 +19,9 @@ function sortBookmarksFunction(ids: string[]): (a: IQuote, b: IQuote) => number 
 
 @Injectable({ providedIn: 'root' })
 export class BookmarksEffects {
+  /**
+   * Loading bookmarks and processing them
+   */
   public readonly loadBookmarks$ = createEffect(() =>
     this.actions$.pipe(
       ofType(bookmarksActions.loadBookmarks),
@@ -32,6 +35,9 @@ export class BookmarksEffects {
     )
   );
 
+  /**
+   * Side effect for adding bookmark to LocalStorage
+   */
   public readonly addBookmark$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -41,6 +47,9 @@ export class BookmarksEffects {
     { dispatch: false }
   );
 
+  /**
+   * Side effect for removing bookmark from LocalStorage
+   */
   public readonly removeBookmark$ = createEffect(
     () =>
       this.actions$.pipe(
