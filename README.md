@@ -4,16 +4,16 @@
 
 Get inspired and motivated by accessing 1,000,000+ quotes from great people
 
-<p align="center">
-  <a href="#about">About</a> •
-  <a href="#try-it">Try it</a> •
-  <a href="#features">Features</a> •
-  <a href="#tech-stack">Tech stack</a> •
-  <a href="#spread-the-world">Spread the world</a> •
-  <a href="#run-app-locally">Run app locally</a>
+<p align="left">
+  <a href="#-about">About</a> •
+  <a href="#-try-it">Try it</a> •
+  <a href="#-features">Features</a> •
+  <a href="#-tech-stack">Tech stack</a> •
+  <a href="#-spread-the-world">Spread the world</a> •
+  <a href="#-run-app-locally">Run app locally</a>
 </p>
 
-## 🧐 About
+## ℹ️ About
 
 > _«Great men are they who see that thoughts rule the world»_
 > 
@@ -29,7 +29,7 @@ I will be happy if you discover quotes that will inspire you to new achievements
 
 Finding thoughts and quotes that you like is very easy - try the app by clicking on [this link](https://www.quickquote.space).
 
-<img src="https://github.com/RedtigerAV/quick-quote/blob/develop/readme_assets/demo.gif">
+<img src="https://github.com/RedtigerAV/quick-quote/blob/develop/readme_assets/demo.gif" width="100%">
 
 ## 🚀 Features
 
