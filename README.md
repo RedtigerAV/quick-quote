@@ -1,4 +1,4 @@
-<img src="readme_assets/logo.png" align="right" />
+<img src="https://github.com/RedtigerAV/quick-quote/blob/develop/readme_assets/logo.png" align="right" />
 
 # QuickQuote
 
@@ -29,7 +29,7 @@ I will be happy if you discover quotes that will inspire you to new achievements
 
 Finding thoughts and quotes that you like is very easy - try the app by clicking on [this link](https://www.quickquote.space).
 
-<img src="readme_assets/demo.gif">
+<img src="https://github.com/RedtigerAV/quick-quote/blob/develop/readme_assets/demo.gif">
 
 ## 🚀 Features
 
