@@ -48,12 +48,15 @@
 
   &__content {
     align-items: center;
-    overflow-y: scroll;
-    overflow-x: hidden;
     touch-action: pan-y !important;
 
     padding-top: rhythm(10);
     padding-left: rhythm(10);
+
+    @include mediaQuery(xs, xl) {
+      overflow-y: scroll;
+      overflow-x: hidden;
+    }
 
     @include mediaQuery(xs, lg) {
       padding-left: rhythm(8);
