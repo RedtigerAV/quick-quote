@@ -9,7 +9,7 @@ Get inspired and motivated by accessing 1,000,000+ quotes from great people
   <a href="#-try-it">Try it</a> •
   <a href="#-features">Features</a> •
   <a href="#-tech-stack">Tech stack</a> •
-  <a href="#-spread-the-world">Spread the world</a> •
+  <a href="#-spread-the-word">Spread the word</a> •
   <a href="#-run-app-locally">Run app locally</a>
 </p>
 
