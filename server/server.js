@@ -15,6 +15,19 @@ if (environment === 'development') {
   app.use(morgan('combined'));
 }
 
+if (environment === 'production') {
+  app.enable('trust proxy');
+  app.use(function (req, res, next) {
+    if (req.secure) {
+      // https request, nothing to handle
+      next();
+    } else {
+      // this is an http request, redirect to https
+      res.redirect(301, 'https://' + req.headers.host + req.url);
+    }
+  });
+}
+
 app.use('/api/v1/quotes', require('./quotes/index'));
 app.use('/api/v1/photos', require('./photos/index'));
 app.use('/api/v1/mail-delivery', require('./mail-delivery/index'));
