@@ -10,7 +10,7 @@ import { qqContactIcon } from './icons/contact';
 import { qqCopyIcon } from './icons/copy';
 import { qqDoneIcon } from './icons/done';
 import { qqErrorIcon } from './icons/error';
-import { qqFacebookIcon } from './icons/facebook';
+import { qqFcbIcon } from './icons/fcb';
 import { qqImageIcon } from './icons/image';
 import { qqInfoIcon } from './icons/info';
 import { qqIosAddIcon } from './icons/ios-add';
@@ -26,7 +26,7 @@ import { qqSettingsIcon } from './icons/settings';
 import { qqShareIcon } from './icons/share';
 import { qqTelegramIcon } from './icons/telegram';
 import { qqTipsIcon } from './icons/tips';
-import { qqTwitterIcon } from './icons/twitter';
+import { qqTwtrIcon } from './icons/twtr';
 import { qqWhatsappIcon } from './icons/whatsapp';
 
 @NgModule({
@@ -42,10 +42,10 @@ import { qqWhatsappIcon } from './icons/whatsapp';
         qqBookmarkFilledIcon,
         qqBookmarksCollectionIcon,
         qqBookmarkRemoveIcon,
-        qqFacebookIcon,
+        qqFcbIcon,
         qqTelegramIcon,
         qqWhatsappIcon,
-        qqTwitterIcon,
+        qqTwtrIcon,
         qqCancelIcon,
         qqPlayIcon,
         qqPauseIcon,

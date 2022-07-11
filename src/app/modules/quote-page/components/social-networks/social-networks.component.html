@@ -7,7 +7,7 @@
   </button>
   <button appBarItem shareButton="facebook" #facebookBtn="shareButton" (click)="collapse.emit()">
     <app-bar-item-content>
-      <svg-icon appBarItemIcon key="facebook" fontSize="26px" [style.color]="facebookBtn.color"></svg-icon>
+      <svg-icon appBarItemIcon key="fcb" fontSize="26px" [style.color]="facebookBtn.color"></svg-icon>
       <span appBarItemText>Facebook</span>
     </app-bar-item-content>
   </button>
@@ -20,7 +20,7 @@
     (click)="collapse.emit()"
   >
     <app-bar-item-content>
-      <svg-icon appBarItemIcon key="twitter" fontSize="26px" [style.color]="twitterBtn.color"></svg-icon>
+      <svg-icon appBarItemIcon key="twtr" fontSize="26px" [style.color]="twitterBtn.color"></svg-icon>
       <span appBarItemText>Twitter</span>
     </app-bar-item-content>
   </button>
