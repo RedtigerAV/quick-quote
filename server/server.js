@@ -1,13 +1,14 @@
 const express = require('express');
-// const http = require('http');
+const http = require('http');
 const path = require('path');
+const compression = require('compression');
 const app = express();
 const port = process.env.PORT || 8080;
 const environment = process.env.NODE_ENV;
 const app_folder = 'dist/quick-quote';
 
 app.use(express.json());
-// app.set('port', port);
+app.use(compression());
 
 if (environment === 'development') {
   const morgan = require('morgan');
@@ -46,6 +47,7 @@ app.listen(port, () => {
   console.log(`...App is listening to port: ${port}`);
 });
 
+// For tests purpose only
 // http.createServer(app).listen(port, () => {
 //   console.log(`...Listening to http://localhost:${port}`);
 // });

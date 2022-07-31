@@ -2,8 +2,6 @@ const axios = require('axios');
 const express = require('express');
 const router = express.Router();
 const { API_HOST, headers, DEFAULT_TOPIC } = require('./config');
-const { readPhotosCache } = require('./helpers');
-const use_cache = process.env.USE_CACHE;
 
 // CONSTANTS
 const IMAGES_COUNT = 30;
@@ -48,14 +46,6 @@ router.post('/random', async (req, res) => {
     count: IMAGES_COUNT,
     topics: topics
   };
-
-  if (use_cache === 'true') {
-    const photos = await readPhotosCache();
-
-    res.json(photos);
-
-    return;
-  }
 
   try {
     const response = await axios.get(`${API_HOST}/photos/random`, { headers, params });
