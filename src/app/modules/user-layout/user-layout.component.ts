@@ -6,9 +6,7 @@ import { PhotosLoaderService } from './services/photos-loader.service';
 import { BrightnessLevelEnum, ColorsHelper } from '@shared/helpers/colors.helper';
 import { ViewportService } from '@core/services/viewport/viewport.service';
 import { AppRoutePath } from 'src/app/app.route-path';
-import { BackgroundAnimationService } from '@core/services/animations/background-animation.service';
 import { AnimationProcessService } from '@core/services/animations/animation-process.service';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { animate, AnimationEvent, state, style, transition, trigger } from '@angular/animations';
 import { AnimationNameEnum } from '@core/services/animations/animations';
 import { waitUntilAnimationDone } from '@core/rxjs-operators/animation-process.operator';
@@ -16,7 +14,6 @@ import { HtmlToImageService } from '@core/services/html-to-image/html-to-image.s
 
 const PHOTO_POSITION_OFFSET = 1;
 
-@UntilDestroy()
 @Component({
   selector: 'app-user-layout',
   templateUrl: './user-layout.component.html',
@@ -44,7 +41,6 @@ export class UserLayoutComponent implements OnInit {
     public readonly viewport: ViewportService,
     private readonly animationProcess: AnimationProcessService,
     private readonly photosFacade: PhotosFacade,
-    private readonly backgroundAnimation: BackgroundAnimationService,
     private readonly photosLoaderService: PhotosLoaderService
   ) {
     this.photos$ = combineLatest([
@@ -69,7 +65,6 @@ export class UserLayoutComponent implements OnInit {
   public ngOnInit(): void {
     this.photosFacade.loadPhotos();
     this.photosLoaderService.init();
-    this.setupBackgroundAnimation();
   }
 
   public animationStart(event: AnimationEvent): void {
@@ -108,15 +103,5 @@ export class UserLayoutComponent implements OnInit {
     const bgBrightness = ColorsHelper.getBrightnessLevel(backgroundRGB);
 
     return bgBrightness === BrightnessLevelEnum.LIGHT ? forLightBG : forDarkBG;
-  }
-
-  private setupBackgroundAnimation(): void {
-    this.photosFacade.selectedPhoto$.pipe(untilDestroyed(this)).subscribe(photo => {
-      if (!photo) {
-        this.backgroundAnimation.turnOnAnimation();
-      } else {
-        this.backgroundAnimation.turnOffAnimation();
-      }
-    });
   }
 }

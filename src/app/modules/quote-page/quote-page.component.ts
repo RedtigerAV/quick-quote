@@ -29,6 +29,7 @@ import { IQuote } from '@core/models/quote.model';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { QuoteHelper } from './helpers/quote.helper';
 import { DeviceService } from '@core/services/device.service';
+import { waitUntilAnimationDone } from '@core/rxjs-operators/animation-process.operator';
 
 @UntilDestroy()
 @Component({
@@ -204,6 +205,7 @@ export class QuotePageComponent implements OnInit {
     this.quotesFacade.selectedQuoteID$
       .pipe(
         filter(Boolean),
+        waitUntilAnimationDone(AnimationNameEnum.QUOTE_CHANGE, AnimationNameEnum.PHOTO_CHANGE),
         tap(id => this.updateQueryParams(id)),
         untilDestroyed(this)
       )
