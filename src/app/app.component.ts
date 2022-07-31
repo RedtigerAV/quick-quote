@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AnimationProcessService } from '@core/services/animations/animation-process.service';
 import { RootLoaderService } from '@core/services/animations/root-loader.service';
 import { TipsEventsEnum } from '@core/services/tips/tips-events.enum';
@@ -22,6 +22,7 @@ enum RootRouterAnimationStateEnum {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('fadeIn', [
       state(RootRouterAnimationStateEnum.ACTIVATED, style({ opacity: 1 })),
